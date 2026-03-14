@@ -1,0 +1,124 @@
+[0.027s] Invoking command in '/home/pcht/dev/comp0250_s26_labs/build/realsense_gazebo_plugin': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pcht/ws_moveit2/install/moveit_configs_utils:/home/pcht/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake /home/pcht/dev/comp0250_s26_labs/courseworks/realsense_gazebo_plugin -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/pcht/dev/comp0250_s26_labs/install/realsense_gazebo_plugin
+[0.336s] -- The C compiler identification is GNU 11.4.0
+[1.057s] -- The CXX compiler identification is GNU 11.4.0
+[1.477s] -- Detecting C compiler ABI info
+[1.655s] -- Detecting C compiler ABI info - done
+[1.660s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.660s] -- Detecting C compile features
+[1.660s] -- Detecting C compile features - done
+[1.663s] -- Detecting CXX compiler ABI info
+[1.877s] -- Detecting CXX compiler ABI info - done
+[1.882s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.882s] -- Detecting CXX compile features
+[1.883s] -- Detecting CXX compile features - done
+[1.888s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[2.044s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[2.165s] -- Found rclcpp: 16.0.17 (/opt/ros/humble/share/rclcpp/cmake)
+[2.738s] -- Found rosidl_generator_c: 3.1.8 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[2.748s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[2.760s] -- Found rosidl_generator_cpp: 3.1.8 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[2.777s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.800s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.912s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[2.920s] -- Found rmw_fastrtps_cpp: 6.2.9 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[6.694s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[9.988s] -- Found FastRTPS: /opt/ros/humble/include  
+[16.708s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[16.744s] -- Looking for pthread.h
+[17.001s] -- Looking for pthread.h - found
+[17.001s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[17.233s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[17.234s] -- Found Threads: TRUE  
+[17.317s] -- Found gazebo_ros: 3.9.0 (/opt/ros/humble/share/gazebo_ros/cmake)
+[17.334s] -- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2") 
+[17.335s] -- Checking for module 'bullet>=2.82'
+[17.356s] --   Found bullet, version 3.05
+[17.550s] -- Found fcl: /usr/include (found suitable version "0.7.0", minimum required is "0.5.0") 
+[17.620s] -- Found assimp: /usr/include (found version "5.2.0") 
+[17.661s] -- Found DART: /usr/include (Required is at least version "6.6") found components: dart 
+[17.714s] -- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found suitable version "1.74.0", minimum required is "1.40.0") found components: thread system filesystem program_options regex iostreams date_time 
+[18.262s] -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found version "3.12.4") 
+[18.280s] -- Looking for ignition-math6 -- found version 6.15.1
+[18.300s] -- Searching for dependencies of ignition-math6
+[18.301s] -- Looking for OGRE...
+[18.301s] -- OGRE_PREFIX_WATCH changed.
+[18.307s] -- Checking for module 'OGRE'
+[18.325s] --   Found OGRE, version 1.9.0
+[18.365s] -- Found Ogre Ghadamon (1.9.0)
+[18.932s] -- Found OGRE: optimized;/usr/lib/x86_64-linux-gnu/libOgreMain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreMain.so
+[18.939s] -- Looking for OGRE_Paging...
+[19.476s] -- Found OGRE_Paging: optimized;/usr/lib/x86_64-linux-gnu/libOgrePaging.so;debug;/usr/lib/x86_64-linux-gnu/libOgrePaging.so
+[19.477s] -- Looking for OGRE_Terrain...
+[20.039s] -- Found OGRE_Terrain: optimized;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so;debug;/usr/lib/x86_64-linux-gnu/libOgreTerrain.so
+[20.039s] -- Looking for OGRE_Property...
+[20.575s] -- Found OGRE_Property: optimized;/usr/lib/x86_64-linux-gnu/libOgreProperty.so;debug;/usr/lib/x86_64-linux-gnu/libOgreProperty.so
+[20.575s] -- Looking for OGRE_RTShaderSystem...
+[21.129s] -- Found OGRE_RTShaderSystem: optimized;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so;debug;/usr/lib/x86_64-linux-gnu/libOgreRTShaderSystem.so
+[21.129s] -- Looking for OGRE_Volume...
+[21.679s] -- Found OGRE_Volume: optimized;/usr/lib/x86_64-linux-gnu/libOgreVolume.so;debug;/usr/lib/x86_64-linux-gnu/libOgreVolume.so
+[21.679s] -- Looking for OGRE_Overlay...
+[22.241s] -- Found OGRE_Overlay: optimized;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so;debug;/usr/lib/x86_64-linux-gnu/libOgreOverlay.so
+[48.365s] -- Looking for ignition-math6 -- found version 6.15.1
+[48.370s] -- Looking for ignition-transport8 -- found version 8.2.1
+[48.370s] -- Searching for dependencies of ignition-transport8
+[51.423s] -- Found Protobuf: /usr/lib/x86_64-linux-gnu/libprotobuf.so (found suitable version "3.12.4", minimum required is "3") 
+[54.454s] -- Config-file not installed for ZeroMQ -- checking for pkg-config
+[54.460s] -- Checking for module 'libzmq >= 4'
+[54.479s] --   Found libzmq , version 4.3.4
+[54.527s] -- Found ZeroMQ: TRUE (Required is at least version "4") 
+[54.574s] -- Checking for module 'uuid'
+[54.592s] --   Found uuid, version 2.37.2
+[54.633s] -- Found UUID: TRUE  
+[54.638s] -- Looking for ignition-msgs5 -- found version 5.8.1
+[54.638s] -- Searching for dependencies of ignition-msgs5
+[57.766s] -- Looking for ignition-math6 -- found version 6.15.1
+[57.773s] -- Checking for module 'tinyxml2'
+[57.798s] --   Found tinyxml2, version 9.0.0
+[57.862s] -- Looking for ignition-msgs5 -- found version 5.8.1
+[57.868s] -- Looking for ignition-common3 -- found version 3.14.0
+[57.868s] -- Searching for dependencies of ignition-common3
+[57.914s] -- Looking for dlfcn.h - found
+[57.980s] -- Looking for libdl - found
+[57.981s] -- Found DL: TRUE  
+[58.121s] -- Found tinyobjloader: /usr/lib/x86_64-linux-gnu/cmake/tinyobjloader/tinyobjloader-config.cmake (found version "2.0.0") 
+[58.121s] -- Searching for <ignition-common3> component [graphics]
+[58.126s] -- Looking for ignition-common3-graphics -- found version 3.14.0
+[58.126s] -- Searching for dependencies of ignition-common3-graphics
+[58.127s] -- Looking for ignition-math6 -- found version 6.15.1
+[58.132s] -- Looking for ignition-fuel_tools4 -- found version 4.4.0
+[58.132s] -- Searching for dependencies of ignition-fuel_tools4
+[61.459s] -- Found CURL: /usr/lib/x86_64-linux-gnu/libcurl.so (found version "7.81.0")  
+[61.476s] -- Checking for module 'jsoncpp'
+[61.495s] --   Found jsoncpp, version 1.9.5
+[61.537s] -- Found JSONCPP: TRUE  
+[61.543s] -- Checking for module 'libzip'
+[61.562s] --   Found libzip, version 1.7.3
+[61.604s] -- Found ZIP: TRUE  
+[61.604s] -- Looking for ignition-common3 -- found version 3.14.0
+[61.604s] -- Looking for ignition-math6 -- found version 6.15.1
+[61.604s] -- Looking for ignition-msgs5 -- found version 5.8.1
+[61.610s] -- Gazebo version: 11.10
+[61.610s] -- Checking for module 'tbb'
+[61.630s] --   Found tbb, version 2021.5.0
+[61.677s] -- Found image_transport: 3.1.12 (/opt/ros/humble/share/image_transport/cmake)
+[64.759s] -- Found point_cloud_transport: 1.0.21 (/opt/ros/humble/share/point_cloud_transport/cmake)
+[67.729s] [31mCMake Error at CMakeLists.txt:17 (find_package):
+[67.729s]   By not providing "Findcamera_info_manager.cmake" in CMAKE_MODULE_PATH this
+[67.729s]   project has asked CMake to find a package configuration file provided by
+[67.729s]   "camera_info_manager", but CMake did not find one.
+[67.729s] 
+[67.730s]   Could not find a package configuration file provided by
+[67.730s]   "camera_info_manager" with any of the following names:
+[67.730s] 
+[67.730s]     camera_info_managerConfig.cmake
+[67.730s]     camera_info_manager-config.cmake
+[67.730s] 
+[67.730s]   Add the installation prefix of "camera_info_manager" to CMAKE_PREFIX_PATH
+[67.730s]   or set "camera_info_manager_DIR" to a directory containing one of the above
+[67.730s]   files.  If "camera_info_manager" provides a separate development package or
+[67.730s]   SDK, be sure it has been installed.
+[67.730s] 
+[67.730s] [0m
+[67.730s] -- Configuring incomplete, errors occurred!
+[67.730s] See also "/home/pcht/dev/comp0250_s26_labs/build/realsense_gazebo_plugin/CMakeFiles/CMakeOutput.log".
+[67.744s] Invoked command in '/home/pcht/dev/comp0250_s26_labs/build/realsense_gazebo_plugin' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pcht/ws_moveit2/install/moveit_configs_utils:/home/pcht/ws_moveit2/install/launch_param_builder:/opt/ros/humble /usr/bin/cmake /home/pcht/dev/comp0250_s26_labs/courseworks/realsense_gazebo_plugin -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/home/pcht/dev/comp0250_s26_labs/install/realsense_gazebo_plugin

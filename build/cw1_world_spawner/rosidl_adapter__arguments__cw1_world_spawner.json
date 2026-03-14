@@ -1,0 +1,9 @@
+{
+  "package_name": "cw1_world_spawner",
+  "non_idl_tuples": [
+    "/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_world_spawner:srv/TaskSetup.srv",
+    "/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_world_spawner:srv/Task1Service.srv",
+    "/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_world_spawner:srv/Task2Service.srv",
+    "/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_world_spawner:srv/Task3Service.srv"
+  ]
+}

@@ -1,0 +1,45 @@
+[  2%] Built target cw1_team_x__cpp
+[ 11%] Built target cw1_team_x__rosidl_generator_c
+[ 11%] Built target ament_cmake_python_copy_cw1_team_x
+[ 20%] Built target cw1_team_x__rosidl_typesupport_introspection_cpp
+[ 28%] Built target cw1_team_x__rosidl_typesupport_cpp
+[ 37%] Built target cw1_team_x__rosidl_typesupport_fastrtps_cpp
+[ 45%] Built target cw1_team_x__rosidl_typesupport_fastrtps_c
+[ 54%] Built target cw1_team_x__rosidl_typesupport_c
+[ 62%] Built target cw1_team_x__rosidl_typesupport_introspection_c
+[35m[1mConsolidate compiler generated dependencies of target cw1_team_x_cw1_class_lib[0m
+[ 62%] Built target cw1_team_x
+[ 65%] [32mBuilding CXX object CMakeFiles/cw1_team_x_cw1_class_lib.dir/src/cw1_class.cpp.o[0m
+[ 68%] Built target cw1_team_x__py
+[ 74%] Built target cw1_team_x__rosidl_generator_py
+[ 80%] Built target cw1_team_x__rosidl_typesupport_fastrtps_c__pyext
+[ 91%] Built target cw1_team_x__rosidl_typesupport_introspection_c__pyext
+[ 91%] Built target cw1_team_x__rosidl_typesupport_c__pyext
+running egg_info
+writing cw1_team_x.egg-info/PKG-INFO
+writing dependency_links to cw1_team_x.egg-info/dependency_links.txt
+writing top-level names to cw1_team_x.egg-info/top_level.txt
+reading manifest file 'cw1_team_x.egg-info/SOURCES.txt'
+writing manifest file 'cw1_team_x.egg-info/SOURCES.txt'
+[ 91%] Built target ament_cmake_python_build_cw1_team_x_egg
+[01m[K/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_x/src/cw1_class.cpp:[m[K In function ‘[01m[Kbool move_arm_linear_to(const Pose&, double)[m[K’:
+[01m[K/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_x/src/cw1_class.cpp:221:27:[m[K [01;31m[Kerror: [m[K‘[01m[Karm_group_[m[K’ was not declared in this scope
+  221 | ouble fraction = [01;31m[Karm_group_[m[K->computeCartesianPath(
+      |                  [01;31m[K^~~~~~~~~~[m[K
+
+In file included from [01m[K/home/pcht/ws_moveit2/install/moveit_core/include/moveit/kinematics_base/kinematics_base.h:42[m[K,
+                 from [01m[K/home/pcht/ws_moveit2/install/moveit_core/include/moveit/robot_model/joint_model_group.h:42[m[K,
+                 from [01m[K/home/pcht/ws_moveit2/install/moveit_core/include/moveit/robot_model/robot_model.h:45[m[K,
+                 from [01m[K/home/pcht/ws_moveit2/install/moveit_core/include/moveit/robot_state/robot_state.h:40[m[K,
+                 from [01m[K/home/pcht/ws_moveit2/install/moveit_ros_planning_interface/include/moveit/move_group_interface/move_group_interface.h:41[m[K,
+                 from [01m[K/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_x/include/cw1_class.h:18[m[K,
+                 from [01m[K/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_x/src/cw1_class.cpp:6[m[K:
+[01m[K/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_x/src/cw1_class.cpp:225:17:[m[K [01;31m[Kerror: [m[K‘[01m[Knode_[m[K’ was not declared in this scope; did you mean ‘[01m[Kmode_t[m[K’?
+  225 |     RCLCPP_WARN([01;31m[Knode_[m[K->get_logger(), "Cartesian path incomplete: %.3f", fraction);
+      |                 [01;31m[K^~~~~[m[K
+[01m[K/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_x/src/cw1_class.cpp:225:5:[m[K [01;31m[Kerror: [m[Ktemplate argument 1 is invalid
+  225 |     [01;31m[KRCLCPP_WARN[m[K(node_->get_logger(), "Cartesian path incomplete: %.3f", fraction);
+      |     [01;31m[K^~~~~~~~~~~[m[K
+gmake[2]: *** [CMakeFiles/cw1_team_x_cw1_class_lib.dir/build.make:76: CMakeFiles/cw1_team_x_cw1_class_lib.dir/src/cw1_class.cpp.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:595: CMakeFiles/cw1_team_x_cw1_class_lib.dir/all] Error 2
+gmake: *** [Makefile:146: all] Error 2

@@ -1,0 +1,375 @@
+[0.000000] (-) TimerEvent: {}
+[0.000786] (-) JobUnselected: {'identifier': 'cw1_world_spawner'}
+[0.001134] (-) JobUnselected: {'identifier': 'panda_description'}
+[0.001186] (-) JobUnselected: {'identifier': 'panda_moveit_config'}
+[0.001199] (-) JobUnselected: {'identifier': 'realsense_gazebo_plugin'}
+[0.001208] (-) JobUnselected: {'identifier': 'rpl_panda_with_rs'}
+[0.001236] (cw1_team_x) JobQueued: {'identifier': 'cw1_team_x', 'dependencies': OrderedDict([('cw1_world_spawner', '/home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner')])}
+[0.001268] (cw1_team_x) JobStarted: {'identifier': 'cw1_team_x'}
+[0.099966] (-) TimerEvent: {}
+[0.139076] (cw1_team_x) JobProgress: {'identifier': 'cw1_team_x', 'progress': 'cmake'}
+[0.140041] (cw1_team_x) JobProgress: {'identifier': 'cw1_team_x', 'progress': 'build'}
+[0.141198] (cw1_team_x) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/pcht/dev/comp0250_s26_labs/build/cw1_team_x', '--', '-j16', '-l16'], 'cwd': '/home/pcht/dev/comp0250_s26_labs/build/cw1_team_x', 'env': OrderedDict([('USER', 'pcht'), ('GIT_ASKPASS', '/home/pcht/.cursor-server/bin/8c95649f251a168cc4bb34c89531fae7db4bd990/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/lib:/home/pcht/dev/comp0250_s26_labs/install/realsense_gazebo_plugin/lib:/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner_testutils/lib:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner/lib:/home/pcht/ws_moveit2/install/moveit_visual_tools/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_visualization/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_demo/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_capabilities/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_core/lib:/home/pcht/ws_moveit2/install/moveit_ros_control_interface/lib:/home/pcht/ws_moveit2/install/moveit_simple_controller_manager/lib:/home/pcht/ws_moveit2/install/moveit_setup_assistant/lib:/home/pcht/ws_moveit2/install/moveit_setup_srdf_plugins/lib:/home/pcht/ws_moveit2/install/moveit_setup_core_plugins/lib:/home/pcht/ws_moveit2/install/moveit_setup_controllers/lib:/home/pcht/ws_moveit2/install/moveit_setup_app_plugins/lib:/home/pcht/ws_moveit2/install/moveit_setup_framework/lib:/home/pcht/ws_moveit2/install/moveit_servo/lib:/home/pcht/ws_moveit2/install/moveit_ros_visualization/lib:/home/pcht/ws_moveit2/install/moveit_py/lib:/home/pcht/ws_moveit2/install/moveit_hybrid_planning/lib:/home/pcht/ws_moveit2/install/moveit_ros_planning_interface/lib:/home/pcht/ws_moveit2/install/moveit_ros_benchmarks/lib:/home/pcht/ws_moveit2/install/moveit_ros_warehouse/lib:/home/pcht/ws_moveit2/install/moveit_ros_robot_interaction/lib:/home/pcht/ws_moveit2/install/moveit_ros_perception/lib:/home/pcht/ws_moveit2/install/moveit_ros_move_group/lib:/home/pcht/ws_moveit2/install/moveit_planners_ompl/lib:/home/pcht/ws_moveit2/install/moveit_ros_planning/lib:/home/pcht/ws_moveit2/install/moveit_ros_occupancy_map_monitor/lib:/home/pcht/ws_moveit2/install/moveit_resources_prbt_ikfast_manipulator_plugin/lib:/home/pcht/ws_moveit2/install/moveit_planners_chomp/lib:/home/pcht/ws_moveit2/install/moveit_kinematics/lib:/home/pcht/ws_moveit2/install/moveit_chomp_optimizer_adapter/lib:/home/pcht/ws_moveit2/install/chomp_motion_planner/lib:/home/pcht/ws_moveit2/install/moveit_core/lib:/home/pcht/ws_moveit2/install/srdfdom/lib:/home/pcht/ws_moveit2/install/rviz_marker_tools/lib:/home/pcht/ws_moveit2/install/rosparam_shortcuts/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/pcht/dev/Quadruped-PyMPC/quadruped_pympc/acados/lib:/home/pcht/dev/Quadruped-PyMPC/quadruped_pympc/acados/lib'), ('ACADOS_SOURCE_DIR', '/home/pcht/dev/Quadruped-PyMPC/quadruped_pympc/acadosexport'), ('HOME', '/home/pcht'), ('OLDPWD', '/home/pcht/dev/comp0250_s26_labs'), ('LESS', '-R'), ('CONDA_SHLVL', '0'), ('TERM_PROGRAM_VERSION', '2.6.11'), ('VSCODE_IPC_HOOK_CLI', '/mnt/wslg/runtime-dir/vscode-ipc-ee07e6eb-38c7-473c-b5eb-b68f954e8a6f.sock'), ('ZSH', '/home/pcht/.oh-my-zsh'), ('LSCOLORS', 'Gxfxcxdxbxegedabagacad'), ('PAGER', 'less'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/home/pcht/.cursor-server/bin/8c95649f251a168cc4bb34c89531fae7db4bd990/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/home/pcht/.cursor-server/bin/8c95649f251a168cc4bb34c89531fae7db4bd990/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/home/pcht/.cursor-server/extensions/ms-python.debugpy-2025.18.0-linux-x64/bundled/libs/debugpy'), ('P9K_TTY', 'old'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('_CE_M', ''), ('_CONDA_ROOT', '/home/pcht/miniforge3'), ('COLORTERM', 'truecolor'), ('WAYLAND_DISPLAY', 'wayland-0'), ('OVSX_REGISTRY_URL', 'https://open-vsx.org'), ('ROS_DISTRO', 'humble'), ('COLCON_PREFIX_PATH', '/home/pcht/dev/comp0250_s26_labs/install:/home/pcht/ws_moveit2/install'), ('LOGNAME', 'pcht'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('WSL_INTEROP', '/run/WSL/15_interop'), ('NAME', 'DESKTOP-3K833LE'), ('_', '/usr/bin/colcon'), ('_P9K_SSH_TTY', '/dev/pts/4'), ('ROS_VERSION', '2'), ('USER_ZDOTDIR', '/home/pcht'), ('TERM', 'xterm-256color'), ('_CE_CONDA', ''), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/home/pcht/.npm-global/bin:/home/pcht/.local/bin:/home/pcht/.cursor-server/bin/8c95649f251a168cc4bb34c89531fae7db4bd990/bin/remote-cli:/home/pcht/.npm-global/bin:/home/pcht/.local/bin:/home/pcht/ws_moveit2/install/moveit_core/bin:/opt/ros/humble/bin:/home/pcht/miniforge3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/libnvvp:/mnt/c/Program Files/Python310/Scripts/:/mnt/c/Program Files/Python310/:/mnt/c/Python312/Scripts/:/mnt/c/Python312/:/mnt/e/Cuda/bin:/mnt/e/Cuda/libnvvp:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/d/program/MinGW/bin:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files (x86)/GnuWin32/bin:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/e/opencv/install/install/x64/mingw/bin:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/e/Git/Git/cmd:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/Program Files/Redis:/mnt/c/ffmpeg/bin:/mnt/c/mingw64/bin:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/e/MATLAB/R2025b/bin:/mnt/c/Program Files/Common Files/Quanser/bin/:/mnt/c/Program Files/Quanser/QUARC/:/mnt/c/Users/86173/miniforge3:/mnt/c/Users/86173/miniforge3/Library/mingw-w64/bin:/mnt/c/Users/86173/miniforge3/Library/usr/bin:/mnt/c/Users/86173/miniforge3/Library/bin:/mnt/c/Users/86173/miniforge3/Scripts:/mnt/c/Users/86173/miniforge3/bin:/mnt/c/Users/86173/miniforge3/condabin:/mnt/c/Users/86173/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand:/mnt/c/Users/86173/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli:/mnt/c/Program Files/Google/Chrome/Application:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/libnvvp:/mnt/c/Program Files/Python310/Scripts:/mnt/c/Program Files/Python310:/mnt/c/Python312/Scripts:/mnt/c/Python312:/mnt/e/Cuda/bin:/mnt/e/Cuda/libnvvp:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/d/program/MinGW/bin:/mnt/c/Windows/System32/OpenSSH:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS:/mnt/d/Microsoft VS Code/bin:/mnt/c/Users/86173/AppData/Local/Programs/cursor/resources/app/bin:/mnt/d/IntelliJ/IntelliJ IDEA 2025.3.2/bin:/home/pcht/.cursor-server/extensions/ms-python.debugpy-2025.18.0-linux-x64/bundled/scripts/noConfigScripts'), ('XDG_RUNTIME_DIR', '/mnt/wslg/runtime-dir'), ('DISPLAY', ':0'), ('MAMBA_ROOT_PREFIX', '/home/pcht/miniforge3'), ('LANG', 'C.UTF-8'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/home/pcht/.cursor-server/extensions/ms-python.debugpy-2025.18.0-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-c4beaec6cf34e7ff.txt'), ('VSCODE_INJECTION', '1'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('TERM_PROGRAM', 'vscode'), ('VSCODE_GIT_IPC_HANDLE', '/mnt/wslg/runtime-dir/vscode-git-c28a5b2e25.sock'), ('CONDA_PYTHON_EXE', '/home/pcht/miniforge3/bin/python'), ('AMENT_PREFIX_PATH', '/home/pcht/dev/comp0250_s26_labs/install/rpl_panda_with_rs:/home/pcht/dev/comp0250_s26_labs/install/realsense_gazebo_plugin:/home/pcht/dev/comp0250_s26_labs/install/panda_moveit_config:/home/pcht/dev/comp0250_s26_labs/install/panda_description:/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x:/home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner_testutils:/home/pcht/ws_moveit2/install/moveit_runtime:/home/pcht/ws_moveit2/install/moveit2_tutorials:/home/pcht/ws_moveit2/install/moveit:/home/pcht/ws_moveit2/install/moveit_planners:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner:/home/pcht/ws_moveit2/install/mtc_tutorial:/home/pcht/ws_moveit2/install/moveit_visual_tools:/home/pcht/ws_moveit2/install/moveit_task_constructor_visualization:/home/pcht/ws_moveit2/install/moveit_task_constructor_demo:/home/pcht/ws_moveit2/install/moveit_task_constructor_capabilities:/home/pcht/ws_moveit2/install/moveit_task_constructor_core:/home/pcht/ws_moveit2/install/moveit_ros_control_interface:/home/pcht/ws_moveit2/install/moveit_plugins:/home/pcht/ws_moveit2/install/moveit_simple_controller_manager:/home/pcht/ws_moveit2/install/moveit_setup_assistant:/home/pcht/ws_moveit2/install/moveit_setup_srdf_plugins:/home/pcht/ws_moveit2/install/moveit_setup_core_plugins:/home/pcht/ws_moveit2/install/moveit_setup_controllers:/home/pcht/ws_moveit2/install/moveit_setup_app_plugins:/home/pcht/ws_moveit2/install/moveit_setup_framework:/home/pcht/ws_moveit2/install/moveit_servo:/home/pcht/ws_moveit2/install/moveit_ros:/home/pcht/ws_moveit2/install/moveit_ros_visualization:/home/pcht/ws_moveit2/install/moveit_py:/home/pcht/ws_moveit2/install/moveit_hybrid_planning:/home/pcht/ws_moveit2/install/moveit_ros_planning_interface:/home/pcht/ws_moveit2/install/moveit_ros_benchmarks:/home/pcht/ws_moveit2/install/moveit_ros_warehouse:/home/pcht/ws_moveit2/install/moveit_ros_robot_interaction:/home/pcht/ws_moveit2/install/moveit_ros_perception:/home/pcht/ws_moveit2/install/moveit_resources_prbt_pg70_support:/home/pcht/ws_moveit2/install/moveit_resources_prbt_moveit_config:/home/pcht/ws_moveit2/install/moveit_ros_move_group:/home/pcht/ws_moveit2/install/moveit_planners_ompl:/home/pcht/ws_moveit2/install/moveit_ros_planning:/home/pcht/ws_moveit2/install/moveit_ros_occupancy_map_monitor:/home/pcht/ws_moveit2/install/moveit_resources_prbt_ikfast_manipulator_plugin:/home/pcht/ws_moveit2/install/moveit_planners_chomp:/home/pcht/ws_moveit2/install/moveit_kinematics:/home/pcht/ws_moveit2/install/moveit_chomp_optimizer_adapter:/home/pcht/ws_moveit2/install/chomp_motion_planner:/home/pcht/ws_moveit2/install/moveit_core:/home/pcht/ws_moveit2/install/moveit_configs_utils:/home/pcht/ws_moveit2/install/srdfdom:/home/pcht/ws_moveit2/install/rviz_marker_tools:/home/pcht/ws_moveit2/install/rosparam_shortcuts:/home/pcht/ws_moveit2/install/moveit_task_constructor_msgs:/home/pcht/ws_moveit2/install/moveit_resources_prbt_support:/home/pcht/ws_moveit2/install/moveit_resources:/home/pcht/ws_moveit2/install/moveit_resources_pr2_description:/home/pcht/ws_moveit2/install/moveit_resources_panda_moveit_config:/home/pcht/ws_moveit2/install/moveit_resources_panda_description:/home/pcht/ws_moveit2/install/moveit_resources_fanuc_moveit_config:/home/pcht/ws_moveit2/install/moveit_resources_fanuc_description:/home/pcht/ws_moveit2/install/moveit_common:/home/pcht/ws_moveit2/install/launch_param_builder:/opt/ros/humble'), ('SHELL', '/usr/bin/zsh'), ('CMAKE_MODULE_PATH', '/home/pcht/ws_moveit2/install/moveit_task_constructor_core/share/moveit_task_constructor_core/cmake'), ('_CONDA_EXE', '/home/pcht/miniforge3/bin/conda'), ('MAMBA_EXE', '/home/pcht/miniforge3/bin/mamba'), ('P9K_SSH', '0'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('VSCODE_GIT_IPC_AUTH_TOKEN', 'a8270d6881cce2a0fc95743f07e57815bf420d704984b4939f8c35f478e9a623'), ('VSCODE_NONCE', 'f1789248-e79d-4fd3-9331-906d17319eb1'), ('PWD', '/home/pcht/dev/comp0250_s26_labs/build/cw1_team_x'), ('CONDA_EXE', '/home/pcht/miniforge3/bin/conda'), ('ZDOTDIR', '/home/pcht'), ('_P9K_TTY', '/dev/pts/4'), ('PYTHONPATH', '/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages:/home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/install/moveit_task_constructor_core/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/install/moveit_py/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/build/moveit_configs_utils:/home/pcht/ws_moveit2/install/moveit_configs_utils/lib/python3.10/site-packages:/home/pcht/ws_moveit2/install/srdfdom/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/install/moveit_task_constructor_msgs/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/build/launch_param_builder:/home/pcht/ws_moveit2/install/launch_param_builder/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('HOSTTYPE', 'x86_64'), ('WSL2_GUI_APPS_ENABLED', '1'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner:/home/pcht/dev/comp0250_s26_labs/install/rpl_panda_with_rs:/home/pcht/dev/comp0250_s26_labs/install/realsense_gazebo_plugin:/home/pcht/dev/comp0250_s26_labs/install/panda_moveit_config:/home/pcht/dev/comp0250_s26_labs/install/panda_description:/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner_testutils:/home/pcht/ws_moveit2/install/moveit_runtime:/home/pcht/ws_moveit2/install/moveit2_tutorials:/home/pcht/ws_moveit2/install/moveit:/home/pcht/ws_moveit2/install/moveit_planners:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner:/home/pcht/ws_moveit2/install/mtc_tutorial:/home/pcht/ws_moveit2/install/moveit_visual_tools:/home/pcht/ws_moveit2/install/moveit_task_constructor_visualization:/home/pcht/ws_moveit2/install/moveit_task_constructor_demo:/home/pcht/ws_moveit2/install/moveit_task_constructor_capabilities:/home/pcht/ws_moveit2/install/moveit_task_constructor_core:/home/pcht/ws_moveit2/install/moveit_ros_control_interface:/home/pcht/ws_moveit2/install/moveit_plugins:/home/pcht/ws_moveit2/install/moveit_simple_controller_manager:/home/pcht/ws_moveit2/install/moveit_setup_assistant:/home/pcht/ws_moveit2/install/moveit_setup_srdf_plugins:/home/pcht/ws_moveit2/install/moveit_setup_core_plugins:/home/pcht/ws_moveit2/install/moveit_setup_controllers:/home/pcht/ws_moveit2/install/moveit_setup_app_plugins:/home/pcht/ws_moveit2/install/moveit_setup_framework:/home/pcht/ws_moveit2/install/moveit_servo:/home/pcht/ws_moveit2/install/moveit_ros:/home/pcht/ws_moveit2/install/moveit_ros_visualization:/home/pcht/ws_moveit2/install/moveit_py:/home/pcht/ws_moveit2/install/moveit_hybrid_planning:/home/pcht/ws_moveit2/install/moveit_ros_planning_interface:/home/pcht/ws_moveit2/install/moveit_ros_benchmarks:/home/pcht/ws_moveit2/install/moveit_ros_warehouse:/home/pcht/ws_moveit2/install/moveit_ros_robot_interaction:/home/pcht/ws_moveit2/install/moveit_ros_perception:/home/pcht/ws_moveit2/install/moveit_resources_prbt_pg70_support:/home/pcht/ws_moveit2/install/moveit_resources_prbt_moveit_config:/home/pcht/ws_moveit2/install/moveit_ros_move_group:/home/pcht/ws_moveit2/install/moveit_planners_ompl:/home/pcht/ws_moveit2/install/moveit_ros_planning:/home/pcht/ws_moveit2/install/moveit_ros_occupancy_map_monitor:/home/pcht/ws_moveit2/install/moveit_resources_prbt_ikfast_manipulator_plugin:/home/pcht/ws_moveit2/install/moveit_planners_chomp:/home/pcht/ws_moveit2/install/moveit_kinematics:/home/pcht/ws_moveit2/install/moveit_chomp_optimizer_adapter:/home/pcht/ws_moveit2/install/chomp_motion_planner:/home/pcht/ws_moveit2/install/moveit_core:/home/pcht/ws_moveit2/install/srdfdom:/home/pcht/ws_moveit2/install/rviz_marker_tools:/home/pcht/ws_moveit2/install/rosparam_shortcuts:/home/pcht/ws_moveit2/install/moveit_task_constructor_msgs:/home/pcht/ws_moveit2/install/moveit_resources_prbt_support:/home/pcht/ws_moveit2/install/moveit_resources:/home/pcht/ws_moveit2/install/moveit_resources_pr2_description:/home/pcht/ws_moveit2/install/moveit_resources_panda_moveit_config:/home/pcht/ws_moveit2/install/moveit_resources_panda_description:/home/pcht/ws_moveit2/install/moveit_resources_fanuc_moveit_config:/home/pcht/ws_moveit2/install/moveit_resources_fanuc_description:/home/pcht/ws_moveit2/install/moveit_common:/home/pcht/ws_moveit2/install/moveit_configs_utils:/home/pcht/ws_moveit2/install/launch_param_builder:/opt/ros/humble')]), 'shell': False}
+[0.200090] (-) TimerEvent: {}
+[0.208277] (cw1_team_x) StdoutLine: {'line': b'[  2%] Built target cw1_team_x__cpp\n'}
+[0.208742] (cw1_team_x) StdoutLine: {'line': b'[ 11%] Built target cw1_team_x__rosidl_generator_c\n'}
+[0.222725] (cw1_team_x) StdoutLine: {'line': b'[ 11%] Built target ament_cmake_python_copy_cw1_team_x\n'}
+[0.242870] (cw1_team_x) StdoutLine: {'line': b'[ 20%] Built target cw1_team_x__rosidl_typesupport_introspection_c\n'}
+[0.243586] (cw1_team_x) StdoutLine: {'line': b'[ 31%] Built target cw1_team_x__rosidl_typesupport_cpp\n'}
+[0.244008] (cw1_team_x) StdoutLine: {'line': b'[ 37%] Built target cw1_team_x__rosidl_typesupport_fastrtps_c\n'}
+[0.244502] (cw1_team_x) StdoutLine: {'line': b'[ 45%] Built target cw1_team_x__rosidl_typesupport_c\n'}
+[0.248543] (cw1_team_x) StdoutLine: {'line': b'[ 54%] Built target cw1_team_x__rosidl_typesupport_introspection_cpp\n'}
+[0.248799] (cw1_team_x) StdoutLine: {'line': b'[ 62%] Built target cw1_team_x__rosidl_typesupport_fastrtps_cpp\n'}
+[0.262527] (cw1_team_x) StdoutLine: {'line': b'\x1b[35m\x1b[1mConsolidate compiler generated dependencies of target cw1_team_x_cw1_class_lib\x1b[0m\n'}
+[0.276894] (cw1_team_x) StdoutLine: {'line': b'[ 62%] Built target cw1_team_x\n'}
+[0.287951] (cw1_team_x) StdoutLine: {'line': b'[ 65%] \x1b[32mBuilding CXX object CMakeFiles/cw1_team_x_cw1_class_lib.dir/src/cw1_class.cpp.o\x1b[0m\n'}
+[0.300221] (-) TimerEvent: {}
+[0.308061] (cw1_team_x) StdoutLine: {'line': b'[ 68%] Built target cw1_team_x__py\n'}
+[0.339383] (cw1_team_x) StdoutLine: {'line': b'[ 74%] Built target cw1_team_x__rosidl_generator_py\n'}
+[0.370267] (cw1_team_x) StdoutLine: {'line': b'[ 85%] Built target cw1_team_x__rosidl_typesupport_fastrtps_c__pyext\n'}
+[0.370586] (cw1_team_x) StdoutLine: {'line': b'[ 85%] Built target cw1_team_x__rosidl_typesupport_c__pyext\n'}
+[0.371556] (cw1_team_x) StdoutLine: {'line': b'[ 91%] Built target cw1_team_x__rosidl_typesupport_introspection_c__pyext\n'}
+[0.400358] (-) TimerEvent: {}
+[0.435380] (cw1_team_x) StdoutLine: {'line': b'running egg_info\n'}
+[0.435943] (cw1_team_x) StdoutLine: {'line': b'writing cw1_team_x.egg-info/PKG-INFO\n'}
+[0.436177] (cw1_team_x) StdoutLine: {'line': b'writing dependency_links to cw1_team_x.egg-info/dependency_links.txt\n'}
+[0.436345] (cw1_team_x) StdoutLine: {'line': b'writing top-level names to cw1_team_x.egg-info/top_level.txt\n'}
+[0.437886] (cw1_team_x) StdoutLine: {'line': b"reading manifest file 'cw1_team_x.egg-info/SOURCES.txt'\n"}
+[0.438380] (cw1_team_x) StdoutLine: {'line': b"writing manifest file 'cw1_team_x.egg-info/SOURCES.txt'\n"}
+[0.466020] (cw1_team_x) StdoutLine: {'line': b'[ 91%] Built target ament_cmake_python_build_cw1_team_x_egg\n'}
+[0.500544] (-) TimerEvent: {}
+[0.601009] (-) TimerEvent: {}
+[0.701485] (-) TimerEvent: {}
+[0.801952] (-) TimerEvent: {}
+[0.902399] (-) TimerEvent: {}
+[1.002886] (-) TimerEvent: {}
+[1.103274] (-) TimerEvent: {}
+[1.203729] (-) TimerEvent: {}
+[1.304148] (-) TimerEvent: {}
+[1.404551] (-) TimerEvent: {}
+[1.504974] (-) TimerEvent: {}
+[1.605372] (-) TimerEvent: {}
+[1.705860] (-) TimerEvent: {}
+[1.806325] (-) TimerEvent: {}
+[1.906838] (-) TimerEvent: {}
+[2.007279] (-) TimerEvent: {}
+[2.107748] (-) TimerEvent: {}
+[2.208149] (-) TimerEvent: {}
+[2.308620] (-) TimerEvent: {}
+[2.409028] (-) TimerEvent: {}
+[2.509477] (-) TimerEvent: {}
+[2.609956] (-) TimerEvent: {}
+[2.710415] (-) TimerEvent: {}
+[2.810902] (-) TimerEvent: {}
+[2.911407] (-) TimerEvent: {}
+[3.011810] (-) TimerEvent: {}
+[3.112399] (-) TimerEvent: {}
+[3.212819] (-) TimerEvent: {}
+[3.313343] (-) TimerEvent: {}
+[3.413876] (-) TimerEvent: {}
+[3.514432] (-) TimerEvent: {}
+[3.614871] (-) TimerEvent: {}
+[3.715261] (-) TimerEvent: {}
+[3.815725] (-) TimerEvent: {}
+[3.916112] (-) TimerEvent: {}
+[4.016664] (-) TimerEvent: {}
+[4.117224] (-) TimerEvent: {}
+[4.217607] (-) TimerEvent: {}
+[4.318094] (-) TimerEvent: {}
+[4.418559] (-) TimerEvent: {}
+[4.482664] (cw1_team_x) StderrLine: {'line': b'\x1b[01m\x1b[K/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_x/src/cw1_class.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kvoid cw1::t1_callback(std::shared_ptr<cw1_world_spawner::srv::Task1Service_Request_<std::allocator<void> > >, std::shared_ptr<cw1_world_spawner::srv::Task1Service_Response_<std::allocator<void> > >)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[4.482944] (cw1_team_x) StderrLine: {'line': b'\x1b[01m\x1b[K/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_x/src/cw1_class.cpp:302:28:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kvariable \xe2\x80\x98\x1b[01m\x1b[Kplace\x1b[m\x1b[K\xe2\x80\x99 set but not used [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable\x07-Wunused-but-set-variable\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[4.482997] (cw1_team_x) StderrLine: {'line': b'  302 | try_msgs::msg::Pose \x1b[01;35m\x1b[Kplace\x1b[m\x1b[K = pre_place;\n'}
+[4.483032] (cw1_team_x) StderrLine: {'line': b'      |                     \x1b[01;35m\x1b[K^~~~~\x1b[m\x1b[K\n'}
+[4.483065] (cw1_team_x) StderrLine: {'line': b'\n'}
+[4.483096] (cw1_team_x) StderrLine: {'line': b'\x1b[01m\x1b[K/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_x/src/cw1_class.cpp:305:28:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kvariable \xe2\x80\x98\x1b[01m\x1b[Kretreat\x1b[m\x1b[K\xe2\x80\x99 set but not used [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wunused-but-set-variable\x07-Wunused-but-set-variable\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[4.483133] (cw1_team_x) StderrLine: {'line': b'  305 | try_msgs::msg::Pose \x1b[01;35m\x1b[Kretreat\x1b[m\x1b[K = pre_place;\n'}
+[4.483166] (cw1_team_x) StderrLine: {'line': b'      |                     \x1b[01;35m\x1b[K^~~~~~~\x1b[m\x1b[K\n'}
+[4.483197] (cw1_team_x) StderrLine: {'line': b'\n'}
+[4.518757] (-) TimerEvent: {}
+[4.619297] (-) TimerEvent: {}
+[4.719765] (-) TimerEvent: {}
+[4.820267] (-) TimerEvent: {}
+[4.920703] (-) TimerEvent: {}
+[5.021277] (-) TimerEvent: {}
+[5.121821] (-) TimerEvent: {}
+[5.222352] (-) TimerEvent: {}
+[5.322849] (-) TimerEvent: {}
+[5.423323] (-) TimerEvent: {}
+[5.523819] (-) TimerEvent: {}
+[5.624318] (-) TimerEvent: {}
+[5.724804] (-) TimerEvent: {}
+[5.825283] (-) TimerEvent: {}
+[5.925709] (-) TimerEvent: {}
+[6.026199] (-) TimerEvent: {}
+[6.126849] (-) TimerEvent: {}
+[6.227386] (-) TimerEvent: {}
+[6.327791] (-) TimerEvent: {}
+[6.428305] (-) TimerEvent: {}
+[6.528980] (-) TimerEvent: {}
+[6.629535] (-) TimerEvent: {}
+[6.730002] (-) TimerEvent: {}
+[6.830536] (-) TimerEvent: {}
+[6.931084] (-) TimerEvent: {}
+[7.031643] (-) TimerEvent: {}
+[7.132068] (-) TimerEvent: {}
+[7.232560] (-) TimerEvent: {}
+[7.332989] (-) TimerEvent: {}
+[7.433403] (-) TimerEvent: {}
+[7.533873] (-) TimerEvent: {}
+[7.634407] (-) TimerEvent: {}
+[7.735210] (-) TimerEvent: {}
+[7.835778] (-) TimerEvent: {}
+[7.936505] (-) TimerEvent: {}
+[8.036942] (-) TimerEvent: {}
+[8.137344] (-) TimerEvent: {}
+[8.237967] (-) TimerEvent: {}
+[8.338423] (-) TimerEvent: {}
+[8.438907] (-) TimerEvent: {}
+[8.539387] (-) TimerEvent: {}
+[8.639914] (-) TimerEvent: {}
+[8.740482] (-) TimerEvent: {}
+[8.841101] (-) TimerEvent: {}
+[8.941933] (-) TimerEvent: {}
+[9.042388] (-) TimerEvent: {}
+[9.143015] (-) TimerEvent: {}
+[9.243473] (-) TimerEvent: {}
+[9.344030] (-) TimerEvent: {}
+[9.444636] (-) TimerEvent: {}
+[9.545256] (-) TimerEvent: {}
+[9.645910] (-) TimerEvent: {}
+[9.746392] (-) TimerEvent: {}
+[9.846782] (-) TimerEvent: {}
+[9.947361] (-) TimerEvent: {}
+[10.047801] (-) TimerEvent: {}
+[10.148232] (-) TimerEvent: {}
+[10.248688] (-) TimerEvent: {}
+[10.349184] (-) TimerEvent: {}
+[10.449739] (-) TimerEvent: {}
+[10.550191] (-) TimerEvent: {}
+[10.650754] (-) TimerEvent: {}
+[10.751309] (-) TimerEvent: {}
+[10.851845] (-) TimerEvent: {}
+[10.952309] (-) TimerEvent: {}
+[11.052820] (-) TimerEvent: {}
+[11.153338] (-) TimerEvent: {}
+[11.253769] (-) TimerEvent: {}
+[11.354314] (-) TimerEvent: {}
+[11.454838] (-) TimerEvent: {}
+[11.555270] (-) TimerEvent: {}
+[11.655731] (-) TimerEvent: {}
+[11.756170] (-) TimerEvent: {}
+[11.856849] (-) TimerEvent: {}
+[11.957300] (-) TimerEvent: {}
+[12.057734] (-) TimerEvent: {}
+[12.158257] (-) TimerEvent: {}
+[12.258781] (-) TimerEvent: {}
+[12.359394] (-) TimerEvent: {}
+[12.460012] (-) TimerEvent: {}
+[12.560601] (-) TimerEvent: {}
+[12.661260] (-) TimerEvent: {}
+[12.761720] (-) TimerEvent: {}
+[12.862205] (-) TimerEvent: {}
+[12.962979] (-) TimerEvent: {}
+[13.063497] (-) TimerEvent: {}
+[13.164012] (-) TimerEvent: {}
+[13.264568] (-) TimerEvent: {}
+[13.365031] (-) TimerEvent: {}
+[13.465540] (-) TimerEvent: {}
+[13.566020] (-) TimerEvent: {}
+[13.666411] (-) TimerEvent: {}
+[13.766875] (-) TimerEvent: {}
+[13.867438] (-) TimerEvent: {}
+[13.967902] (-) TimerEvent: {}
+[14.068414] (-) TimerEvent: {}
+[14.168864] (-) TimerEvent: {}
+[14.269413] (-) TimerEvent: {}
+[14.369881] (-) TimerEvent: {}
+[14.470505] (-) TimerEvent: {}
+[14.571138] (-) TimerEvent: {}
+[14.671605] (-) TimerEvent: {}
+[14.772150] (-) TimerEvent: {}
+[14.872722] (-) TimerEvent: {}
+[14.973257] (-) TimerEvent: {}
+[15.073758] (-) TimerEvent: {}
+[15.174305] (-) TimerEvent: {}
+[15.274774] (-) TimerEvent: {}
+[15.375243] (-) TimerEvent: {}
+[15.475711] (-) TimerEvent: {}
+[15.576206] (-) TimerEvent: {}
+[15.676670] (-) TimerEvent: {}
+[15.777227] (-) TimerEvent: {}
+[15.877702] (-) TimerEvent: {}
+[15.978236] (-) TimerEvent: {}
+[16.078767] (-) TimerEvent: {}
+[16.179230] (-) TimerEvent: {}
+[16.279760] (-) TimerEvent: {}
+[16.380229] (-) TimerEvent: {}
+[16.480684] (-) TimerEvent: {}
+[16.581212] (-) TimerEvent: {}
+[16.681726] (-) TimerEvent: {}
+[16.782436] (-) TimerEvent: {}
+[16.883025] (-) TimerEvent: {}
+[16.983489] (-) TimerEvent: {}
+[17.084031] (-) TimerEvent: {}
+[17.184767] (-) TimerEvent: {}
+[17.285414] (-) TimerEvent: {}
+[17.385907] (-) TimerEvent: {}
+[17.486410] (-) TimerEvent: {}
+[17.586879] (-) TimerEvent: {}
+[17.687295] (-) TimerEvent: {}
+[17.787687] (-) TimerEvent: {}
+[17.832553] (cw1_team_x) StdoutLine: {'line': b'[ 94%] \x1b[32m\x1b[1mLinking CXX shared library libcw1_team_x_cw1_class_lib.so\x1b[0m\n'}
+[17.887899] (-) TimerEvent: {}
+[17.988315] (-) TimerEvent: {}
+[18.088770] (-) TimerEvent: {}
+[18.189201] (-) TimerEvent: {}
+[18.289660] (-) TimerEvent: {}
+[18.390155] (-) TimerEvent: {}
+[18.448309] (cw1_team_x) StdoutLine: {'line': b'[ 94%] Built target cw1_team_x_cw1_class_lib\n'}
+[18.484798] (cw1_team_x) StdoutLine: {'line': b'[ 97%] \x1b[32m\x1b[1mLinking CXX executable cw1_solution_node\x1b[0m\n'}
+[18.490248] (-) TimerEvent: {}
+[18.590538] (-) TimerEvent: {}
+[18.691033] (-) TimerEvent: {}
+[18.791417] (-) TimerEvent: {}
+[18.891848] (-) TimerEvent: {}
+[18.992398] (-) TimerEvent: {}
+[19.048941] (cw1_team_x) StdoutLine: {'line': b'[100%] Built target cw1_solution_node\n'}
+[19.061994] (cw1_team_x) CommandEnded: {'returncode': 0}
+[19.063429] (cw1_team_x) JobProgress: {'identifier': 'cw1_team_x', 'progress': 'install'}
+[19.074139] (cw1_team_x) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/pcht/dev/comp0250_s26_labs/build/cw1_team_x'], 'cwd': '/home/pcht/dev/comp0250_s26_labs/build/cw1_team_x', 'env': OrderedDict([('USER', 'pcht'), ('GIT_ASKPASS', '/home/pcht/.cursor-server/bin/8c95649f251a168cc4bb34c89531fae7db4bd990/extensions/git/dist/askpass.sh'), ('SHLVL', '1'), ('LD_LIBRARY_PATH', '/home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/lib:/home/pcht/dev/comp0250_s26_labs/install/realsense_gazebo_plugin/lib:/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner_testutils/lib:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner/lib:/home/pcht/ws_moveit2/install/moveit_visual_tools/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_visualization/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_demo/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_capabilities/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_core/lib:/home/pcht/ws_moveit2/install/moveit_ros_control_interface/lib:/home/pcht/ws_moveit2/install/moveit_simple_controller_manager/lib:/home/pcht/ws_moveit2/install/moveit_setup_assistant/lib:/home/pcht/ws_moveit2/install/moveit_setup_srdf_plugins/lib:/home/pcht/ws_moveit2/install/moveit_setup_core_plugins/lib:/home/pcht/ws_moveit2/install/moveit_setup_controllers/lib:/home/pcht/ws_moveit2/install/moveit_setup_app_plugins/lib:/home/pcht/ws_moveit2/install/moveit_setup_framework/lib:/home/pcht/ws_moveit2/install/moveit_servo/lib:/home/pcht/ws_moveit2/install/moveit_ros_visualization/lib:/home/pcht/ws_moveit2/install/moveit_py/lib:/home/pcht/ws_moveit2/install/moveit_hybrid_planning/lib:/home/pcht/ws_moveit2/install/moveit_ros_planning_interface/lib:/home/pcht/ws_moveit2/install/moveit_ros_benchmarks/lib:/home/pcht/ws_moveit2/install/moveit_ros_warehouse/lib:/home/pcht/ws_moveit2/install/moveit_ros_robot_interaction/lib:/home/pcht/ws_moveit2/install/moveit_ros_perception/lib:/home/pcht/ws_moveit2/install/moveit_ros_move_group/lib:/home/pcht/ws_moveit2/install/moveit_planners_ompl/lib:/home/pcht/ws_moveit2/install/moveit_ros_planning/lib:/home/pcht/ws_moveit2/install/moveit_ros_occupancy_map_monitor/lib:/home/pcht/ws_moveit2/install/moveit_resources_prbt_ikfast_manipulator_plugin/lib:/home/pcht/ws_moveit2/install/moveit_planners_chomp/lib:/home/pcht/ws_moveit2/install/moveit_kinematics/lib:/home/pcht/ws_moveit2/install/moveit_chomp_optimizer_adapter/lib:/home/pcht/ws_moveit2/install/chomp_motion_planner/lib:/home/pcht/ws_moveit2/install/moveit_core/lib:/home/pcht/ws_moveit2/install/srdfdom/lib:/home/pcht/ws_moveit2/install/rviz_marker_tools/lib:/home/pcht/ws_moveit2/install/rosparam_shortcuts/lib:/home/pcht/ws_moveit2/install/moveit_task_constructor_msgs/lib:/usr/lib/x86_64-linux-gnu/gazebo-11/plugins:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib:/home/pcht/dev/Quadruped-PyMPC/quadruped_pympc/acados/lib:/home/pcht/dev/Quadruped-PyMPC/quadruped_pympc/acados/lib'), ('ACADOS_SOURCE_DIR', '/home/pcht/dev/Quadruped-PyMPC/quadruped_pympc/acadosexport'), ('HOME', '/home/pcht'), ('OLDPWD', '/home/pcht/dev/comp0250_s26_labs'), ('LESS', '-R'), ('CONDA_SHLVL', '0'), ('TERM_PROGRAM_VERSION', '2.6.11'), ('VSCODE_IPC_HOOK_CLI', '/mnt/wslg/runtime-dir/vscode-ipc-ee07e6eb-38c7-473c-b5eb-b68f954e8a6f.sock'), ('ZSH', '/home/pcht/.oh-my-zsh'), ('LSCOLORS', 'Gxfxcxdxbxegedabagacad'), ('PAGER', 'less'), ('ROS_PYTHON_VERSION', '3'), ('VSCODE_GIT_ASKPASS_MAIN', '/home/pcht/.cursor-server/bin/8c95649f251a168cc4bb34c89531fae7db4bd990/extensions/git/dist/askpass-main.js'), ('VSCODE_GIT_ASKPASS_NODE', '/home/pcht/.cursor-server/bin/8c95649f251a168cc4bb34c89531fae7db4bd990/node'), ('PYDEVD_DISABLE_FILE_VALIDATION', '1'), ('BUNDLED_DEBUGPY_PATH', '/home/pcht/.cursor-server/extensions/ms-python.debugpy-2025.18.0-linux-x64/bundled/libs/debugpy'), ('P9K_TTY', 'old'), ('WSL_DISTRO_NAME', 'Ubuntu-22.04'), ('_CE_M', ''), ('_CONDA_ROOT', '/home/pcht/miniforge3'), ('COLORTERM', 'truecolor'), ('WAYLAND_DISPLAY', 'wayland-0'), ('OVSX_REGISTRY_URL', 'https://open-vsx.org'), ('ROS_DISTRO', 'humble'), ('COLCON_PREFIX_PATH', '/home/pcht/dev/comp0250_s26_labs/install:/home/pcht/ws_moveit2/install'), ('LOGNAME', 'pcht'), ('PULSE_SERVER', 'unix:/mnt/wslg/PulseServer'), ('WSL_INTEROP', '/run/WSL/15_interop'), ('NAME', 'DESKTOP-3K833LE'), ('_', '/usr/bin/colcon'), ('_P9K_SSH_TTY', '/dev/pts/4'), ('ROS_VERSION', '2'), ('USER_ZDOTDIR', '/home/pcht'), ('TERM', 'xterm-256color'), ('_CE_CONDA', ''), ('ROS_LOCALHOST_ONLY', '0'), ('PATH', '/home/pcht/.npm-global/bin:/home/pcht/.local/bin:/home/pcht/.cursor-server/bin/8c95649f251a168cc4bb34c89531fae7db4bd990/bin/remote-cli:/home/pcht/.npm-global/bin:/home/pcht/.local/bin:/home/pcht/ws_moveit2/install/moveit_core/bin:/opt/ros/humble/bin:/home/pcht/miniforge3/condabin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/libnvvp:/mnt/c/Program Files/Python310/Scripts/:/mnt/c/Program Files/Python310/:/mnt/c/Python312/Scripts/:/mnt/c/Python312/:/mnt/e/Cuda/bin:/mnt/e/Cuda/libnvvp:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/d/program/MinGW/bin:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/dotnet/:/mnt/c/Program Files (x86)/Windows Kits/8.1/Windows Performance Toolkit/:/mnt/c/Program Files (x86)/GnuWin32/bin:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/e/opencv/install/install/x64/mingw/bin:/mnt/c/Program Files/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/e/Git/Git/cmd:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA app/NvDLISR:/mnt/c/Program Files/Redis:/mnt/c/ffmpeg/bin:/mnt/c/mingw64/bin:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/e/MATLAB/R2025b/bin:/mnt/c/Program Files/Common Files/Quanser/bin/:/mnt/c/Program Files/Quanser/QUARC/:/mnt/c/Users/86173/miniforge3:/mnt/c/Users/86173/miniforge3/Library/mingw-w64/bin:/mnt/c/Users/86173/miniforge3/Library/usr/bin:/mnt/c/Users/86173/miniforge3/Library/bin:/mnt/c/Users/86173/miniforge3/Scripts:/mnt/c/Users/86173/miniforge3/bin:/mnt/c/Users/86173/miniforge3/condabin:/mnt/c/Users/86173/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/debugCommand:/mnt/c/Users/86173/AppData/Roaming/Code/User/globalStorage/github.copilot-chat/copilotCli:/mnt/c/Program Files/Google/Chrome/Application:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/java8path:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v11.2/libnvvp:/mnt/c/Program Files/Python310/Scripts:/mnt/c/Program Files/Python310:/mnt/c/Python312/Scripts:/mnt/c/Python312:/mnt/e/Cuda/bin:/mnt/e/Cuda/libnvvp:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/d/program/MinGW/bin:/mnt/c/Windows/System32/OpenSSH:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS:/mnt/d/Microsoft VS Code/bin:/mnt/c/Users/86173/AppData/Local/Programs/cursor/resources/app/bin:/mnt/d/IntelliJ/IntelliJ IDEA 2025.3.2/bin:/home/pcht/.cursor-server/extensions/ms-python.debugpy-2025.18.0-linux-x64/bundled/scripts/noConfigScripts'), ('XDG_RUNTIME_DIR', '/mnt/wslg/runtime-dir'), ('DISPLAY', ':0'), ('MAMBA_ROOT_PREFIX', '/home/pcht/miniforge3'), ('LANG', 'C.UTF-8'), ('VSCODE_DEBUGPY_ADAPTER_ENDPOINTS', '/home/pcht/.cursor-server/extensions/ms-python.debugpy-2025.18.0-linux-x64/.noConfigDebugAdapterEndpoints/endpoint-c4beaec6cf34e7ff.txt'), ('VSCODE_INJECTION', '1'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('TERM_PROGRAM', 'vscode'), ('VSCODE_GIT_IPC_HANDLE', '/mnt/wslg/runtime-dir/vscode-git-c28a5b2e25.sock'), ('CONDA_PYTHON_EXE', '/home/pcht/miniforge3/bin/python'), ('AMENT_PREFIX_PATH', '/home/pcht/dev/comp0250_s26_labs/install/rpl_panda_with_rs:/home/pcht/dev/comp0250_s26_labs/install/realsense_gazebo_plugin:/home/pcht/dev/comp0250_s26_labs/install/panda_moveit_config:/home/pcht/dev/comp0250_s26_labs/install/panda_description:/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x:/home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner_testutils:/home/pcht/ws_moveit2/install/moveit_runtime:/home/pcht/ws_moveit2/install/moveit2_tutorials:/home/pcht/ws_moveit2/install/moveit:/home/pcht/ws_moveit2/install/moveit_planners:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner:/home/pcht/ws_moveit2/install/mtc_tutorial:/home/pcht/ws_moveit2/install/moveit_visual_tools:/home/pcht/ws_moveit2/install/moveit_task_constructor_visualization:/home/pcht/ws_moveit2/install/moveit_task_constructor_demo:/home/pcht/ws_moveit2/install/moveit_task_constructor_capabilities:/home/pcht/ws_moveit2/install/moveit_task_constructor_core:/home/pcht/ws_moveit2/install/moveit_ros_control_interface:/home/pcht/ws_moveit2/install/moveit_plugins:/home/pcht/ws_moveit2/install/moveit_simple_controller_manager:/home/pcht/ws_moveit2/install/moveit_setup_assistant:/home/pcht/ws_moveit2/install/moveit_setup_srdf_plugins:/home/pcht/ws_moveit2/install/moveit_setup_core_plugins:/home/pcht/ws_moveit2/install/moveit_setup_controllers:/home/pcht/ws_moveit2/install/moveit_setup_app_plugins:/home/pcht/ws_moveit2/install/moveit_setup_framework:/home/pcht/ws_moveit2/install/moveit_servo:/home/pcht/ws_moveit2/install/moveit_ros:/home/pcht/ws_moveit2/install/moveit_ros_visualization:/home/pcht/ws_moveit2/install/moveit_py:/home/pcht/ws_moveit2/install/moveit_hybrid_planning:/home/pcht/ws_moveit2/install/moveit_ros_planning_interface:/home/pcht/ws_moveit2/install/moveit_ros_benchmarks:/home/pcht/ws_moveit2/install/moveit_ros_warehouse:/home/pcht/ws_moveit2/install/moveit_ros_robot_interaction:/home/pcht/ws_moveit2/install/moveit_ros_perception:/home/pcht/ws_moveit2/install/moveit_resources_prbt_pg70_support:/home/pcht/ws_moveit2/install/moveit_resources_prbt_moveit_config:/home/pcht/ws_moveit2/install/moveit_ros_move_group:/home/pcht/ws_moveit2/install/moveit_planners_ompl:/home/pcht/ws_moveit2/install/moveit_ros_planning:/home/pcht/ws_moveit2/install/moveit_ros_occupancy_map_monitor:/home/pcht/ws_moveit2/install/moveit_resources_prbt_ikfast_manipulator_plugin:/home/pcht/ws_moveit2/install/moveit_planners_chomp:/home/pcht/ws_moveit2/install/moveit_kinematics:/home/pcht/ws_moveit2/install/moveit_chomp_optimizer_adapter:/home/pcht/ws_moveit2/install/chomp_motion_planner:/home/pcht/ws_moveit2/install/moveit_core:/home/pcht/ws_moveit2/install/moveit_configs_utils:/home/pcht/ws_moveit2/install/srdfdom:/home/pcht/ws_moveit2/install/rviz_marker_tools:/home/pcht/ws_moveit2/install/rosparam_shortcuts:/home/pcht/ws_moveit2/install/moveit_task_constructor_msgs:/home/pcht/ws_moveit2/install/moveit_resources_prbt_support:/home/pcht/ws_moveit2/install/moveit_resources:/home/pcht/ws_moveit2/install/moveit_resources_pr2_description:/home/pcht/ws_moveit2/install/moveit_resources_panda_moveit_config:/home/pcht/ws_moveit2/install/moveit_resources_panda_description:/home/pcht/ws_moveit2/install/moveit_resources_fanuc_moveit_config:/home/pcht/ws_moveit2/install/moveit_resources_fanuc_description:/home/pcht/ws_moveit2/install/moveit_common:/home/pcht/ws_moveit2/install/launch_param_builder:/opt/ros/humble'), ('SHELL', '/usr/bin/zsh'), ('CMAKE_MODULE_PATH', '/home/pcht/ws_moveit2/install/moveit_task_constructor_core/share/moveit_task_constructor_core/cmake'), ('_CONDA_EXE', '/home/pcht/miniforge3/bin/conda'), ('MAMBA_EXE', '/home/pcht/miniforge3/bin/mamba'), ('P9K_SSH', '0'), ('VSCODE_GIT_ASKPASS_EXTRA_ARGS', ''), ('VSCODE_GIT_IPC_AUTH_TOKEN', 'a8270d6881cce2a0fc95743f07e57815bf420d704984b4939f8c35f478e9a623'), ('VSCODE_NONCE', 'f1789248-e79d-4fd3-9331-906d17319eb1'), ('PWD', '/home/pcht/dev/comp0250_s26_labs/build/cw1_team_x'), ('CONDA_EXE', '/home/pcht/miniforge3/bin/conda'), ('ZDOTDIR', '/home/pcht'), ('_P9K_TTY', '/dev/pts/4'), ('PYTHONPATH', '/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages:/home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/install/moveit_task_constructor_core/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/install/moveit_py/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/build/moveit_configs_utils:/home/pcht/ws_moveit2/install/moveit_configs_utils/lib/python3.10/site-packages:/home/pcht/ws_moveit2/install/srdfdom/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/install/moveit_task_constructor_msgs/local/lib/python3.10/dist-packages:/home/pcht/ws_moveit2/build/launch_param_builder:/home/pcht/ws_moveit2/install/launch_param_builder/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages'), ('COLCON', '1'), ('HOSTTYPE', 'x86_64'), ('WSL2_GUI_APPS_ENABLED', '1'), ('WSLENV', 'VSCODE_WSL_EXT_LOCATION/up'), ('CMAKE_PREFIX_PATH', '/home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner:/home/pcht/dev/comp0250_s26_labs/install/rpl_panda_with_rs:/home/pcht/dev/comp0250_s26_labs/install/realsense_gazebo_plugin:/home/pcht/dev/comp0250_s26_labs/install/panda_moveit_config:/home/pcht/dev/comp0250_s26_labs/install/panda_description:/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner_testutils:/home/pcht/ws_moveit2/install/moveit_runtime:/home/pcht/ws_moveit2/install/moveit2_tutorials:/home/pcht/ws_moveit2/install/moveit:/home/pcht/ws_moveit2/install/moveit_planners:/home/pcht/ws_moveit2/install/pilz_industrial_motion_planner:/home/pcht/ws_moveit2/install/mtc_tutorial:/home/pcht/ws_moveit2/install/moveit_visual_tools:/home/pcht/ws_moveit2/install/moveit_task_constructor_visualization:/home/pcht/ws_moveit2/install/moveit_task_constructor_demo:/home/pcht/ws_moveit2/install/moveit_task_constructor_capabilities:/home/pcht/ws_moveit2/install/moveit_task_constructor_core:/home/pcht/ws_moveit2/install/moveit_ros_control_interface:/home/pcht/ws_moveit2/install/moveit_plugins:/home/pcht/ws_moveit2/install/moveit_simple_controller_manager:/home/pcht/ws_moveit2/install/moveit_setup_assistant:/home/pcht/ws_moveit2/install/moveit_setup_srdf_plugins:/home/pcht/ws_moveit2/install/moveit_setup_core_plugins:/home/pcht/ws_moveit2/install/moveit_setup_controllers:/home/pcht/ws_moveit2/install/moveit_setup_app_plugins:/home/pcht/ws_moveit2/install/moveit_setup_framework:/home/pcht/ws_moveit2/install/moveit_servo:/home/pcht/ws_moveit2/install/moveit_ros:/home/pcht/ws_moveit2/install/moveit_ros_visualization:/home/pcht/ws_moveit2/install/moveit_py:/home/pcht/ws_moveit2/install/moveit_hybrid_planning:/home/pcht/ws_moveit2/install/moveit_ros_planning_interface:/home/pcht/ws_moveit2/install/moveit_ros_benchmarks:/home/pcht/ws_moveit2/install/moveit_ros_warehouse:/home/pcht/ws_moveit2/install/moveit_ros_robot_interaction:/home/pcht/ws_moveit2/install/moveit_ros_perception:/home/pcht/ws_moveit2/install/moveit_resources_prbt_pg70_support:/home/pcht/ws_moveit2/install/moveit_resources_prbt_moveit_config:/home/pcht/ws_moveit2/install/moveit_ros_move_group:/home/pcht/ws_moveit2/install/moveit_planners_ompl:/home/pcht/ws_moveit2/install/moveit_ros_planning:/home/pcht/ws_moveit2/install/moveit_ros_occupancy_map_monitor:/home/pcht/ws_moveit2/install/moveit_resources_prbt_ikfast_manipulator_plugin:/home/pcht/ws_moveit2/install/moveit_planners_chomp:/home/pcht/ws_moveit2/install/moveit_kinematics:/home/pcht/ws_moveit2/install/moveit_chomp_optimizer_adapter:/home/pcht/ws_moveit2/install/chomp_motion_planner:/home/pcht/ws_moveit2/install/moveit_core:/home/pcht/ws_moveit2/install/srdfdom:/home/pcht/ws_moveit2/install/rviz_marker_tools:/home/pcht/ws_moveit2/install/rosparam_shortcuts:/home/pcht/ws_moveit2/install/moveit_task_constructor_msgs:/home/pcht/ws_moveit2/install/moveit_resources_prbt_support:/home/pcht/ws_moveit2/install/moveit_resources:/home/pcht/ws_moveit2/install/moveit_resources_pr2_description:/home/pcht/ws_moveit2/install/moveit_resources_panda_moveit_config:/home/pcht/ws_moveit2/install/moveit_resources_panda_description:/home/pcht/ws_moveit2/install/moveit_resources_fanuc_moveit_config:/home/pcht/ws_moveit2/install/moveit_resources_fanuc_description:/home/pcht/ws_moveit2/install/moveit_common:/home/pcht/ws_moveit2/install/moveit_configs_utils:/home/pcht/ws_moveit2/install/launch_param_builder:/opt/ros/humble')]), 'shell': False}
+[19.083314] (cw1_team_x) StdoutLine: {'line': b'-- Install configuration: "Release"\n'}
+[19.083440] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/ament_index/resource_index/rosidl_interfaces/cw1_team_x\n'}
+[19.083593] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x\n'}
+[19.083679] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg\n'}
+[19.083850] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg/rosidl_generator_c__visibility_control.h\n'}
+[19.083913] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv\n'}
+[19.083950] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail\n'}
+[19.083995] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__type_support.h\n'}
+[19.084068] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__functions.c\n'}
+[19.084131] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__struct.h\n'}
+[19.084174] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__functions.h\n'}
+[19.084245] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/example.h\n'}
+[19.084348] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/environment/library_path.sh\n'}
+[19.084486] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/environment/library_path.dsv\n'}
+[19.084526] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x__rosidl_generator_c.so\n'}
+[19.084564] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x\n'}
+[19.084626] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg\n'}
+[19.084672] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[19.084760] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv\n'}
+[19.084861] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail\n'}
+[19.084967] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__rosidl_typesupport_fastrtps_c.h\n'}
+[19.085070] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x__rosidl_typesupport_fastrtps_c.so\n'}
+[19.085277] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x\n'}
+[19.085380] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg\n'}
+[19.085482] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[19.085584] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv\n'}
+[19.085685] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail\n'}
+[19.085787] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__rosidl_typesupport_introspection_c.h\n'}
+[19.085892] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__type_support.c\n'}
+[19.085993] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x__rosidl_typesupport_introspection_c.so\n'}
+[19.086094] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x__rosidl_typesupport_c.so\n'}
+[19.086194] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x\n'}
+[19.086295] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg\n'}
+[19.086385] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[19.086502] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv\n'}
+[19.086601] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/example.hpp\n'}
+[19.086710] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail\n'}
+[19.086955] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__struct.hpp\n'}
+[19.087028] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__builder.hpp\n'}
+[19.087165] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__type_support.hpp\n'}
+[19.087285] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__traits.hpp\n'}
+[19.087422] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x\n'}
+[19.087571] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg\n'}
+[19.087760] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[19.088160] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv\n'}
+[19.088254] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail\n'}
+[19.088391] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/dds_fastrtps\n'}
+[19.088456] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[19.088508] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x__rosidl_typesupport_fastrtps_cpp.so\n'}
+[19.088552] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x\n'}
+[19.088586] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv\n'}
+[19.088624] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail\n'}
+[19.088659] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__type_support.cpp\n'}
+[19.088694] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/include/cw1_team_x/cw1_team_x/srv/detail/example__rosidl_typesupport_introspection_cpp.hpp\n'}
+[19.088741] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x__rosidl_typesupport_introspection_cpp.so\n'}
+[19.088783] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x__rosidl_typesupport_cpp.so\n'}
+[19.088816] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/environment/pythonpath.sh\n'}
+[19.088871] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/environment/pythonpath.dsv\n'}
+[19.088907] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x-0.1.0-py3.10.egg-info\n'}
+[19.088941] (cw1_team_x) StdoutLine: {'line': b'-- Installing: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x-0.1.0-py3.10.egg-info/top_level.txt\n'}
+[19.088974] (cw1_team_x) StdoutLine: {'line': b'-- Installing: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x-0.1.0-py3.10.egg-info/PKG-INFO\n'}
+[19.089008] (cw1_team_x) StdoutLine: {'line': b'-- Installing: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x-0.1.0-py3.10.egg-info/dependency_links.txt\n'}
+[19.089041] (cw1_team_x) StdoutLine: {'line': b'-- Installing: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x-0.1.0-py3.10.egg-info/SOURCES.txt\n'}
+[19.089074] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x\n'}
+[19.089106] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/cw1_team_x_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[19.089139] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/_cw1_team_x_s.ep.rosidl_typesupport_c.c\n'}
+[19.089170] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/cw1_team_x_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[19.089203] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/cw1_team_x_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[19.089236] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/_cw1_team_x_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[19.089269] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/_cw1_team_x_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[19.089302] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/__init__.py\n'}
+[19.089335] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/srv\n'}
+[19.089367] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/srv/_example_s.c\n'}
+[19.089399] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/srv/_example.py\n'}
+[19.089433] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/srv/__init__.py\n'}
+[19.089465] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/libcw1_team_x__rosidl_generator_py.so\n'}
+[19.092474] (-) TimerEvent: {}
+[19.116152] (cw1_team_x) StdoutLine: {'line': b"Listing '/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x'...\n"}
+[19.116390] (cw1_team_x) StdoutLine: {'line': b"Listing '/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/srv'...\n"}
+[19.119844] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/cw1_team_x_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so\n'}
+[19.120069] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/cw1_team_x_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so\n'}
+[19.120245] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/local/lib/python3.10/dist-packages/cw1_team_x/cw1_team_x_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so\n'}
+[19.120293] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x__rosidl_generator_py.so\n'}
+[19.120361] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/srv/Example.idl\n'}
+[19.120526] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/srv/Example.srv\n'}
+[19.120570] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/srv/Example_Request.msg\n'}
+[19.120673] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/srv/Example_Response.msg\n'}
+[19.120828] (cw1_team_x) StdoutLine: {'line': b'-- Installing: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x_cw1_class_lib.so\n'}
+[19.122344] (cw1_team_x) StdoutLine: {'line': b'-- Set runtime path of "/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/libcw1_team_x_cw1_class_lib.so" to ""\n'}
+[19.122555] (cw1_team_x) StdoutLine: {'line': b'-- Installing: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/cw1_team_x/cw1_solution_node\n'}
+[19.122688] (cw1_team_x) StdoutLine: {'line': b'-- Set runtime path of "/home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/lib/cw1_team_x/cw1_solution_node" to ""\n'}
+[19.122885] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/launch\n'}
+[19.122990] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/launch/run_solution.launch.py\n'}
+[19.123104] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/ament_index/resource_index/package_run_dependencies/cw1_team_x\n'}
+[19.123287] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/ament_index/resource_index/parent_prefix_path/cw1_team_x\n'}
+[19.123370] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/environment/ament_prefix_path.sh\n'}
+[19.123407] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/environment/ament_prefix_path.dsv\n'}
+[19.123442] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/environment/path.sh\n'}
+[19.123535] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/environment/path.dsv\n'}
+[19.123635] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/local_setup.bash\n'}
+[19.123737] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/local_setup.sh\n'}
+[19.123841] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/local_setup.zsh\n'}
+[19.123959] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/local_setup.dsv\n'}
+[19.124062] (cw1_team_x) StdoutLine: {'line': b'-- Installing: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/package.dsv\n'}
+[19.124259] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/ament_index/resource_index/packages/cw1_team_x\n'}
+[19.124307] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/export_cw1_team_x__rosidl_generator_cExport.cmake\n'}
+[19.124397] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/export_cw1_team_x__rosidl_generator_cExport-release.cmake\n'}
+[19.124500] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/export_cw1_team_x__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[19.124603] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/export_cw1_team_x__rosidl_typesupport_fastrtps_cExport-release.cmake\n'}
+[19.124706] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_x__rosidl_typesupport_introspection_cExport.cmake\n'}
+[19.124863] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_x__rosidl_typesupport_introspection_cExport-release.cmake\n'}
+[19.125046] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_x__rosidl_typesupport_cExport.cmake\n'}
+[19.125089] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_x__rosidl_typesupport_cExport-release.cmake\n'}
+[19.125124] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/export_cw1_team_x__rosidl_generator_cppExport.cmake\n'}
+[19.125158] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/export_cw1_team_x__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[19.125192] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/export_cw1_team_x__rosidl_typesupport_fastrtps_cppExport-release.cmake\n'}
+[19.125226] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_x__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[19.125259] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_x__rosidl_typesupport_introspection_cppExport-release.cmake\n'}
+[19.125292] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_x__rosidl_typesupport_cppExport.cmake\n'}
+[19.125329] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_x__rosidl_typesupport_cppExport-release.cmake\n'}
+[19.125365] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/export_cw1_team_x__rosidl_generator_pyExport.cmake\n'}
+[19.125402] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/export_cw1_team_x__rosidl_generator_pyExport-release.cmake\n'}
+[19.125436] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/rosidl_cmake-extras.cmake\n'}
+[19.125469] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[19.125502] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[19.125537] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[19.125570] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[19.125602] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[19.125636] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[19.125670] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_xConfig.cmake\n'}
+[19.125702] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/cmake/cw1_team_xConfig-version.cmake\n'}
+[19.125735] (cw1_team_x) StdoutLine: {'line': b'-- Up-to-date: /home/pcht/dev/comp0250_s26_labs/install/cw1_team_x/share/cw1_team_x/package.xml\n'}
+[19.127342] (cw1_team_x) CommandEnded: {'returncode': 0}
+[19.143614] (cw1_team_x) JobEnded: {'identifier': 'cw1_team_x', 'rc': 0}
+[19.144665] (-) EventReactorShutdown: {}

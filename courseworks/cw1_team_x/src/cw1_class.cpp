@@ -5,9 +5,16 @@ solution is contained within the cw1_team_<your_team_number> package */
 
 #include <cw1_class.h>
 
+#include <algorithm>
 #include <functional>
+#include <map>
 #include <memory>
 #include <utility>
+#include <vector>
+
+#include <moveit/planning_interface/planning_interface.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
 #include <rmw/qos_profiles.h>
 
@@ -16,7 +23,7 @@ solution is contained within the cw1_team_<your_team_number> package */
 cw1::cw1(const rclcpp::Node::SharedPtr &node)
 {
   /* class constructor */
-
+  // Initialize MoveIt components
   node_ = node;
   service_cb_group_ = node_->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
   sensor_cb_group_ = node_->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
@@ -108,6 +115,17 @@ cw1::cw1(const rclcpp::Node::SharedPtr &node)
   joint_state_wait_timeout_sec_ = node_->declare_parameter<double>(
     "joint_state_wait_timeout_sec", joint_state_wait_timeout_sec_);
 
+  // Create MoveIt interfaces once and reuse them in callbacks.
+  // Group names come from the Panda SRDF: "panda_arm" for 7-DOF arm, "hand" for gripper.
+  arm_group_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(node_, "panda_arm");
+  hand_group_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(node_, "hand");
+
+  // Conservative defaults are easier to debug in coursework simulation.
+  arm_group_->setPlanningTime(5.0);
+  arm_group_->setNumPlanningAttempts(5);
+  hand_group_->setPlanningTime(2.0);
+  hand_group_->setNumPlanningAttempts(3);
+
   if (task2_capture_enabled_) {
     RCLCPP_INFO(
       node_->get_logger(),
@@ -120,23 +138,193 @@ cw1::cw1(const rclcpp::Node::SharedPtr &node)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+geometry_msgs::msg::Quaternion
+cw1::make_top_down_q() const
+{
+  // A simple top-down grasp attitude:
+  // - rotate around X by pi so tool points down
+  // - small yaw to avoid singular-ish straight alignment in some scenes
+  tf2::Quaternion q;
+  q.setRPY(3.14159265358979323846, 0.0, -0.78539816339744830962);
+  q.normalize();
+  return tf2::toMsg(q);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+bool
+cw1::move_arm_to_pose(const geometry_msgs::msg::Pose &target_pose)
+{
+  // Always start planning from current measured state.
+  arm_group_->setStartStateToCurrentState();
+  arm_group_->setPoseTarget(target_pose);
+
+  moveit::planning_interface::MoveGroupInterface::Plan plan;
+  const bool planning_ok =
+    (arm_group_->plan(plan) == moveit::core::MoveItErrorCode::SUCCESS);
+  if (!planning_ok) {
+    arm_group_->clearPoseTargets();
+    RCLCPP_WARN(node_->get_logger(), "Arm planning failed for requested pose");
+    return false;
+  }
+
+  const bool execution_ok =
+    (arm_group_->execute(plan) == moveit::core::MoveItErrorCode::SUCCESS);
+  arm_group_->clearPoseTargets();
+  if (!execution_ok) {
+    RCLCPP_WARN(node_->get_logger(), "Arm execution failed after successful planning");
+    return false;
+  }
+
+  return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+bool
+cw1::set_gripper_width(double width_m)
+{
+  // Panda hand limits are roughly [0.0, 0.08] total opening.
+  const double clamped_width = std::clamp(width_m, 0.0, 0.08);
+  const double finger_joint_target = clamped_width * 0.5;
+
+  std::map<std::string, double> joint_targets;
+  joint_targets["panda_finger_joint1"] = finger_joint_target;
+  joint_targets["panda_finger_joint2"] = finger_joint_target;
+
+  hand_group_->setStartStateToCurrentState();
+  hand_group_->setJointValueTarget(joint_targets);
+
+  moveit::planning_interface::MoveGroupInterface::Plan plan;
+  const bool planning_ok =
+    (hand_group_->plan(plan) == moveit::core::MoveItErrorCode::SUCCESS);
+  if (!planning_ok) {
+    RCLCPP_WARN(node_->get_logger(), "Gripper planning failed");
+    return false;
+  }
+
+  const bool execution_ok =
+    (hand_group_->execute(plan) == moveit::core::MoveItErrorCode::SUCCESS);
+  if (!execution_ok) {
+    RCLCPP_WARN(node_->get_logger(), "Gripper execution failed");
+    return false;
+  }
+
+  return true;
+}
+
+bool
+cw1::move_arm_linear_to(const geometry_msgs::msg::Pose &target_pose, double eef_step)
+{
+  // Keep Cartesian motion conservative for debugging stability.
+  const double safe_eef_step = std::clamp(eef_step, 0.001, 0.02);
+  const double jump_threshold = 1.0;  // enable joint-jump checking (0 disables it)
+
+  // Cartesian path should start from the latest measured robot state.
+  arm_group_->setStartStateToCurrentState();
+
+  // Reduce execution aggressiveness; this helps avoid overshoot-like behavior in Gazebo.
+  arm_group_->setMaxVelocityScalingFactor(0.10);
+  arm_group_->setMaxAccelerationScalingFactor(0.10);
+
+  // Build an explicit short segment from current pose to target pose.
+  const auto current_pose_stamped = arm_group_->getCurrentPose();
+  std::vector<geometry_msgs::msg::Pose> waypoints;
+  waypoints.push_back(current_pose_stamped.pose);
+  waypoints.push_back(target_pose);
+
+  moveit_msgs::msg::RobotTrajectory traj;
+  const double fraction = arm_group_->computeCartesianPath(
+    waypoints, safe_eef_step, jump_threshold, traj);
+
+  if (fraction < 0.8) {
+    RCLCPP_WARN(
+      node_->get_logger(),
+      "Cartesian path incomplete: fraction=%.3f eef_step=%.4f",
+      fraction, safe_eef_step);
+    return false;
+  }
+
+  moveit::planning_interface::MoveGroupInterface::Plan plan;
+  plan.trajectory_ = traj;
+  const bool execution_ok =
+    (arm_group_->execute(plan) == moveit::core::MoveItErrorCode::SUCCESS);
+  if (!execution_ok) {
+    RCLCPP_WARN(node_->get_logger(), "Cartesian execution failed");
+    return false;
+  }
+  return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void
 cw1::t1_callback(
   const std::shared_ptr<cw1_world_spawner::srv::Task1Service::Request> request,
   std::shared_ptr<cw1_world_spawner::srv::Task1Service::Response> response)
 {
-  /* function which should solve task 1 */
+  /* Task 1: pick at known pose, place into known basket point. */
 
-  (void)request;
   (void)response;
-  RCLCPP_INFO_STREAM(
-    node_->get_logger(),
-    "Task 1 callback triggered (template stub). joint_msgs=" <<
-      joint_state_msg_count_.load(std::memory_order_relaxed) <<
-      ", cloud_msgs=" << cloud_msg_count_.load(std::memory_order_relaxed));
+
+  // The service request gives:
+  // - object_loc: centroid pose of the cube
+  // - goal_loc: basket location point
+  const auto object_pose = request->object_loc.pose;
+  const auto goal_point = request->goal_loc.point;
+  const auto top_down_q = make_top_down_q();
+
+  // Build a deterministic sequence of waypoints:
+  // 1) pre-grasp above object
+  // 2) descend to grasp
+  // 3) lift
+  // 4) pre-place above basket
+  // 5) descend to place
+  // 6) retreat up
+  geometry_msgs::msg::Pose pre_grasp;
+  pre_grasp.position = object_pose.position;
+  pre_grasp.position.z += pick_offset_z_;
+  pre_grasp.orientation = top_down_q;
+
+  geometry_msgs::msg::Pose grasp = pre_grasp;
+  grasp.position.z -= 0.135;  // 先固定下探 6cm
+
+  geometry_msgs::msg::Pose lift = grasp;
+  lift.position.z += post_grasp_lift_z_;
+
+  geometry_msgs::msg::Pose pre_place;
+  pre_place.position.x = goal_point.x;
+  pre_place.position.y = goal_point.y;
+  pre_place.position.z = goal_point.z + place_offset_z_;
+  pre_place.orientation = top_down_q;
+
+  // Place height is lower than pre-place, but still above basket bottom.
+  geometry_msgs::msg::Pose place = pre_place;
+  place.position.z = goal_point.z + 0.10;
+
+  geometry_msgs::msg::Pose retreat = pre_place;
+
+  // Execute sequence with explicit failure checks.
+  bool ok = true;
+  ok = ok && set_gripper_width(0.07);                      // ensure open before approach
+  ok = ok && move_arm_to_pose(pre_grasp);                  // approach
+  ok = ok && move_arm_to_pose(grasp);                    // descend
+  ok = ok && set_gripper_width(gripper_grasp_width_);   // close to grasp cube
+                      // lift clear of scene
+  ok = ok && move_arm_to_pose(pre_grasp);               // move above basket
+  ok = ok && move_arm_to_pose(lift);
+  ok = ok && move_arm_to_pose(pre_place);                   // descend to release pose
+  ok = ok && set_gripper_width(0.07);                   // release
+  // ok = ok && move_arm_to_pose(retreat);                 // leave basket area
+
+  if (ok) {
+    RCLCPP_INFO(node_->get_logger(), "Task 1 execution finished successfully");
+  } else {
+    RCLCPP_WARN(node_->get_logger(), "Task 1 sequence finished with at least one failure");
+  }
 }
 
-///////////////////////////////////////////////////////////////////////////////
+/////////ok = ok && move_arm_to_pose(grasp); //////////////////////////////////////////////////////////////////////
 
 void
 cw1::t2_callback(
