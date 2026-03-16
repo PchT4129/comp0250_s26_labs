@@ -48,7 +48,7 @@ public:
   bool move_arm_to_pose(const geometry_msgs::msg::Pose &target_pose);
 
   // Move the arm end-effector along a Cartesian (approximately straight-line) segment.
-  bool move_arm_linear_to(const geometry_msgs::msg::Pose &target_pose, double eef_step = 0.005);
+  bool move_arm_linear_to(const geometry_msgs::msg::Pose &target_pose, double eef_step = 0.01);
 
   // Command hand opening width in metres (total finger distance).
   bool set_gripper_width(double width_m);

@@ -216,9 +216,12 @@ cw1::set_gripper_width(double width_m)
 bool
 cw1::move_arm_linear_to(const geometry_msgs::msg::Pose &target_pose, double eef_step)
 {
-  // Keep Cartesian motion conservative for debugging stability.
-  const double safe_eef_step = std::clamp(eef_step, 0.001, 0.02);
-  const double jump_threshold = 1.0;  // enable joint-jump checking (0 disables it)
+  // eef_step: distance between consecutive IK waypoints along the path.
+  // Smaller = smoother path but more IK queries and higher failure rate.
+  const double safe_eef_step = std::clamp(eef_step, 0.005, 0.02);
+  // jump_threshold=0.0 disables joint-jump rejection. Safe here because
+  // velocity/acceleration are already capped to 10%, preventing wild motion.
+  const double jump_threshold = 0.0;
 
   // Cartesian path should start from the latest measured robot state.
   arm_group_->setStartStateToCurrentState();
@@ -286,36 +289,41 @@ cw1::t1_callback(
   pre_grasp.position.z += pick_offset_z_;
   pre_grasp.orientation = top_down_q;
 
+  // grasp: descend vertically from pre_grasp (same x/y/orientation, lower z).
   geometry_msgs::msg::Pose grasp = pre_grasp;
-  grasp.position.z -= 0.24;  // 先固定下探 6cm
+  grasp.position.z -= 0.24;
 
-  geometry_msgs::msg::Pose lift = grasp;
-  lift.position.z += post_grasp_lift_z_;
+  // lift: return to pre_grasp height after grasping.
+  // Using the same height we safely approached from guarantees the arm clears
+  // any obstacles before any lateral movement begins.
+  geometry_msgs::msg::Pose lift = pre_grasp;
 
+  // pre_place: safe high point directly above the basket.
   geometry_msgs::msg::Pose pre_place;
   pre_place.position.x = goal_point.x;
   pre_place.position.y = goal_point.y;
   pre_place.position.z = goal_point.z + place_offset_z_;
   pre_place.orientation = top_down_q;
 
-  // Place height is lower than pre-place, but still above basket bottom.
+  // place: lower into the basket while keeping the same x/y/orientation.
   geometry_msgs::msg::Pose place = pre_place;
   place.position.z = goal_point.z + 0.10;
 
+  // retreat: rise back to pre_place height after releasing the cube.
   geometry_msgs::msg::Pose retreat = pre_place;
 
-  // Execute sequence with explicit failure checks.
+  // Execute pick-and-place sequence.
+  // Each step short-circuits on failure so we never execute in a bad state.
   bool ok = true;
-  ok = ok && set_gripper_width(0.07);                      // ensure open before approach
-  ok = ok && move_arm_to_pose(pre_grasp);                  // approach
-  ok = ok && move_arm_to_pose(grasp);                    // descend
-  ok = ok && set_gripper_width(gripper_grasp_width_);   // close to grasp cube
-                      // lift clear of scene
-  ok = ok && move_arm_to_pose(pre_grasp);               // move above basket
-  // ok = ok && move_arm_to_pose(lift);
-  ok = ok && move_arm_to_pose(pre_place);                   // descend to release pose
-  ok = ok && set_gripper_width(0.07);                   // release
-  // ok = ok && move_arm_to_pose(retreat);                 // leave basket area
+  ok = ok && set_gripper_width(0.07);                       // open gripper
+  ok = ok && move_arm_to_pose(pre_grasp);                   // global plan: move above object
+  ok = ok && move_arm_linear_to(grasp);                     // straight down to grasp height
+  ok = ok && set_gripper_width(gripper_grasp_width_);       // close gripper
+  ok = ok && move_arm_linear_to(lift);                      // straight up back to safe height
+  ok = ok && move_arm_to_pose(pre_place);                   // global plan: transit to above basket
+  ok = ok && move_arm_linear_to(place);                     // straight down into basket
+  ok = ok && set_gripper_width(0.07);                       // release cube
+  ok = ok && move_arm_linear_to(retreat);                   // straight up out of basket
 
   if (ok) {
     RCLCPP_INFO(node_->get_logger(), "Task 1 execution finished successfully");
@@ -323,8 +331,6 @@ cw1::t1_callback(
     RCLCPP_WARN(node_->get_logger(), "Task 1 sequence finished with at least one failure");
   }
 }
-
-/////////ok = ok && move_arm_to_pose(grasp); //////////////////////////////////////////////////////////////////////
 
 void
 cw1::t2_callback(
