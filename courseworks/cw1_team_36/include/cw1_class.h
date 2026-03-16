@@ -11,14 +11,18 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <atomic>
 #include <cstdint>
 #include <memory>
+#include <mutex>
 #include <string>
 
+#include <geometry_msgs/msg/point_stamped.hpp>
 #include <geometry_msgs/msg/pose.hpp>
 #include <geometry_msgs/msg/quaternion.hpp>
 #include <moveit/move_group_interface/move_group_interface.h>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
 
 #include "cw1_world_spawner/srv/task1_service.hpp"
 #include "cw1_world_spawner/srv/task2_service.hpp"
@@ -56,6 +60,12 @@ public:
   // Generate a top-down end-effector orientation for simple vertical pick/place.
   geometry_msgs::msg::Quaternion make_top_down_q() const;
 
+  // Identify the colour of the basket at basket_loc using the given point cloud.
+  // Returns "red", "blue", "purple", or "none" if no basket is detected.
+  std::string identify_basket_colour(
+    const sensor_msgs::msg::PointCloud2::ConstSharedPtr &cloud,
+    const geometry_msgs::msg::PointStamped &basket_loc);
+
   /* ----- class member variables ----- */
 
   rclcpp::Node::SharedPtr node_;
@@ -68,6 +78,12 @@ public:
   rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr cloud_sub_;
   std::shared_ptr<moveit::planning_interface::MoveGroupInterface> arm_group_;
   std::shared_ptr<moveit::planning_interface::MoveGroupInterface> hand_group_;
+  std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
+  std::shared_ptr<tf2_ros::TransformListener> tf_listener_;
+
+  // Latest point cloud from the wrist camera, protected by cloud_mutex_.
+  sensor_msgs::msg::PointCloud2::ConstSharedPtr latest_cloud_;
+  std::mutex cloud_mutex_;
 
   // Sensor callback state bookkeeping for template diagnostics.
   std::atomic<int64_t> latest_joint_state_stamp_ns_{0};

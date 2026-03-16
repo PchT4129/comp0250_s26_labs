@@ -13,8 +13,13 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <vector>
 
 #include <moveit/planning_interface/planning_interface.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl_conversions/pcl_conversions.h>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
 
 #include <rmw/qos_profiles.h>
 
@@ -68,6 +73,10 @@ cw1::cw1(const rclcpp::Node::SharedPtr &node)
   cloud_sub_ = node_->create_subscription<sensor_msgs::msg::PointCloud2>(
     "/r200/camera/depth_registered/points", cloud_qos,
     [this](const sensor_msgs::msg::PointCloud2::ConstSharedPtr msg) {
+      {
+        std::lock_guard<std::mutex> lock(cloud_mutex_);
+        latest_cloud_ = msg;
+      }
       const int64_t stamp_ns =
         static_cast<int64_t>(msg->header.stamp.sec) * 1000000000LL +
         static_cast<int64_t>(msg->header.stamp.nanosec);
@@ -115,6 +124,10 @@ cw1::cw1(const rclcpp::Node::SharedPtr &node)
   joint_state_wait_timeout_sec_ = node_->declare_parameter<double>(
     "joint_state_wait_timeout_sec", joint_state_wait_timeout_sec_);
 
+  // Initialise TF2 listener before MoveIt so transforms are available early.
+  tf_buffer_ = std::make_shared<tf2_ros::Buffer>(node_->get_clock());
+  tf_listener_ = std::make_shared<tf2_ros::TransformListener>(*tf_buffer_);
+
   // Create MoveIt interfaces once and reuse them in callbacks.
   // Group names come from the Panda SRDF: "panda_arm" for 7-DOF arm, "hand" for gripper.
   arm_group_ = std::make_shared<moveit::planning_interface::MoveGroupInterface>(node_, "panda_arm");
@@ -148,6 +161,98 @@ cw1::make_top_down_q() const
   q.setRPY(3.14159265358979323846, 0.0, -0.78539816339744830962);
   q.normalize();
   return tf2::toMsg(q);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+std::string
+cw1::identify_basket_colour(
+  const sensor_msgs::msg::PointCloud2::ConstSharedPtr &cloud,
+  const geometry_msgs::msg::PointStamped &basket_loc)
+{
+  // Transform the basket world-frame position into the cloud's own frame so we
+  // can search for nearby points directly in the cloud coordinate system.
+  // Use stamp=0 (latest available) because basket_loc carries the wall-clock
+  // time from the service request, which does not match Gazebo simulation time.
+  geometry_msgs::msg::PointStamped basket_query = basket_loc;
+  basket_query.header.stamp = rclcpp::Time(0);
+
+  geometry_msgs::msg::PointStamped basket_in_cloud;
+  try {
+    basket_in_cloud = tf_buffer_->transform(
+      basket_query,
+      cloud->header.frame_id,
+      tf2::durationFromSec(1.0));
+  } catch (const tf2::TransformException &ex) {
+    RCLCPP_WARN(node_->get_logger(),
+      "TF transform failed for basket at (%.3f, %.3f): %s",
+      basket_loc.point.x, basket_loc.point.y, ex.what());
+    return "none";
+  }
+
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(
+    new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::fromROSMsg(*cloud, *pcl_cloud);
+
+  // Search in the x-y plane of the cloud frame within a circle whose radius is
+  // slightly larger than half the basket diagonal (basket = 0.1x0.1 m).
+  const float cx = static_cast<float>(basket_in_cloud.point.x);
+  const float cy = static_cast<float>(basket_in_cloud.point.y);
+  constexpr float kSearchRadius = 0.08f;   // 8 cm
+  constexpr float kSearchRadiusSq = kSearchRadius * kSearchRadius;
+
+  // Known basket colours from the coursework spec (normalised 0-1).
+  // Using squared distance avoids std::sqrt for the comparison.
+  auto colour_dist_sq = [](float r, float g, float b,
+                            float tr, float tg, float tb) {
+    return (r - tr) * (r - tr) + (g - tg) * (g - tg) + (b - tb) * (b - tb);
+  };
+  constexpr float kColourThreshSq = 0.09f;  // max distance of 0.3 in RGB space
+
+  std::map<std::string, int> votes;
+
+  for (const auto &pt : pcl_cloud->points) {
+    if (!std::isfinite(pt.x) || !std::isfinite(pt.y) || !std::isfinite(pt.z)) {
+      continue;
+    }
+    const float dx = pt.x - cx;
+    const float dy = pt.y - cy;
+    if (dx * dx + dy * dy > kSearchRadiusSq) {
+      continue;
+    }
+
+    const float r = pt.r / 255.0f;
+    const float g = pt.g / 255.0f;
+    const float b = pt.b / 255.0f;
+
+    const float d_red    = colour_dist_sq(r, g, b, 0.8f, 0.1f, 0.1f);
+    const float d_blue   = colour_dist_sq(r, g, b, 0.1f, 0.1f, 0.8f);
+    const float d_purple = colour_dist_sq(r, g, b, 0.8f, 0.1f, 0.8f);
+
+    const float min_d = std::min({d_red, d_blue, d_purple});
+    if (min_d > kColourThreshSq) {
+      continue;  // not close enough to any known basket colour
+    }
+
+    if (min_d == d_red)         { votes["red"]++; }
+    else if (min_d == d_blue)   { votes["blue"]++; }
+    else                        { votes["purple"]++; }
+  }
+
+  if (votes.empty()) {
+    return "none";
+  }
+
+  const auto best = std::max_element(
+    votes.begin(), votes.end(),
+    [](const auto &a, const auto &b) { return a.second < b.second; });
+
+  RCLCPP_INFO(node_->get_logger(),
+    "Basket at (%.3f, %.3f): %s (%d votes)",
+    basket_loc.point.x, basket_loc.point.y,
+    best->first.c_str(), best->second);
+
+  return best->first;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -337,15 +442,64 @@ cw1::t2_callback(
   const std::shared_ptr<cw1_world_spawner::srv::Task2Service::Request> request,
   std::shared_ptr<cw1_world_spawner::srv::Task2Service::Response> response)
 {
-  /* function which should solve task 2 */
+  RCLCPP_INFO(node_->get_logger(),
+    "Task 2 started: %zu basket location(s) to check",
+    request->basket_locs.size());
 
-  (void)request;
-  (void)response;
-  RCLCPP_INFO_STREAM(
-    node_->get_logger(),
-    "Task 2 callback triggered (template stub). joint_msgs=" <<
-      joint_state_msg_count_.load(std::memory_order_relaxed) <<
-      ", cloud_msgs=" << cloud_msg_count_.load(std::memory_order_relaxed));
+  // Observation height above the ground.  The wrist camera needs to be close
+  // enough to resolve basket colours but far enough to keep the arm safe.
+  constexpr double kObsZ = 0.50;
+
+  for (const auto &basket_loc : request->basket_locs) {
+    // ── 1. Move camera to a position directly above this basket ──────────
+    geometry_msgs::msg::Pose obs_pose;
+    obs_pose.position.x = basket_loc.point.x;
+    obs_pose.position.y = basket_loc.point.y;
+    obs_pose.position.z = kObsZ;
+    obs_pose.orientation = make_top_down_q();
+
+    if (!move_arm_to_pose(obs_pose)) {
+      RCLCPP_WARN(node_->get_logger(),
+        "Could not reach observation pose for basket at (%.3f, %.3f) – marking none",
+        basket_loc.point.x, basket_loc.point.y);
+      response->basket_colours.push_back("none");
+      continue;
+    }
+
+    // ── 2. Wait for the camera to settle and deliver a fresh frame ────────
+    // The sensor callback group runs on a separate thread (MultiThreadedExecutor),
+    // so latest_cloud_ keeps updating while we sleep here.
+    rclcpp::sleep_for(std::chrono::milliseconds(500));
+
+    sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud;
+    {
+      const auto deadline =
+        node_->now() + rclcpp::Duration::from_seconds(3.0);
+      while (rclcpp::ok()) {
+        {
+          std::lock_guard<std::mutex> lock(cloud_mutex_);
+          if (latest_cloud_) {
+            cloud = latest_cloud_;
+          }
+        }
+        if (cloud) { break; }
+        if (node_->now() > deadline) { break; }
+        rclcpp::sleep_for(std::chrono::milliseconds(100));
+      }
+    }
+
+    if (!cloud) {
+      RCLCPP_ERROR(node_->get_logger(), "No point cloud received – marking none");
+      response->basket_colours.push_back("none");
+      continue;
+    }
+
+    // ── 3. Identify colour from the point cloud ───────────────────────────
+    const std::string colour = identify_basket_colour(cloud, basket_loc);
+    response->basket_colours.push_back(colour);
+  }
+
+  RCLCPP_INFO(node_->get_logger(), "Task 2 complete");
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -269,7 +269,6 @@ cw1_solution_node: /opt/ros/humble/lib/libwarehouse_ros.so
 cw1_solution_node: /usr/lib/x86_64-linux-gnu/libtinyxml2.so
 cw1_solution_node: /usr/lib/x86_64-linux-gnu/libcrypto.so
 cw1_solution_node: /opt/ros/humble/lib/libpcl_ros_tf.a
-cw1_solution_node: /usr/lib/x86_64-linux-gnu/liborocos-kdl.so
 cw1_solution_node: /opt/ros/humble/lib/libstatic_transform_broadcaster_node.so
 cw1_solution_node: /opt/ros/humble/lib/libtf2_ros.so
 cw1_solution_node: /opt/ros/humble/lib/libtf2.so
@@ -300,6 +299,7 @@ cw1_solution_node: /opt/ros/humble/lib/libunique_identifier_msgs__rosidl_typesup
 cw1_solution_node: /opt/ros/humble/lib/libtf2_msgs__rosidl_generator_c.so
 cw1_solution_node: /opt/ros/humble/lib/libaction_msgs__rosidl_generator_c.so
 cw1_solution_node: /opt/ros/humble/lib/libunique_identifier_msgs__rosidl_generator_c.so
+cw1_solution_node: /usr/lib/x86_64-linux-gnu/liborocos-kdl.so
 cw1_solution_node: /usr/lib/x86_64-linux-gnu/libpcl_common.so
 cw1_solution_node: /opt/ros/humble/lib/libpcd_to_pointcloud_lib.so
 cw1_solution_node: /opt/ros/humble/lib/libsensor_msgs__rosidl_typesupport_fastrtps_c.so

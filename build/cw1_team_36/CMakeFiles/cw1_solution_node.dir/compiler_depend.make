@@ -139,6 +139,23 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
   /usr/include/c++/11/backward/auto_ptr.h \
   /usr/include/c++/11/pstl/glue_memory_defs.h \
   /usr/include/c++/11/pstl/execution_defs.h \
+  /usr/include/c++/11/mutex \
+  /usr/include/c++/11/chrono \
+  /usr/include/c++/11/ratio \
+  /usr/include/c++/11/limits \
+  /usr/include/c++/11/ctime \
+  /usr/include/c++/11/bits/parse_numbers.h \
+  /usr/include/c++/11/system_error \
+  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
+  /usr/include/c++/11/cerrno \
+  /usr/include/errno.h \
+  /usr/include/x86_64-linux-gnu/bits/errno.h \
+  /usr/include/linux/errno.h \
+  /usr/include/x86_64-linux-gnu/asm/errno.h \
+  /usr/include/asm-generic/errno.h \
+  /usr/include/asm-generic/errno-base.h \
+  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
+  /usr/include/c++/11/stdexcept \
   /usr/include/c++/11/string \
   /usr/include/c++/11/bits/char_traits.h \
   /usr/include/c++/11/bits/localefwd.h \
@@ -180,18 +197,12 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
   /usr/include/x86_64-linux-gnu/bits/stdio_lim.h \
   /usr/include/x86_64-linux-gnu/bits/stdio.h \
   /usr/include/x86_64-linux-gnu/bits/stdio2.h \
-  /usr/include/c++/11/cerrno \
-  /usr/include/errno.h \
-  /usr/include/x86_64-linux-gnu/bits/errno.h \
-  /usr/include/linux/errno.h \
-  /usr/include/x86_64-linux-gnu/asm/errno.h \
-  /usr/include/asm-generic/errno.h \
-  /usr/include/asm-generic/errno-base.h \
-  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/11/bits/charconv.h \
   /usr/include/c++/11/bits/basic_string.tcc \
-  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose.hpp \
-  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__struct.hpp \
+  /usr/include/c++/11/bits/std_mutex.h \
+  /usr/include/c++/11/bits/unique_lock.h \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/point_stamped.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__struct.hpp \
   /usr/include/c++/11/algorithm \
   /usr/include/c++/11/bits/stl_algo.h \
   /usr/include/c++/11/bits/algorithmfwd.h \
@@ -212,21 +223,19 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
   /usr/include/c++/11/bits/stl_bvector.h \
   /usr/include/c++/11/bits/vector.tcc \
   /opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/bounded_vector.hpp \
-  /usr/include/c++/11/stdexcept \
   /opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/message_initialization.hpp \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_initialization.h \
+  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__struct.hpp \
+  /opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point__struct.hpp \
-  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__struct.hpp \
-  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__builder.hpp \
-  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__traits.hpp \
   /usr/include/c++/11/sstream \
   /usr/include/c++/11/istream \
   /usr/include/c++/11/ios \
   /usr/include/c++/11/bits/ios_base.h \
   /usr/include/c++/11/bits/locale_classes.h \
   /usr/include/c++/11/bits/locale_classes.tcc \
-  /usr/include/c++/11/system_error \
-  /usr/include/x86_64-linux-gnu/c++/11/bits/error_constants.h \
   /usr/include/c++/11/streambuf \
   /usr/include/c++/11/bits/streambuf.tcc \
   /usr/include/c++/11/bits/basic_ios.h \
@@ -249,21 +258,28 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
   /usr/include/c++/11/iomanip \
   /usr/include/c++/11/locale \
   /usr/include/c++/11/bits/locale_facets_nonio.h \
-  /usr/include/c++/11/ctime \
   /usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h \
   /usr/include/x86_64-linux-gnu/c++/11/bits/messages_members.h \
   /usr/include/libintl.h \
   /usr/include/c++/11/bits/locale_facets_nonio.tcc \
   /usr/include/c++/11/bits/locale_conv.h \
   /usr/include/c++/11/bits/quoted_string.h \
+  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__traits.hpp \
+  /opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/time__traits.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point__traits.hpp \
-  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__traits.hpp \
-  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__type_support.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__type_support.hpp \
   /opt/ros/humble/include/rosidl_typesupport_interface/rosidl_typesupport_interface/macros.h \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/rosidl_generator_cpp__visibility_control.hpp \
   /opt/ros/humble/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/message_type_support.hpp \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_type_support_struct.h \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/visibility_control.h \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/pose.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__struct.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__builder.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__traits.hpp \
+  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__type_support.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/quaternion.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__builder.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__type_support.hpp \
@@ -311,7 +327,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
   /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
   /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
   /usr/include/c++/11/bits/specfun.h \
-  /usr/include/c++/11/limits \
   /usr/include/c++/11/tr1/gamma.tcc \
   /usr/include/c++/11/tr1/special_function_util.h \
   /usr/include/c++/11/tr1/bessel_function.tcc \
@@ -764,14 +779,8 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
   /opt/ros/humble/include/rcpputils/rcpputils/visibility_control.hpp \
   /opt/ros/humble/include/rcutils/rcutils/logging_macros.h \
   /opt/ros/humble/include/rclcpp/rclcpp/utilities.hpp \
-  /usr/include/c++/11/chrono \
-  /usr/include/c++/11/ratio \
-  /usr/include/c++/11/bits/parse_numbers.h \
   /opt/ros/humble/include/rclcpp/rclcpp/context.hpp \
   /usr/include/c++/11/condition_variable \
-  /usr/include/c++/11/bits/std_mutex.h \
-  /usr/include/c++/11/bits/unique_lock.h \
-  /usr/include/c++/11/mutex \
   /usr/include/c++/11/typeindex \
   /usr/include/c++/11/unordered_set \
   /usr/include/c++/11/bits/unordered_set.h \
@@ -817,12 +826,10 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_descriptor__type_support.hpp \
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/parameter_event.hpp \
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__struct.hpp \
-  /opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.hpp \
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter__struct.hpp \
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_value__struct.hpp \
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__builder.hpp \
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__traits.hpp \
-  /opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/time__traits.hpp \
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter__traits.hpp \
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_value__traits.hpp \
   /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__type_support.hpp \
@@ -1023,12 +1030,10 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
   /home/pcht/ws_moveit2/install/moveit_core/include/moveit/transforms/transforms.h \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/transform_stamped.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__struct.hpp \
-  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__struct.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform__struct.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3__struct.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__builder.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__traits.hpp \
-  /opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__traits.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform__traits.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3__traits.hpp \
   /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__type_support.hpp \
@@ -1384,12 +1389,18 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
   /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/point_cloud2__traits.hpp \
   /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/point_field__traits.hpp \
   /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/point_cloud2__type_support.hpp \
+  /opt/ros/humble/include/tf2_ros/tf2_ros/transform_listener.h \
+  /opt/ros/humble/include/tf2_ros/tf2_ros/transform_listener.hpp \
+  /opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/tf_message.hpp \
+  /opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/detail/tf_message__struct.hpp \
+  /opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/detail/tf_message__builder.hpp \
+  /opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/detail/tf_message__traits.hpp \
+  /opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/detail/tf_message__type_support.hpp \
+  /opt/ros/humble/include/tf2_ros/tf2_ros/qos.hpp \
   /home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/include/cw1_world_spawner/cw1_world_spawner/srv/task1_service.hpp \
   /home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/include/cw1_world_spawner/cw1_world_spawner/srv/detail/task1_service__struct.hpp \
-  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__struct.hpp \
   /home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/include/cw1_world_spawner/cw1_world_spawner/srv/detail/task1_service__builder.hpp \
   /home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/include/cw1_world_spawner/cw1_world_spawner/srv/detail/task1_service__traits.hpp \
-  /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__traits.hpp \
   /home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/include/cw1_world_spawner/cw1_world_spawner/srv/detail/task1_service__type_support.hpp \
   /home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/include/cw1_world_spawner/cw1_world_spawner/msg/rosidl_generator_cpp__visibility_control.hpp \
   /home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/include/cw1_world_spawner/cw1_world_spawner/srv/task2_service.hpp \
@@ -1423,6 +1434,20 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/include/cw1_world_spawner/cw1_world_spawner/srv/detail/task1_service__builder.hpp:
 
 /home/pcht/dev/comp0250_s26_labs/install/cw1_world_spawner/include/cw1_world_spawner/cw1_world_spawner/srv/detail/task1_service__struct.hpp:
+
+/opt/ros/humble/include/tf2_ros/tf2_ros/qos.hpp:
+
+/opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/detail/tf_message__type_support.hpp:
+
+/opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/detail/tf_message__traits.hpp:
+
+/opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/detail/tf_message__struct.hpp:
+
+/opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/tf_message.hpp:
+
+/opt/ros/humble/include/tf2_ros/tf2_ros/transform_listener.hpp:
+
+/opt/ros/humble/include/tf2_ros/tf2_ros/transform_listener.h:
 
 /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/point_cloud2__type_support.hpp:
 
@@ -1578,10 +1603,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/action_msgs/action_msgs/msg/goal_status.hpp:
 
-/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__traits.hpp:
-
-/opt/ros/humble/include/action_msgs/action_msgs/srv/detail/cancel_goal__functions.h:
-
 /opt/ros/humble/include/action_msgs/action_msgs/srv/cancel_goal.h:
 
 /opt/ros/humble/include/action_msgs/action_msgs/msg/detail/goal_status_array__type_support.h:
@@ -1732,6 +1753,8 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/visibility_constraint__traits.hpp:
 
+/opt/ros/humble/include/tf2_msgs/tf2_msgs/msg/detail/tf_message__builder.hpp:
+
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/orientation_constraint__traits.hpp:
 
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/bounding_volume__traits.hpp:
@@ -1748,19 +1771,11 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/joint_constraint__struct.hpp:
 
-/usr/include/eigen3/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h:
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/constraints.hpp:
 
-/usr/include/eigen3/Eigen/src/Core/arch/Default/TypeCasting.h:
+/opt/ros/humble/include/action_msgs/action_msgs/msg/detail/goal_status__struct.h:
 
-/usr/include/eigen3/Eigen/src/Core/arch/Default/Half.h:
-
-/usr/include/eigen3/Eigen/src/Core/PartialReduxEvaluator.h:
-
-/usr/include/eigen3/Eigen/src/Core/NumTraits.h:
-
-/usr/include/eigen3/Eigen/src/Core/util/Memory.h:
-
-/usr/include/eigen3/Eigen/src/Core/util/StaticAssert.h:
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planner_interface_description__traits.hpp:
 
 /usr/include/c++/11/stdlib.h:
 
@@ -1799,6 +1814,10 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/boost/random/uniform_real.hpp:
 
 /usr/include/c++/11/version:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planner_interface_description__struct.hpp:
+
+/usr/include/boost/random/detail/polynomial.hpp:
 
 /usr/include/boost/random/detail/generator_seed_seq.hpp:
 
@@ -1902,8 +1921,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/boost/mpl/aux_/preprocessor/params.hpp:
 
-/usr/include/boost/preprocessor/config/config.hpp:
-
 /usr/include/boost/mpl/aux_/config/preprocessor.hpp:
 
 /usr/include/c++/11/ext/numeric_traits.h:
@@ -1926,12 +1943,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/boost/type_traits/add_volatile.hpp:
 
-/usr/include/boost/preprocessor/list/adt.hpp:
-
-/opt/ros/humble/include/action_msgs/action_msgs/srv/detail/cancel_goal__struct.h:
-
-/usr/include/boost/type_traits/is_const.hpp:
-
 /usr/include/boost/random/exponential_distribution.hpp:
 
 /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/accel__struct.hpp:
@@ -1939,10 +1950,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/boost/version.hpp:
 
 /usr/include/boost/type_traits/intrinsics.hpp:
-
-/usr/include/boost/type_traits/remove_cv.hpp:
-
-/usr/include/eigen3/Eigen/src/QR/ColPivHouseholderQR.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/mmintrin.h:
 
@@ -1986,10 +1993,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/eigen3/Eigen/src/Core/util/Constants.h:
 
-/opt/ros/humble/include/rcl/rcl/subscription.h:
-
-/usr/include/boost/mpl/aux_/config/static_constant.hpp:
-
 /opt/ros/humble/include/action_msgs/action_msgs/msg/detail/goal_info__traits.hpp:
 
 /opt/ros/humble/include/tracetools/tracetools/utils.hpp:
@@ -2022,15 +2025,9 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/boost/config/helper_macros.hpp:
 
-/opt/ros/humble/include/rclcpp/rclcpp/experimental/buffers/ring_buffer_implementation.hpp:
-
 /usr/include/boost/config/detail/select_platform_config.hpp:
 
 /usr/include/linux/close_range.h:
-
-/opt/ros/humble/include/rclcpp/rclcpp/subscription_wait_set_mask.hpp:
-
-/usr/include/c++/11/bits/stl_numeric.h:
 
 /usr/include/x86_64-linux-gnu/bits/unistd_ext.h:
 
@@ -2055,6 +2052,10 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/eigen3/Eigen/src/Geometry/EulerAngles.h:
 
 /usr/include/boost/config/compiler/gcc.hpp:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planner_interface_description__type_support.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/quaternion.hpp:
 
 /usr/include/boost/config/detail/select_compiler_config.hpp:
 
@@ -2130,10 +2131,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/time.hpp:
 
-/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/twist__struct.hpp:
-
-/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/get_node_parameters_interface.hpp:
-
 /usr/include/boost/preprocessor/list/reverse.hpp:
 
 /usr/include/eigen3/Eigen/src/Core/Transpositions.h:
@@ -2145,12 +2142,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/boost/mpl/bool.hpp:
 
 /usr/include/c++/11/tr1/special_function_util.h:
-
-/usr/include/boost/integer.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h:
-
-/usr/include/c++/11/limits:
 
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/rosidl_generator_cpp__visibility_control.hpp:
 
@@ -2200,12 +2191,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/limits.h:
 
-/usr/include/c++/11/bits/stl_map.h:
-
-/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/message_initialization.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/MathFunctionsImpl.h:
-
 /usr/include/eigen3/Eigen/Geometry:
 
 /usr/include/c++/11/bits/stl_multimap.h:
@@ -2215,6 +2200,10 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /opt/ros/humble/include/action_msgs/action_msgs/msg/detail/goal_status__builder.hpp:
 
 /usr/include/boost/mpl/aux_/na_fwd.hpp:
+
+/usr/include/c++/11/bits/stl_map.h:
+
+/opt/ros/humble/include/rosidl_runtime_cpp/rosidl_runtime_cpp/message_initialization.hpp:
 
 /usr/include/c++/11/bits/stl_tree.h:
 
@@ -2252,6 +2241,14 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/c++/11/tr1/hypergeometric.tcc:
 
+/usr/include/eigen3/Eigen/src/misc/Kernel.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__traits.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__struct.hpp:
+
+/usr/include/boost/mpl/aux_/lambda_arity_param.hpp:
+
 /opt/ros/humble/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/message_type_support.hpp:
 
 /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/rosidl_generator_cpp__visibility_control.hpp:
@@ -2268,7 +2265,47 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h:
 
-/usr/include/eigen3/Eigen/src/misc/Kernel.h:
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__type_support.hpp:
+
+/usr/include/boost/preprocessor/list/adt.hpp:
+
+/opt/ros/humble/include/action_msgs/action_msgs/srv/detail/cancel_goal__struct.h:
+
+/usr/include/boost/type_traits/is_const.hpp:
+
+/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__traits.hpp:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/robot_trajectory__traits.hpp:
+
+/usr/include/c++/11/bits/quoted_string.h:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planning_scene_world__struct.hpp:
+
+/usr/include/boost/config/platform/linux.hpp:
+
+/usr/include/c++/11/bits/locale_conv.h:
+
+/usr/include/eigen3/Eigen/src/Core/Random.h:
+
+/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
+
+/home/pcht/ws_moveit2/install/moveit_core/include/moveit/robot_model/joint_model.h:
+
+/usr/include/c++/11/bits/basic_ios.h:
+
+/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_waitables_interface.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/Swap.h:
+
+/usr/include/boost/random/uniform_01.hpp:
+
+/usr/include/boost/preprocessor/list/fold_right.hpp:
+
+/opt/ros/humble/include/trajectory_msgs/trajectory_msgs/msg/detail/multi_dof_joint_trajectory__struct.hpp:
+
+/opt/ros/humble/include/tf2_ros/tf2_ros/visibility_control.hpp:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h:
 
 /usr/include/boost/random/detail/seed_impl.hpp:
 
@@ -2298,13 +2335,7 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/collision_object__traits.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/timex.h:
-
-/usr/include/x86_64-linux-gnu/bits/endianness.h:
-
 /usr/include/boost/mpl/bool_fwd.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/thread-shared-types.h:
 
 /usr/include/boost/type_traits/is_unsigned.hpp:
 
@@ -2356,25 +2387,15 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/action_msgs/action_msgs/srv/cancel_goal.hpp:
 
-/usr/include/eigen3/Eigen/src/Core/MathFunctions.h:
-
 /opt/ros/humble/include/rcl/rcl/error_handling.h:
 
+/usr/include/eigen3/Eigen/src/Core/MathFunctions.h:
+
 /opt/ros/humble/include/rclcpp/rclcpp/detail/rmw_implementation_specific_subscription_payload.hpp:
-
-/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__struct.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/joint_limits__builder.hpp:
 
 /opt/ros/humble/include/urdfdom_headers/urdf_model/types.h:
 
 /usr/include/c++/11/bits/vector.tcc:
-
-/usr/include/eigen3/Eigen/src/Core/arch/Default/BFloat16.h:
-
-/usr/include/endian.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
@@ -2416,7 +2437,17 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/service_type_support.hpp:
 
+/usr/include/x86_64-linux-gnu/bits/signum-generic.h:
+
+/usr/include/c++/11/string_view:
+
+/usr/include/c++/11/cstdlib:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/twist__struct.hpp:
+
+/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/get_node_parameters_interface.hpp:
 
 /opt/ros/humble/include/action_msgs/action_msgs/msg/detail/goal_status_array__struct.h:
 
@@ -2428,9 +2459,21 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
 
+/usr/include/eigen3/Eigen/src/Core/util/StaticAssert.h:
+
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/cartesian_trajectory_point__struct.hpp:
 
 /usr/include/c++/11/bits/stl_algobase.h:
+
+/usr/include/x86_64-linux-gnu/bits/endianness.h:
+
+/usr/include/x86_64-linux-gnu/bits/timex.h:
+
+/usr/include/x86_64-linux-gnu/bits/local_lim.h:
+
+/usr/include/eigen3/Eigen/src/Core/arch/Default/ConjHelper.h:
+
+/usr/include/eigen3/Eigen/src/Core/PartialReduxEvaluator.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/siginfo_t.h:
 
@@ -2474,8 +2517,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/c++/11/backward/binders.h:
 
-/opt/ros/humble/include/rclcpp/rclcpp/detail/rmw_implementation_specific_payload.hpp:
-
 /opt/ros/humble/include/tf2/tf2/visibility_control.h:
 
 /usr/include/x86_64-linux-gnu/bits/siginfo-arch.h:
@@ -2495,12 +2536,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /opt/ros/humble/include/rmw/rmw/events_statuses/liveliness_changed.h:
 
 /usr/include/x86_64-linux-gnu/sys/select.h:
-
-/usr/include/boost/mpl/aux_/lambda_arity_param.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/arch/Default/ConjHelper.h:
-
-/usr/include/x86_64-linux-gnu/bits/local_lim.h:
 
 /opt/ros/humble/include/rmw/rmw/message_sequence.h:
 
@@ -2588,12 +2623,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/x86_64-linux-gnu/bits/byteswap.h:
 
-/usr/include/eigen3/Eigen/src/Core/arch/SSE/PacketMath.h:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/action/detail/execute_trajectory__type_support.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h:
-
 /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/srv/detail/list_parameters__builder.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
@@ -2618,9 +2647,7 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/c++/11/bits/stl_function.h:
 
-/usr/include/boost/type_traits/is_floating_point.hpp:
-
-/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_36/include/cw1_class.h:
+/usr/include/c++/11/bits/unique_lock.h:
 
 /opt/ros/humble/include/rclcpp/rclcpp/any_subscription_callback.hpp:
 
@@ -2632,11 +2659,11 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_timers_interface.hpp:
 
-/usr/include/x86_64-linux-gnu/bits/signum-generic.h:
+/opt/ros/humble/include/rclcpp/rclcpp/experimental/buffers/ring_buffer_implementation.hpp:
 
-/usr/include/c++/11/cstdlib:
+/usr/include/boost/preprocessor/repetition/repeat.hpp:
 
-/usr/include/c++/11/string_view:
+/usr/include/c++/11/mutex:
 
 /usr/include/eigen3/Eigen/src/Core/CoreIterators.h:
 
@@ -2645,8 +2672,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/x86_64-linux-gnu/bits/time64.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/mm_malloc.h:
-
-/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__struct.hpp:
 
 /usr/include/c++/11/ctime:
 
@@ -2662,8 +2687,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/vector3__traits.hpp:
 
-/usr/include/eigen3/Eigen/src/Core/GenericPacketMath.h:
-
 /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h:
 
 /opt/ros/humble/include/trajectory_msgs/trajectory_msgs/msg/detail/multi_dof_joint_trajectory__traits.hpp:
@@ -2674,6 +2697,8 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
 
+/usr/include/x86_64-linux-gnu/asm/errno.h:
+
 /usr/include/boost/random/traits.hpp:
 
 /usr/include/eigen3/Eigen/src/plugins/IndexedViewMethods.h:
@@ -2683,8 +2708,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/eigen3/Eigen/src/Core/functors/NullaryFunctors.h:
 
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/move_it_error_codes__builder.hpp:
-
-/usr/include/x86_64-linux-gnu/asm/errno.h:
 
 /usr/include/c++/11/pstl/pstl_config.h:
 
@@ -2720,12 +2743,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/errno.h:
 
-/opt/ros/humble/include/action_msgs/action_msgs/msg/goal_status_array.hpp:
-
-/opt/ros/humble/include/visualization_msgs/visualization_msgs/msg/detail/marker_array__traits.hpp:
-
-/opt/ros/humble/include/rcl/rcl/allocator.h:
-
 /usr/include/c++/11/atomic:
 
 /usr/include/c++/11/bits/exception_defines.h:
@@ -2745,8 +2762,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /opt/ros/humble/include/rcl_yaml_param_parser/rcl_yaml_param_parser/types.h:
 
 /home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_36/src/cw1_node.cpp:
-
-/usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /usr/include/x86_64-linux-gnu/bits/ss_flags.h:
 
@@ -2768,6 +2783,16 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/rcl/rcl/node.h:
 
+/opt/ros/humble/include/rclcpp/rclcpp/subscription_wait_set_mask.hpp:
+
+/usr/include/c++/11/bits/stl_numeric.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__builder.hpp:
+
+/usr/include/c++/11/bits/atomic_base.h:
+
+/opt/ros/humble/include/rcpputils/rcpputils/thread_safety_annotations.hpp:
+
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h:
 
 /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__traits.hpp:
@@ -2782,9 +2807,9 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/c++/11/tr1/beta_function.tcc:
 
-/usr/include/c++/11/tr1/poly_laguerre.tcc:
-
 /usr/include/eigen3/Eigen/src/Geometry/RotationBase.h:
+
+/usr/include/c++/11/tr1/poly_laguerre.tcc:
 
 /usr/include/c++/11/array:
 
@@ -2830,6 +2855,8 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/rclcpp/rclcpp/node.hpp:
 
+/usr/include/c++/11/bits/stl_uninitialized.h:
+
 /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_type_support_struct.h:
 
 /opt/ros/humble/include/action_msgs/action_msgs/msg/detail/goal_status__struct.hpp:
@@ -2850,89 +2877,11 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/boost/random/detail/seed.hpp:
 
-/opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/integer_range__traits.hpp:
-
-/home/pcht/ws_moveit2/install/moveit_core/include/moveit_kinematics_base_export.h:
-
 /usr/include/c++/11/bits/nested_exception.h:
 
-/usr/include/boost/random/detail/disable_warnings.hpp:
+/usr/include/c++/11/bits/parse_numbers.h:
 
-/usr/include/x86_64-linux-gnu/bits/uio_lim.h:
-
-/usr/include/boost/type_traits/make_unsigned.hpp:
-
-/usr/include/linux/errno.h:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h:
-
-/usr/include/c++/11/functional:
-
-/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
-
-/opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_value__traits.hpp:
-
-/usr/include/c++/11/bits/localefwd.h:
-
-/usr/include/boost/config/no_tr1/cmath.hpp:
-
-/usr/include/c++/11/bits/istream.tcc:
-
-/usr/include/c++/11/clocale:
-
-/opt/ros/humble/include/rcl/rcl/event.h:
-
-/usr/include/boost/mpl/aux_/template_arity_fwd.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/StlIterators.h:
-
-/usr/include/eigen3/Eigen/src/Core/util/XprHelper.h:
-
-/opt/ros/humble/include/rcutils/rcutils/visibility_control_macros.h:
-
-/usr/include/c++/11/bits/shared_ptr_atomic.h:
-
-/usr/include/c++/11/iomanip:
-
-/usr/include/c++/11/cctype:
-
-/home/pcht/ws_moveit2/install/moveit_core/include/moveit/macros/class_forward.h:
-
-/usr/include/eigen3/Eigen/QR:
-
-/usr/include/c++/11/locale:
-
-/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point__traits.hpp:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/robot_state__builder.hpp:
-
-/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
-
-/usr/include/boost/preprocessor/cat.hpp:
-
-/usr/include/stdlib.h:
-
-/usr/include/x86_64-linux-gnu/bits/waitflags.h:
-
-/usr/include/c++/11/ext/aligned_buffer.h:
-
-/usr/include/x86_64-linux-gnu/sys/types.h:
-
-/usr/include/c++/11/codecvt:
-
-/opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_descriptor__type_support.hpp:
-
-/opt/ros/humble/include/urdfdom_headers/urdf_model/utils.h:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/allowed_collision_matrix__traits.hpp:
-
-/usr/include/c++/11/cwchar:
-
-/usr/include/alloca.h:
-
-/opt/ros/humble/include/rclcpp/rclcpp/publisher_base.hpp:
-
-/usr/include/c++/11/cwctype:
+/usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
 /opt/ros/humble/include/action_msgs/action_msgs/msg/detail/goal_info__type_support.h:
 
@@ -2940,25 +2889,21 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/c++/11/cstdio:
 
-/usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h:
+/usr/include/boost/integer.hpp:
 
-/opt/ros/humble/include/trajectory_msgs/trajectory_msgs/msg/detail/joint_trajectory_point__struct.hpp:
+/usr/include/x86_64-linux-gnu/bits/types/struct_sigstack.h:
 
-/usr/include/stdio.h:
+/usr/include/c++/11/limits:
 
-/usr/include/x86_64-linux-gnu/bits/stdio.h:
+/usr/include/c++/11/cstddef:
 
-/opt/ros/humble/include/visualization_msgs/visualization_msgs/msg/detail/marker_array__type_support.hpp:
+/usr/include/c++/11/bits/stl_vector.h:
 
-/usr/include/c++/11/bits/locale_facets.tcc:
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__struct.hpp:
 
-/usr/include/boost/mpl/if.hpp:
+/usr/include/c++/11/ios:
 
-/home/pcht/ws_moveit2/install/moveit_core/include/moveit/robot_state/robot_state.h:
-
-/usr/include/x86_64-linux-gnu/bits/stdio2.h:
-
-/opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/compressed_image__struct.hpp:
+/usr/include/c++/11/utility:
 
 /usr/include/x86_64-linux-gnu/bits/errno.h:
 
@@ -2994,11 +2939,157 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/asm-generic/errno.h:
 
+/usr/include/boost/type_traits/make_unsigned.hpp:
+
+/usr/include/linux/errno.h:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/c++locale.h:
+
+/usr/include/c++/11/functional:
+
+/usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
+
+/opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_value__traits.hpp:
+
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
+
+/usr/include/c++/11/stdexcept:
+
+/usr/include/boost/random/detail/disable_warnings.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/uio_lim.h:
+
+/usr/include/c++/11/pstl/glue_algorithm_defs.h:
+
+/opt/ros/humble/include/rclcpp/rclcpp/experimental/buffers/intra_process_buffer.hpp:
+
+/usr/include/c++/11/bits/localefwd.h:
+
+/usr/include/boost/config/no_tr1/cmath.hpp:
+
+/usr/include/boost/type_traits/is_floating_point.hpp:
+
+/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_36/include/cw1_class.h:
+
+/home/pcht/ws_moveit2/install/moveit_core/include/moveit_kinematics_base_export.h:
+
+/opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/integer_range__traits.hpp:
+
+/opt/ros/humble/include/action_msgs/action_msgs/srv/detail/cancel_goal__functions.h:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__traits.hpp:
+
+/usr/include/c++/11/bits/istream.tcc:
+
+/usr/include/c++/11/clocale:
+
+/opt/ros/humble/include/rcl/rcl/event.h:
+
+/usr/include/boost/mpl/aux_/template_arity_fwd.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/StlIterators.h:
+
+/opt/ros/humble/include/rcutils/rcutils/visibility_control_macros.h:
+
+/usr/include/c++/11/bits/shared_ptr_atomic.h:
+
+/usr/include/c++/11/iomanip:
+
+/usr/include/c++/11/cctype:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point__traits.hpp:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/robot_state__builder.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/boost/preprocessor/cat.hpp:
+
+/usr/include/stdlib.h:
+
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+
+/usr/include/c++/11/ext/aligned_buffer.h:
+
+/usr/include/x86_64-linux-gnu/sys/types.h:
+
+/usr/include/c++/11/codecvt:
+
+/opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_descriptor__type_support.hpp:
+
+/opt/ros/humble/include/urdfdom_headers/urdf_model/utils.h:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/allowed_collision_matrix__traits.hpp:
+
+/usr/include/c++/11/cwchar:
+
+/usr/include/alloca.h:
+
+/opt/ros/humble/include/rclcpp/rclcpp/publisher_base.hpp:
+
+/usr/include/c++/11/cwctype:
+
+/usr/include/eigen3/Eigen/src/Core/SelfAdjointView.h:
+
+/opt/ros/humble/include/trajectory_msgs/trajectory_msgs/msg/detail/joint_trajectory_point__struct.hpp:
+
+/usr/include/stdio.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio.h:
+
+/opt/ros/humble/include/visualization_msgs/visualization_msgs/msg/detail/marker_array__type_support.hpp:
+
+/usr/include/c++/11/bits/locale_facets.tcc:
+
+/usr/include/boost/mpl/if.hpp:
+
+/home/pcht/ws_moveit2/install/moveit_core/include/moveit/robot_state/robot_state.h:
+
+/usr/include/x86_64-linux-gnu/bits/stdio2.h:
+
+/opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/compressed_image__struct.hpp:
 
 /usr/include/c++/11/bits/algorithmfwd.h:
 
 /usr/include/c++/11/bits/basic_string.tcc:
+
+/usr/include/boost/preprocessor/config/config.hpp:
+
+/usr/include/boost/mpl/aux_/config/static_constant.hpp:
+
+/opt/ros/humble/include/rcl/rcl/subscription.h:
+
+/opt/ros/humble/include/action_msgs/action_msgs/msg/goal_status_array.hpp:
+
+/opt/ros/humble/include/rcl/rcl/allocator.h:
+
+/opt/ros/humble/include/visualization_msgs/visualization_msgs/msg/detail/marker_array__traits.hpp:
+
+/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__struct.hpp:
+
+/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
+
+/usr/include/eigen3/Eigen/src/Core/functors/TernaryFunctors.h:
+
+/usr/include/c++/11/bits/ios_base.h:
+
+/home/pcht/ws_moveit2/install/moveit_core/include/moveit/macros/class_forward.h:
+
+/usr/include/eigen3/Eigen/QR:
+
+/usr/include/c++/11/locale:
+
+/usr/include/x86_64-linux-gnu/bits/getopt_posix.h:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/joint_limits__builder.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/point_stamped__struct.hpp:
+
+/opt/ros/humble/include/rclcpp/rclcpp/publisher_options.hpp:
+
+/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/color_rgba__traits.hpp:
+
+/usr/include/c++/11/istream:
 
 /usr/include/boost/preprocessor/debug/error.hpp:
 
@@ -3032,10 +3123,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/c++/11/bits/erase_if.h:
 
-/usr/include/c++/11/cstddef:
-
-/usr/include/c++/11/bits/stl_vector.h:
-
 /usr/include/c++/11/bits/cxxabi_init_exception.h:
 
 /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/twist__traits.hpp:
@@ -3056,14 +3143,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/c++/11/bits/stl_bvector.h:
 
-/usr/include/c++/11/bits/stl_uninitialized.h:
-
-/opt/ros/humble/include/rclcpp/rclcpp/experimental/buffers/intra_process_buffer.hpp:
-
-/usr/include/c++/11/pstl/glue_algorithm_defs.h:
-
-/usr/include/c++/11/stdexcept:
-
 /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_initialization.h:
 
 /opt/ros/humble/include/urdfdom_headers/urdf_world/types.h:
@@ -3073,6 +3152,18 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /opt/ros/humble/include/rclcpp/rclcpp/experimental/ros_message_intra_process_buffer.hpp:
 
 /opt/ros/humble/include/shape_msgs/shape_msgs/msg/detail/mesh_triangle__struct.hpp:
+
+/usr/include/boost/type_traits/remove_cv.hpp:
+
+/usr/include/eigen3/Eigen/src/QR/ColPivHouseholderQR.h:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/constraints__struct.hpp:
+
+/usr/include/boost/type_traits/is_integral.hpp:
+
+/opt/ros/humble/include/rclcpp/rclcpp/subscription.hpp:
+
+/usr/include/boost/config/detail/suffix.hpp:
 
 /usr/include/boost/mpl/aux_/config/ttp.hpp:
 
@@ -3088,35 +3179,17 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/eigen3/Eigen/src/Geometry/Umeyama.h:
 
-/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/color_rgba__traits.hpp:
-
-/usr/include/c++/11/istream:
-
-/usr/include/c++/11/bits/ios_base.h:
-
 /usr/include/c++/11/bits/locale_classes.h:
 
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/constraints__struct.hpp:
+/opt/ros/humble/include/eigen_stl_containers/eigen_stl_containers/eigen_stl_vector_container.h:
 
-/usr/include/boost/type_traits/is_integral.hpp:
+/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix.h:
 
-/opt/ros/humble/include/rclcpp/rclcpp/subscription.hpp:
-
-/usr/include/boost/config/detail/suffix.hpp:
-
-/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/pose__struct.hpp:
-
-/usr/include/c++/11/ios:
-
-/usr/include/c++/11/utility:
+/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/time__traits.hpp:
 
 /usr/include/c++/11/bits/uniform_int_dist.h:
 
 /usr/include/eigen3/Eigen/src/Cholesky/LLT.h:
-
-/home/pcht/ws_moveit2/install/moveit_core/include/moveit/robot_model/joint_model.h:
-
-/usr/include/c++/11/bits/basic_ios.h:
 
 /usr/include/x86_64-linux-gnu/bits/atomic_wide_counter.h:
 
@@ -3144,27 +3217,39 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /usr/include/c++/11/bits/locale_facets_nonio.h:
 
-/usr/include/boost/random/uniform_01.hpp:
+/usr/include/eigen3/Eigen/src/Core/util/XprHelper.h:
 
-/usr/include/boost/preprocessor/list/fold_right.hpp:
+/usr/include/eigen3/Eigen/src/Core/util/Memory.h:
 
-/opt/ros/humble/include/trajectory_msgs/trajectory_msgs/msg/detail/multi_dof_joint_trajectory__struct.hpp:
+/opt/ros/humble/include/rmw/rmw/events_statuses/liveliness_lost.h:
 
-/opt/ros/humble/include/tf2_ros/tf2_ros/visibility_control.hpp:
+/usr/include/eigen3/Eigen/src/Householder/BlockHouseholder.h:
 
-/usr/include/x86_64-linux-gnu/c++/11/bits/time_members.h:
+/usr/include/eigen3/Eigen/src/Core/util/IntegralConstant.h:
 
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planning_scene_world__struct.hpp:
+/opt/ros/humble/include/rclcpp/rclcpp/detail/rmw_implementation_specific_payload.hpp:
 
-/usr/include/boost/config/platform/linux.hpp:
+/usr/include/eigen3/Eigen/src/Core/NumTraits.h:
 
-/usr/include/c++/11/bits/locale_conv.h:
+/usr/include/eigen3/Eigen/src/Core/GenericPacketMath.h:
 
-/usr/include/eigen3/Eigen/src/Core/Random.h:
+/usr/include/eigen3/Eigen/src/Core/MathFunctionsImpl.h:
 
-/usr/include/c++/11/bits/quoted_string.h:
+/usr/include/eigen3/Eigen/src/Core/arch/Default/Half.h:
 
-/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__traits.hpp:
+/usr/include/endian.h:
+
+/usr/include/eigen3/Eigen/src/Core/arch/Default/BFloat16.h:
+
+/usr/include/eigen3/Eigen/src/Core/arch/Default/TypeCasting.h:
+
+/usr/include/eigen3/Eigen/src/Core/arch/Default/GenericPacketMathFunctionsFwd.h:
+
+/usr/include/eigen3/Eigen/src/Core/arch/SSE/PacketMath.h:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/action/detail/execute_trajectory__type_support.hpp:
+
+/usr/include/eigen3/Eigen/src/Core/arch/Default/GenericPacketMathFunctions.h:
 
 /usr/include/eigen3/Eigen/src/Core/arch/SSE/TypeCasting.h:
 
@@ -3173,18 +3258,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/eigen3/Eigen/src/Core/arch/SSE/Complex.h:
 
 /usr/include/eigen3/Eigen/src/LU/FullPivLU.h:
-
-/usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
-
-/usr/include/eigen3/Eigen/src/Core/functors/TernaryFunctors.h:
-
-/opt/ros/humble/include/rmw/rmw/events_statuses/liveliness_lost.h:
-
-/usr/include/eigen3/Eigen/src/Core/util/IntegralConstant.h:
-
-/usr/include/eigen3/Eigen/src/Householder/BlockHouseholder.h:
-
-/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__struct.hpp:
 
 /usr/include/eigen3/Eigen/src/Core/functors/BinaryFunctors.h:
 
@@ -3339,6 +3412,8 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/eigen3/Eigen/src/Core/Inverse.h:
 
 /opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/detail/velocity_stamped__builder.hpp:
+
+/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/point_stamped.hpp:
 
 /opt/ros/humble/include/rcl/rcl/timer.h:
 
@@ -3520,10 +3595,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/move_it_error_codes.hpp:
 
-/opt/ros/humble/include/geometry_msgs/geometry_msgs/msg/quaternion.hpp:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planner_interface_description__type_support.hpp:
-
 /opt/ros/humble/include/action_msgs/action_msgs/srv/detail/cancel_goal__type_support.h:
 
 /opt/ros/humble/include/rmw/rmw/events_statuses/events_statuses.h:
@@ -3630,10 +3701,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_topics_interface_traits.hpp:
 
-/usr/include/boost/random/detail/polynomial.hpp:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planner_interface_description__struct.hpp:
-
 /usr/include/features-time64.h:
 
 /opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__type_support.hpp:
@@ -3646,8 +3713,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/get_node_base_interface.hpp:
 
-/usr/include/c++/11/bits/parse_numbers.h:
-
 /usr/include/x86_64-linux-gnu/bits/setjmp.h:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
@@ -3657,12 +3722,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/c++/11/condition_variable:
 
 /usr/include/c++/11/optional:
-
-/usr/include/c++/11/bits/unique_lock.h:
-
-/usr/include/boost/preprocessor/repetition/repeat.hpp:
-
-/usr/include/c++/11/mutex:
 
 /usr/include/c++/11/typeindex:
 
@@ -3733,12 +3792,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/eigen3/Eigen/src/LU/Determinant.h:
 
 /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__traits.hpp:
-
-/opt/ros/humble/include/eigen_stl_containers/eigen_stl_containers/eigen_stl_vector_container.h:
-
-/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix.h:
-
-/opt/ros/humble/include/builtin_interfaces/builtin_interfaces/msg/detail/time__traits.hpp:
 
 /opt/ros/humble/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter__traits.hpp:
 
@@ -3821,6 +3874,10 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /opt/ros/humble/include/sensor_msgs/sensor_msgs/msg/detail/compressed_image__traits.hpp:
 
 /usr/include/c++/11/cxxabi.h:
+
+/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planner_interface_description__builder.hpp:
+
+/usr/include/x86_64-linux-gnu/c++/11/bits/cxxabi_tweaks.h:
 
 /opt/ros/humble/include/urdfdom_headers/urdf_model/link.h:
 
@@ -3916,12 +3973,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/rclcpp/rclcpp/loaned_message.hpp:
 
-/opt/ros/humble/include/rclcpp/rclcpp/publisher_options.hpp:
-
-/opt/ros/humble/include/action_msgs/action_msgs/msg/detail/goal_status__struct.h:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planner_interface_description__traits.hpp:
-
 /usr/include/c++/11/streambuf:
 
 /opt/ros/humble/include/rclcpp/rclcpp/detail/rmw_implementation_specific_publisher_payload.hpp:
@@ -3982,10 +4033,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 
 /opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_timers_interface_traits.hpp:
 
-/usr/include/c++/11/bits/atomic_base.h:
-
-/opt/ros/humble/include/rcpputils/rcpputils/thread_safety_annotations.hpp:
-
 /usr/include/eigen3/Eigen/src/Core/ArithmeticSequence.h:
 
 /opt/ros/humble/include/libstatistics_collector/libstatistics_collector/collector/metric_details_interface.hpp:
@@ -4023,14 +4070,6 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /usr/include/c++/11/bits/unordered_set.h:
 
 /opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_time_source_interface.hpp:
-
-/usr/include/eigen3/Eigen/src/Core/Swap.h:
-
-/opt/ros/humble/include/rclcpp/rclcpp/node_interfaces/node_waitables_interface.hpp:
-
-/opt/ros/humble/include/std_msgs/std_msgs/msg/detail/header__traits.hpp:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/robot_trajectory__traits.hpp:
 
 /opt/ros/humble/include/rclcpp/rclcpp/node_options.hpp:
 
@@ -4183,9 +4222,3 @@ CMakeFiles/cw1_solution_node.dir/src/cw1_node.cpp.o: /home/pcht/dev/comp0250_s26
 /opt/ros/humble/include/shape_msgs/shape_msgs/msg/detail/plane__traits.hpp:
 
 /opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/planner_interface_description.hpp:
-
-/usr/include/x86_64-linux-gnu/c++/11/bits/cxxabi_tweaks.h:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/detail/planner_interface_description__builder.hpp:
-
-/opt/ros/humble/include/moveit_msgs/moveit_msgs/msg/constraints.hpp:
