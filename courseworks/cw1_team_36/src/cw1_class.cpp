@@ -498,6 +498,15 @@ cw1::t2_callback(
     response->basket_colours.push_back(colour);
   }
 
+  for (size_t i = 0; i < response->basket_colours.size(); ++i) {
+    RCLCPP_INFO(node_->get_logger(),
+      "  basket_colours[%zu] = \"%s\"  (loc: %.3f, %.3f)",
+      i,
+      response->basket_colours[i].c_str(),
+      request->basket_locs[i].point.x,
+      request->basket_locs[i].point.y);
+  }
+
   RCLCPP_INFO(node_->get_logger(), "Task 2 complete");
 }
 
