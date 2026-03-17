@@ -332,7 +332,7 @@ cw1::move_arm_linear_to(const geometry_msgs::msg::Pose &target_pose, double eef_
   arm_group_->setStartStateToCurrentState();
 
   // Reduce execution aggressiveness; this helps avoid overshoot-like behavior in Gazebo.
-  arm_group_->setMaxVelocityScalingFactor(0.10);
+  arm_group_->setMaxVelocityScalingFactor(0.05);
   arm_group_->setMaxAccelerationScalingFactor(0.10);
 
   // Build an explicit short segment from current pose to target pose.
@@ -426,9 +426,8 @@ cw1::t1_callback(
   ok = ok && set_gripper_width(gripper_grasp_width_);       // close gripper
   ok = ok && move_arm_linear_to(lift);                      // straight up back to safe height
   ok = ok && move_arm_to_pose(pre_place);                   // global plan: transit to above basket
-  // ok = ok && move_arm_linear_to(place);                  // straight down into basket
   ok = ok && set_gripper_width(0.07);                       // release cube
-  ok = ok && move_arm_linear_to(retreat);                   // straight up out of basket
+  ok = ok && move_arm_linear_to(pre_grasp);                   // straight up out of basket
 
   if (ok) {
     RCLCPP_INFO(node_->get_logger(), "Task 1 execution finished successfully");

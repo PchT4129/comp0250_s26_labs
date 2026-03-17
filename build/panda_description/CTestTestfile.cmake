@@ -1,6 +1,0 @@
-# CMake generated Testfile for 
-# Source directory: /home/pcht/dev/comp0250_s26_labs/courseworks/panda_description
-# Build directory: /home/pcht/dev/comp0250_s26_labs/build/panda_description
-# 
-# This file includes the relevant testing commands required for 
-# testing this directory and lists subdirectories to be tested as well.

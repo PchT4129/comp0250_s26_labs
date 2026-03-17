@@ -1,7 +1,0 @@
-/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_36/src/cw1_class.cpp: In member function ‘void cw1::t1_callback(std::shared_ptr<cw1_world_spawner::srv::Task1Service_Request_<std::allocator<void> > >, std::shared_ptr<cw1_world_spawner::srv::Task1Service_Response_<std::allocator<void> > >)’:
-/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_36/src/cw1_class.cpp:302:28: warning: variable ‘place’ set but not used [-Wunused-but-set-variable]
-  302 |   geometry_msgs::msg::Pose place = pre_place;
-      |                            ^~~~~
-/home/pcht/dev/comp0250_s26_labs/courseworks/cw1_team_36/src/cw1_class.cpp:305:28: warning: variable ‘retreat’ set but not used [-Wunused-but-set-variable]
-  305 |   geometry_msgs::msg::Pose retreat = pre_place;
-      |                            ^~~~~~~

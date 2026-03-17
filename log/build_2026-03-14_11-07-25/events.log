@@ -1,8 +1,0 @@
-[0.000000] (-) TimerEvent: {}
-[0.000461] (-) JobUnselected: {'identifier': 'cw1_team_36'}
-[0.000518] (-) JobUnselected: {'identifier': 'cw1_world_spawner'}
-[0.000548] (-) JobUnselected: {'identifier': 'panda_description'}
-[0.000578] (-) JobUnselected: {'identifier': 'panda_moveit_config'}
-[0.000613] (-) JobUnselected: {'identifier': 'realsense_gazebo_plugin'}
-[0.000642] (-) JobUnselected: {'identifier': 'rpl_panda_with_rs'}
-[0.000873] (-) EventReactorShutdown: {}
