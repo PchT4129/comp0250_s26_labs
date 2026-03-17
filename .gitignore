@@ -12,3 +12,7 @@ __pycache__/
 .vscode/
 *.swp
 *.swo
+
+*.pdf
+
+
