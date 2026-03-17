@@ -426,7 +426,7 @@ cw1::t1_callback(
   ok = ok && set_gripper_width(gripper_grasp_width_);       // close gripper
   ok = ok && move_arm_linear_to(lift);                      // straight up back to safe height
   ok = ok && move_arm_to_pose(pre_place);                   // global plan: transit to above basket
-  ok = ok && move_arm_linear_to(place);                     // straight down into basket
+  // ok = ok && move_arm_linear_to(place);                  // straight down into basket
   ok = ok && set_gripper_width(0.07);                       // release cube
   ok = ok && move_arm_linear_to(retreat);                   // straight up out of basket
 
