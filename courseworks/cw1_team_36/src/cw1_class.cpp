@@ -4,14 +4,12 @@ and starting from scratch. The only requirment is to make sure your entire
 solution is contained within the cw1_team_<your_team_number> package */
 
 #include <cw1_class.h>
-
 #include <algorithm>
 #include <functional>
 #include <map>
 #include <memory>
 #include <utility>
 #include <vector>
-
 #include <moveit/planning_interface/planning_interface.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
@@ -20,9 +18,12 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <tf2_ros/buffer.h>
 #include <tf2_ros/transform_listener.h>
-
 #include <rmw/qos_profiles.h>
-
+#include <cmath>
+#include <limits>
+#include <queue>
+#include <string>
+#include <vector>
 ///////////////////////////////////////////////////////////////////////////////
 
 cw1::cw1(const rclcpp::Node::SharedPtr &node)
@@ -521,13 +522,614 @@ cw1::t3_callback(
   const std::shared_ptr<cw1_world_spawner::srv::Task3Service::Request> request,
   std::shared_ptr<cw1_world_spawner::srv::Task3Service::Response> response)
 {
-  /* function which should solve task 3 */
-
   (void)request;
   (void)response;
-  RCLCPP_INFO_STREAM(
+
+  struct ClusterPoint
+  {
+    double x;
+    double y;
+    double z;
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+    std::string seed_colour;
+  };
+
+  struct RawDetection
+  {
+    std::string colour;
+    geometry_msgs::msg::Point position;
+
+    double size_x;
+    double size_y;
+    double size_z;
+
+    double top_z;
+    double centre_top_z;
+    double rim_top_z;
+    double rim_gap;
+    double centre_fill_ratio;
+
+    double mean_r;
+    double mean_g;
+    double mean_b;
+
+    size_t point_count;
+    size_t red_votes;
+    size_t blue_votes;
+    size_t purple_votes;
+  };
+
+  struct MergedObject
+  {
+    std::string colour;
+    geometry_msgs::msg::Point position;
+
+    double size_x;
+    double size_y;
+    double size_z;
+
+    double max_rim_gap;
+    double min_centre_fill_ratio;
+
+    double mean_r;
+    double mean_g;
+    double mean_b;
+
+    size_t point_count;
+    size_t red_votes;
+    size_t blue_votes;
+    size_t purple_votes;
+
+    size_t observations;
+  };
+
+  auto make_scan_pose =
+    [this](double x, double y, double z) -> geometry_msgs::msg::Pose
+    {
+      geometry_msgs::msg::Pose pose;
+      pose.position.x = x;
+      pose.position.y = y;
+      pose.position.z = z;
+      pose.orientation = make_top_down_q();
+      return pose;
+    };
+
+  auto get_latest_cloud_blocking =
+    [this](double timeout_sec) -> sensor_msgs::msg::PointCloud2::ConstSharedPtr
+    {
+      sensor_msgs::msg::PointCloud2::ConstSharedPtr cloud;
+      const auto deadline =
+        node_->now() + rclcpp::Duration::from_seconds(timeout_sec);
+
+      while (rclcpp::ok()) {
+        {
+          std::lock_guard<std::mutex> lock(cloud_mutex_);
+          if (latest_cloud_) {
+            cloud = latest_cloud_;
+          }
+        }
+
+        if (cloud) {
+          return cloud;
+        }
+
+        if (node_->now() > deadline) {
+          break;
+        }
+
+        rclcpp::sleep_for(std::chrono::milliseconds(100));
+      }
+
+      return nullptr;
+    };
+
+  auto classify_seed_colour = [](uint8_t r, uint8_t g, uint8_t b) -> std::string {
+    if (r > 55 && b > 55 && g < 0.90 * std::min(r, b)) {
+      return "purple";
+    }
+    if (r > 60 && r > 1.20 * g && r > 1.10 * b) {
+      return "red";
+    }
+    if (b > 60 && b > 1.20 * g && b > 1.10 * r) {
+      return "blue";
+    }
+    return "none";
+  };
+
+  auto dominant_colour_from_top_points =
+    [](const std::vector<ClusterPoint> &cluster, double top_z,
+       size_t &red_votes, size_t &blue_votes, size_t &purple_votes,
+       double &mean_r, double &mean_g, double &mean_b) -> std::string
+    {
+      red_votes = 0;
+      blue_votes = 0;
+      purple_votes = 0;
+      mean_r = 0.0;
+      mean_g = 0.0;
+      mean_b = 0.0;
+
+      size_t used = 0;
+      const double top_band = 0.015;
+
+      for (const auto &p : cluster) {
+        if (p.z < top_z - top_band) {
+          continue;
+        }
+
+        mean_r += static_cast<double>(p.r);
+        mean_g += static_cast<double>(p.g);
+        mean_b += static_cast<double>(p.b);
+        used++;
+
+        if (p.r > 55 && p.b > 55 && p.g < 0.90 * std::min(p.r, p.b)) {
+          purple_votes++;
+        } else if (p.r > 60 && p.r > 1.20 * p.g && p.r > 1.10 * p.b) {
+          red_votes++;
+        } else if (p.b > 60 && p.b > 1.20 * p.g && p.b > 1.10 * p.r) {
+          blue_votes++;
+        }
+      }
+
+      if (used > 0) {
+        mean_r /= static_cast<double>(used);
+        mean_g /= static_cast<double>(used);
+        mean_b /= static_cast<double>(used);
+      }
+
+      if (red_votes == 0 && blue_votes == 0 && purple_votes == 0) {
+        return "none";
+      }
+
+      if (purple_votes >= red_votes && purple_votes >= blue_votes) {
+        return "purple";
+      }
+      if (red_votes >= blue_votes && red_votes >= purple_votes) {
+        return "red";
+      }
+      return "blue";
+    };
+
+  auto detect_raw_objects_from_cloud =
+    [this, &classify_seed_colour, &dominant_colour_from_top_points](
+      const sensor_msgs::msg::PointCloud2::ConstSharedPtr &cloud)
+      -> std::vector<RawDetection>
+    {
+      std::vector<RawDetection> objects;
+
+      pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(
+        new pcl::PointCloud<pcl::PointXYZRGB>);
+      pcl::fromROSMsg(*cloud, *pcl_cloud);
+
+      geometry_msgs::msg::TransformStamped tf_cloud_to_world;
+      try {
+        tf_cloud_to_world = tf_buffer_->lookupTransform(
+          "world",
+          cloud->header.frame_id,
+          rclcpp::Time(0),
+          tf2::durationFromSec(1.0));
+      } catch (const tf2::TransformException &ex) {
+        RCLCPP_WARN(
+          node_->get_logger(),
+          "Task 3: could not transform cloud to world: %s",
+          ex.what());
+        return objects;
+      }
+
+      tf2::Quaternion q(
+        tf_cloud_to_world.transform.rotation.x,
+        tf_cloud_to_world.transform.rotation.y,
+        tf_cloud_to_world.transform.rotation.z,
+        tf_cloud_to_world.transform.rotation.w);
+
+      tf2::Vector3 t(
+        tf_cloud_to_world.transform.translation.x,
+        tf_cloud_to_world.transform.translation.y,
+        tf_cloud_to_world.transform.translation.z);
+
+      tf2::Transform tf_c2w(q, t);
+
+      std::vector<ClusterPoint> pts;
+      pts.reserve(pcl_cloud->points.size());
+
+      for (const auto &pt : pcl_cloud->points) {
+        if (!std::isfinite(pt.x) || !std::isfinite(pt.y) || !std::isfinite(pt.z)) {
+          continue;
+        }
+
+        const std::string seed_colour = classify_seed_colour(pt.r, pt.g, pt.b);
+        if (seed_colour == "none") {
+          continue;
+        }
+
+        tf2::Vector3 p_cloud(pt.x, pt.y, pt.z);
+        tf2::Vector3 p_world = tf_c2w * p_cloud;
+
+        if (p_world.x() < 0.20 || p_world.x() > 0.75) {
+          continue;
+        }
+        if (p_world.y() < -0.45 || p_world.y() > 0.45) {
+          continue;
+        }
+        if (p_world.z() < -0.02 || p_world.z() > 0.20) {
+          continue;
+        }
+
+        pts.push_back({
+          p_world.x(), p_world.y(), p_world.z(),
+          pt.r, pt.g, pt.b, seed_colour
+        });
+      }
+
+      if (pts.empty()) {
+        return objects;
+      }
+
+      std::vector<bool> visited(pts.size(), false);
+
+      constexpr double kClusterRadius = 0.055;
+      constexpr double kClusterRadiusSq = kClusterRadius * kClusterRadius;
+      constexpr double kMaxDz = 0.06;
+      constexpr size_t kMinClusterSize = 18;
+
+      for (size_t i = 0; i < pts.size(); ++i) {
+        if (visited[i]) {
+          continue;
+        }
+
+        visited[i] = true;
+        std::queue<size_t> qidx;
+        qidx.push(i);
+
+        std::vector<size_t> cluster_indices;
+        cluster_indices.push_back(i);
+
+        while (!qidx.empty()) {
+          const size_t cur = qidx.front();
+          qidx.pop();
+
+          for (size_t j = 0; j < pts.size(); ++j) {
+            if (visited[j]) {
+              continue;
+            }
+
+            if (pts[j].seed_colour != pts[cur].seed_colour) {
+              continue;
+            }
+
+            const double dx = pts[j].x - pts[cur].x;
+            const double dy = pts[j].y - pts[cur].y;
+            const double dz = std::fabs(pts[j].z - pts[cur].z);
+
+            if ((dx * dx + dy * dy) < kClusterRadiusSq && dz < kMaxDz) {
+              visited[j] = true;
+              qidx.push(j);
+              cluster_indices.push_back(j);
+            }
+          }
+        }
+
+        if (cluster_indices.size() < kMinClusterSize) {
+          continue;
+        }
+
+        std::vector<ClusterPoint> cluster;
+        cluster.reserve(cluster_indices.size());
+
+        double min_x = std::numeric_limits<double>::max();
+        double min_y = std::numeric_limits<double>::max();
+        double min_z = std::numeric_limits<double>::max();
+        double max_x = -std::numeric_limits<double>::max();
+        double max_y = -std::numeric_limits<double>::max();
+        double max_z = -std::numeric_limits<double>::max();
+
+        double sum_x = 0.0;
+        double sum_y = 0.0;
+        double sum_z = 0.0;
+
+        for (const auto idx : cluster_indices) {
+          const auto &p = pts[idx];
+          cluster.push_back(p);
+
+          min_x = std::min(min_x, p.x);
+          min_y = std::min(min_y, p.y);
+          min_z = std::min(min_z, p.z);
+          max_x = std::max(max_x, p.x);
+          max_y = std::max(max_y, p.y);
+          max_z = std::max(max_z, p.z);
+
+          sum_x += p.x;
+          sum_y += p.y;
+          sum_z += p.z;
+        }
+
+        const double cx = sum_x / static_cast<double>(cluster.size());
+        const double cy = sum_y / static_cast<double>(cluster.size());
+        const double cz = sum_z / static_cast<double>(cluster.size());
+
+        const double size_x = max_x - min_x;
+        const double size_y = max_y - min_y;
+        const double size_z = max_z - min_z;
+        const double max_xy = std::max(size_x, size_y);
+
+        const double half_extent = 0.5 * max_xy;
+        const double inner_radius = std::max(0.012, 0.30 * half_extent);
+        const double outer_r_min = std::max(0.015, 0.45 * half_extent);
+        const double outer_r_max = std::max(0.025, 0.85 * half_extent);
+
+        double centre_top_z = -std::numeric_limits<double>::max();
+        double rim_top_z = -std::numeric_limits<double>::max();
+        size_t centre_count = 0;
+        size_t rim_count = 0;
+
+        for (const auto &p : cluster) {
+          const double dx = p.x - cx;
+          const double dy = p.y - cy;
+          const double rr = std::sqrt(dx * dx + dy * dy);
+
+          if (rr <= inner_radius) {
+            centre_count++;
+            centre_top_z = std::max(centre_top_z, p.z);
+          }
+
+          if (rr >= outer_r_min && rr <= outer_r_max) {
+            rim_count++;
+            rim_top_z = std::max(rim_top_z, p.z);
+          }
+        }
+
+        if (centre_top_z < -1e8) {
+          centre_top_z = max_z;
+        }
+        if (rim_top_z < -1e8) {
+          rim_top_z = max_z;
+        }
+
+        const double rim_gap = rim_top_z - centre_top_z;
+        const double centre_fill_ratio =
+          static_cast<double>(centre_count) / static_cast<double>(cluster.size());
+
+        size_t red_votes = 0;
+        size_t blue_votes = 0;
+        size_t purple_votes = 0;
+        double mean_r = 0.0;
+        double mean_g = 0.0;
+        double mean_b = 0.0;
+
+        const std::string final_colour =
+          dominant_colour_from_top_points(
+            cluster, max_z,
+            red_votes, blue_votes, purple_votes,
+            mean_r, mean_g, mean_b);
+
+        if (final_colour == "none") {
+          continue;
+        }
+
+        RawDetection obj;
+        obj.colour = final_colour;
+        obj.position.x = cx;
+        obj.position.y = cy;
+        obj.position.z = cz;
+
+        obj.size_x = size_x;
+        obj.size_y = size_y;
+        obj.size_z = size_z;
+
+        obj.top_z = max_z;
+        obj.centre_top_z = centre_top_z;
+        obj.rim_top_z = rim_top_z;
+        obj.rim_gap = rim_gap;
+        obj.centre_fill_ratio = centre_fill_ratio;
+
+        obj.mean_r = mean_r;
+        obj.mean_g = mean_g;
+        obj.mean_b = mean_b;
+
+        obj.point_count = cluster.size();
+        obj.red_votes = red_votes;
+        obj.blue_votes = blue_votes;
+        obj.purple_votes = purple_votes;
+
+        objects.push_back(obj);
+      }
+
+      return objects;
+    };
+
+  auto merge_raw_detections =
+    [](std::vector<MergedObject> &all_objects,
+       const std::vector<RawDetection> &new_objects)
+    {
+      constexpr double kMergeXY = 0.09;
+      constexpr double kMergeZ = 0.06;
+
+      for (const auto &obj : new_objects) {
+        bool merged = false;
+
+        for (auto &existing : all_objects) {
+          if (existing.colour != obj.colour) {
+            continue;
+          }
+
+          const double dx = existing.position.x - obj.position.x;
+          const double dy = existing.position.y - obj.position.y;
+          const double dz = std::fabs(existing.position.z - obj.position.z);
+          const double dxy = std::sqrt(dx * dx + dy * dy);
+
+          if (dxy < kMergeXY && dz < kMergeZ) {
+            const double n = static_cast<double>(existing.observations);
+
+            existing.position.x =
+              (existing.position.x * n + obj.position.x) / (n + 1.0);
+            existing.position.y =
+              (existing.position.y * n + obj.position.y) / (n + 1.0);
+            existing.position.z =
+              (existing.position.z * n + obj.position.z) / (n + 1.0);
+
+            existing.size_x = std::max(existing.size_x, obj.size_x);
+            existing.size_y = std::max(existing.size_y, obj.size_y);
+            existing.size_z = std::max(existing.size_z, obj.size_z);
+
+            existing.max_rim_gap = std::max(existing.max_rim_gap, obj.rim_gap);
+            existing.min_centre_fill_ratio =
+              std::min(existing.min_centre_fill_ratio, obj.centre_fill_ratio);
+
+            existing.mean_r = (existing.mean_r * n + obj.mean_r) / (n + 1.0);
+            existing.mean_g = (existing.mean_g * n + obj.mean_g) / (n + 1.0);
+            existing.mean_b = (existing.mean_b * n + obj.mean_b) / (n + 1.0);
+
+            existing.point_count = std::max(existing.point_count, obj.point_count);
+            existing.red_votes += obj.red_votes;
+            existing.blue_votes += obj.blue_votes;
+            existing.purple_votes += obj.purple_votes;
+            existing.observations++;
+
+            merged = true;
+            break;
+          }
+        }
+
+        if (!merged) {
+          MergedObject mo;
+          mo.colour = obj.colour;
+          mo.position = obj.position;
+
+          mo.size_x = obj.size_x;
+          mo.size_y = obj.size_y;
+          mo.size_z = obj.size_z;
+
+          mo.max_rim_gap = obj.rim_gap;
+          mo.min_centre_fill_ratio = obj.centre_fill_ratio;
+
+          mo.mean_r = obj.mean_r;
+          mo.mean_g = obj.mean_g;
+          mo.mean_b = obj.mean_b;
+
+          mo.point_count = obj.point_count;
+          mo.red_votes = obj.red_votes;
+          mo.blue_votes = obj.blue_votes;
+          mo.purple_votes = obj.purple_votes;
+          mo.observations = 1;
+
+          all_objects.push_back(mo);
+        }
+      }
+    };
+
+  auto classify_final_type =
+    [](const MergedObject &obj) -> std::string
+    {
+      const double max_xy = std::max(obj.size_x, obj.size_y);
+
+      // Small objects are cubes.
+      if (max_xy < 0.070) {
+        return "cube";
+      }
+
+      // Large objects are very likely baskets. Use hollow evidence to confirm.
+      // if (max_xy > 0.085) {
+      //   return "basket";
+      // }
+
+      // Middle range: use structure.
+      if (obj.max_rim_gap > 0.012 && obj.min_centre_fill_ratio < 0.18) {
+        return "basket";
+      }
+
+      return "cube";
+    };
+
+  RCLCPP_INFO(node_->get_logger(), "Task 3: scan stage started");
+
+  std::vector<geometry_msgs::msg::Pose> scan_poses;
+  scan_poses.push_back(make_scan_pose(0.30, -0.30, 0.65));
+  scan_poses.push_back(make_scan_pose(0.50, -0.30, 0.65));
+  scan_poses.push_back(make_scan_pose(0.50,  0.00, 0.65));
+  scan_poses.push_back(make_scan_pose(0.30,  0.00, 0.65));
+  scan_poses.push_back(make_scan_pose(0.30,  0.30, 0.65));
+  scan_poses.push_back(make_scan_pose(0.50,  0.30, 0.65));
+
+  std::vector<MergedObject> all_objects;
+
+  for (size_t i = 0; i < scan_poses.size(); ++i) {
+    RCLCPP_INFO(node_->get_logger(), "Task 3: moving to scan pose %zu", i);
+
+    if (!move_arm_to_pose(scan_poses[i])) {
+      RCLCPP_WARN(node_->get_logger(), "Task 3: failed to reach scan pose %zu", i);
+      continue;
+    }
+
+    rclcpp::sleep_for(std::chrono::milliseconds(700));
+
+    for (int frame_idx = 0; frame_idx < 4; ++frame_idx) {
+      auto cloud = get_latest_cloud_blocking(1.5);
+      if (!cloud) {
+        RCLCPP_WARN(
+          node_->get_logger(),
+          "Task 3: no cloud at scan pose %zu frame %d",
+          i, frame_idx);
+        continue;
+      }
+
+      const auto detections = detect_raw_objects_from_cloud(cloud);
+      merge_raw_detections(all_objects, detections);
+
+      RCLCPP_INFO(
+        node_->get_logger(),
+        "Task 3: pose %zu frame %d found %zu object(s), total merged = %zu",
+        i, frame_idx, detections.size(), all_objects.size());
+
+      rclcpp::sleep_for(std::chrono::milliseconds(150));
+    }
+  }
+
+  if (all_objects.empty()) {
+    RCLCPP_WARN(node_->get_logger(), "Task 3: no objects detected");
+    return;
+  }
+
+  size_t cube_count = 0;
+  size_t basket_count = 0;
+
+  RCLCPP_INFO(node_->get_logger(), "Task 3: final detections");
+  for (const auto &obj : all_objects) {
+    const std::string type = classify_final_type(obj);
+
+    if (type == "cube") {
+      cube_count++;
+    } else {
+      basket_count++;
+    }
+
+    RCLCPP_INFO(
+      node_->get_logger(),
+      "  %s %s at (%.3f, %.3f, %.3f), size=(%.3f, %.3f, %.3f), "
+      "max_rim_gap=%.3f, min_centre_fill=%.3f, meanRGB=(%.1f, %.1f, %.1f), "
+      "votes[R/B/P]=(%zu, %zu, %zu), points=%zu, obs=%zu",
+      obj.colour.c_str(),
+      type.c_str(),
+      obj.position.x,
+      obj.position.y,
+      obj.position.z,
+      obj.size_x,
+      obj.size_y,
+      obj.size_z,
+      obj.max_rim_gap,
+      obj.min_centre_fill_ratio,
+      obj.mean_r,
+      obj.mean_g,
+      obj.mean_b,
+      obj.red_votes,
+      obj.blue_votes,
+      obj.purple_votes,
+      obj.point_count,
+      obj.observations);
+  }
+
+  RCLCPP_INFO(
     node_->get_logger(),
-    "Task 3 callback triggered (template stub). joint_msgs=" <<
-      joint_state_msg_count_.load(std::memory_order_relaxed) <<
-      ", cloud_msgs=" << cloud_msg_count_.load(std::memory_order_relaxed));
+    "Task 3: scan complete, %zu cube(s), %zu basket(s)",
+    cube_count, basket_count);
 }
