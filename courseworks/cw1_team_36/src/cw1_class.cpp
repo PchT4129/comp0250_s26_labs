@@ -194,65 +194,77 @@ cw1::identify_basket_colour(
     new pcl::PointCloud<pcl::PointXYZRGB>);
   pcl::fromROSMsg(*cloud, *pcl_cloud);
 
-  // Search in the x-y plane of the cloud frame within a circle whose radius is
-  // slightly larger than half the basket diagonal (basket = 0.1x0.1 m).
+  // Search in the x-y plane of the cloud frame within a circle 
   const float cx = static_cast<float>(basket_in_cloud.point.x);
   const float cy = static_cast<float>(basket_in_cloud.point.y);
-  constexpr float kSearchRadius = 0.08f;   // 8 cm
+  const float cz = static_cast<float>(basket_in_cloud.point.z);
+
+  constexpr float kSearchRadius = 0.035f;
   constexpr float kSearchRadiusSq = kSearchRadius * kSearchRadius;
+  constexpr float kZHalfWindow = 0.05f;
 
-  // Known basket colours from the coursework spec (normalised 0-1).
-  // Using squared distance avoids std::sqrt for the comparison.
-  auto colour_dist_sq = [](float r, float g, float b,
-                            float tr, float tg, float tb) {
-    return (r - tr) * (r - tr) + (g - tg) * (g - tg) + (b - tb) * (b - tb);
-  };
-  constexpr float kColourThreshSq = 0.09f;  // max distance of 0.3 in RGB space
+  size_t nearby_xyz_points = 0;
+  size_t nonzero_rgb_points = 0;
 
-  std::map<std::string, int> votes;
+  double sum_r = 0.0;
+  double sum_g = 0.0;
+  double sum_b = 0.0;
 
   for (const auto &pt : pcl_cloud->points) {
     if (!std::isfinite(pt.x) || !std::isfinite(pt.y) || !std::isfinite(pt.z)) {
       continue;
     }
+
     const float dx = pt.x - cx;
     const float dy = pt.y - cy;
+    const float dz = pt.z - cz;
+
     if (dx * dx + dy * dy > kSearchRadiusSq) {
       continue;
     }
 
-    const float r = pt.r / 255.0f;
-    const float g = pt.g / 255.0f;
-    const float b = pt.b / 255.0f;
-
-    const float d_red    = colour_dist_sq(r, g, b, 0.8f, 0.1f, 0.1f);
-    const float d_blue   = colour_dist_sq(r, g, b, 0.1f, 0.1f, 0.8f);
-    const float d_purple = colour_dist_sq(r, g, b, 0.8f, 0.1f, 0.8f);
-
-    const float min_d = std::min({d_red, d_blue, d_purple});
-    if (min_d > kColourThreshSq) {
-      continue;  // not close enough to any known basket colour
+    if (std::fabs(dz) > kZHalfWindow) {
+      continue;
     }
 
-    if (min_d == d_red)         { votes["red"]++; }
-    else if (min_d == d_blue)   { votes["blue"]++; }
-    else                        { votes["purple"]++; }
+    nearby_xyz_points++;
+
+    if (pt.r == 0 && pt.g == 0 && pt.b == 0) {
+      continue;
+    }
+
+    nonzero_rgb_points++;
+    sum_r += static_cast<double>(pt.r);
+    sum_g += static_cast<double>(pt.g);
+    sum_b += static_cast<double>(pt.b);
   }
 
-  if (votes.empty()) {
+  if (nearby_xyz_points == 0 || nonzero_rgb_points == 0) {
+    RCLCPP_WARN(node_->get_logger(),
+      "Task 2: no usable coloured points found near basket at (%.3f, %.3f)",
+      basket_loc.point.x, basket_loc.point.y);
     return "none";
   }
 
-  const auto best = std::max_element(
-    votes.begin(), votes.end(),
-    [](const auto &a, const auto &b) { return a.second < b.second; });
+  const double mean_r = sum_r / static_cast<double>(nonzero_rgb_points);
+  const double mean_g = sum_g / static_cast<double>(nonzero_rgb_points);
+  const double mean_b = sum_b / static_cast<double>(nonzero_rgb_points);
+
+  std::string result = "none";
+
+  if (mean_r > 100.0 && mean_b > 100.0 && mean_g < 100.0) {
+    result = "purple";
+  } else if (mean_r > mean_b + 35.0 && mean_r > mean_g + 35.0 && mean_r > 100.0) {
+    result = "red";
+  } else if (mean_b > mean_r + 35.0 && mean_b > mean_g + 35.0 && mean_b > 100.0) {
+    result = "blue";
+  }
 
   RCLCPP_INFO(node_->get_logger(),
-    "Basket at (%.3f, %.3f): %s (%d votes)",
-    basket_loc.point.x, basket_loc.point.y,
-    best->first.c_str(), best->second);
+    "Task 2: basket at (%.3f, %.3f) mean RGB = (%.1f, %.1f, %.1f) -> %s",
+    basket_loc.point.x, basket_loc.point.y, mean_r, mean_g, mean_b, result.c_str());
 
-  return best->first;
+  return result;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -387,8 +399,7 @@ cw1::t1_callback(
   // 2) descend to grasp
   // 3) lift
   // 4) pre-place above basket
-  // 5) descend to place
-  // 6) retreat up
+  // 5) place and return
   geometry_msgs::msg::Pose pre_grasp;
   pre_grasp.position = object_pose.position;
   pre_grasp.position.z += pick_offset_z_;
@@ -409,13 +420,6 @@ cw1::t1_callback(
   pre_place.position.y = goal_point.y;
   pre_place.position.z = goal_point.z + place_offset_z_;
   pre_place.orientation = top_down_q;
-
-  // place: lower into the basket while keeping the same x/y/orientation.
-  geometry_msgs::msg::Pose place = pre_place;
-  place.position.z = goal_point.z + 0.10;
-
-  // retreat: rise back to pre_place height after releasing the cube.
-  geometry_msgs::msg::Pose retreat = pre_place;
 
   // Execute pick-and-place sequence.
   // Each step short-circuits on failure so we never execute in a bad state.
@@ -450,7 +454,7 @@ cw1::t2_callback(
   constexpr double kObsZ = 0.50;
 
   for (const auto &basket_loc : request->basket_locs) {
-    // ── 1. Move camera to a position directly above this basket ──────────
+    // 1. Move camera to a position directly above this basket 
     geometry_msgs::msg::Pose obs_pose;
     obs_pose.position.x = basket_loc.point.x;
     obs_pose.position.y = basket_loc.point.y;
@@ -465,7 +469,7 @@ cw1::t2_callback(
       continue;
     }
 
-    // ── 2. Wait for the camera to settle and deliver a fresh frame ────────
+    // 2. Wait for the camera to settle and deliver a fresh frame
     // The sensor callback group runs on a separate thread (MultiThreadedExecutor),
     // so latest_cloud_ keeps updating while we sleep here.
     rclcpp::sleep_for(std::chrono::milliseconds(500));
@@ -493,7 +497,7 @@ cw1::t2_callback(
       continue;
     }
 
-    // ── 3. Identify colour from the point cloud ───────────────────────────
+    // 3. Identify colour from the point cloud 
     const std::string colour = identify_basket_colour(cloud, basket_loc);
     response->basket_colours.push_back(colour);
   }

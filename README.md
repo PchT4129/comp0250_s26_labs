@@ -68,16 +68,26 @@ ros2 launch cw1_team_36 run_solution.launch.py \
   enable_realsense:=true enable_camera_processing:=false \
   control_mode:=effort
 ```
+
+## recommended command
+
+```bash
+cd ~/comp0250_S26_labs
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+export PATH=/usr/bin:$PATH
+export RMW_FASTRTPS_USE_SHM=0
+
+ros2 launch cw1_team_36 run_solution.launch.py \
+  use_gazebo_gui:=true use_rviz:=false \
+  enable_realsense:=true enable_camera_processing:=false \
+  control_mode:=effort | grep cw1_solution_node
+```
+
 ## ROS 2 command: Task 1
 
 ```bash
 ros2 service call /task cw1_world_spawner/srv/TaskSetup "{task_index: 1}"
-```
-
-Task 1 scenario 2 only:
-
-```bash
-ros2 service call /task cw1_world_spawner/srv/TaskSetup "{task_index: 111}"
 ```
 
 ## ROS 2 test command: Task 2
