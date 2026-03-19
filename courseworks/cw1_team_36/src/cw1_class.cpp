@@ -1076,11 +1076,11 @@ cw1::t3_callback(
 
       bool ok = true;
       ok = ok && set_gripper_width(0.07);                 // Open gripper.
-      ok = ok && move_arm_to_pose(pre_grasp);             // Move above cube.
+      ok = ok && move_arm_linear_to(pre_grasp);             // Move above cube.
       ok = ok && move_arm_linear_to(grasp);               // Descend vertically.
       ok = ok && set_gripper_width(gripper_grasp_width_); // Close gripper.
       ok = ok && move_arm_linear_to(pre_grasp);                // Lift vertically.
-      ok = ok && move_arm_to_pose(pre_place);             // Move above basket.
+      ok = ok && move_arm_linear_to(pre_place);             // Move above basket.
       ok = ok && set_gripper_width(0.07);                 // Release cube.
       // ok = ok && move_arm_linear_to(retreat);             // Move away from basket.
 
@@ -1102,7 +1102,7 @@ cw1::t3_callback(
   for (size_t i = 0; i < scan_poses.size(); ++i) {
     RCLCPP_INFO(node_->get_logger(), "Task 3: moving to scan pose %zu", i);
 
-    if (!move_arm_to_pose(scan_poses[i])) {
+    if (!move_arm_linear_to(scan_poses[i])) {
       RCLCPP_WARN(node_->get_logger(), "Task 3: failed to reach scan pose %zu", i);
       continue;
     }
