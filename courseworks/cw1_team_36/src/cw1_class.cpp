@@ -10,20 +10,23 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <memory>
 #include <utility>
 #include <vector>
-#include <moveit/planning_interface/planning_interface.h>
-#include <pcl/point_cloud.h>
-#include <pcl/point_types.h>
-#include <pcl_conversions/pcl_conversions.h>
-#include <tf2/LinearMath/Quaternion.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
-#include <tf2_ros/buffer.h>
-#include <tf2_ros/transform_listener.h>
-#include <rmw/qos_profiles.h>
 #include <cmath>
 #include <limits>
 #include <queue>
 #include <string>
 #include <vector>
+
+#include <moveit/planning_interface/planning_interface.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl_conversions/pcl_conversions.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2/LinearMath/Transform.h>
+#include <tf2/LinearMath/Vector3.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <rmw/qos_profiles.h>
 ///////////////////////////////////////////////////////////////////////////////
 
 cw1::cw1(const rclcpp::Node::SharedPtr &node)
@@ -276,7 +279,8 @@ cw1::move_arm_to_pose(const geometry_msgs::msg::Pose &target_pose)
   // Always start planning from current measured state.
   arm_group_->setStartStateToCurrentState();
   arm_group_->setPoseTarget(target_pose);
-
+  arm_group_->setMaxVelocityScalingFactor(0.2);
+  arm_group_->setMaxAccelerationScalingFactor(0.2);
   moveit::planning_interface::MoveGroupInterface::Plan plan;
   const bool planning_ok =
     (arm_group_->plan(plan) == moveit::core::MoveItErrorCode::SUCCESS);
@@ -345,8 +349,8 @@ cw1::move_arm_linear_to(const geometry_msgs::msg::Pose &target_pose, double eef_
   arm_group_->setStartStateToCurrentState();
 
   // Reduce execution aggressiveness; this helps avoid overshoot-like behavior in Gazebo.
-  arm_group_->setMaxVelocityScalingFactor(0.05);
-  arm_group_->setMaxAccelerationScalingFactor(0.10);
+  arm_group_->setMaxVelocityScalingFactor(0.2);
+  arm_group_->setMaxAccelerationScalingFactor(0.2);
 
   // Build an explicit short segment from current pose to target pose.
   const auto current_pose_stamped = arm_group_->getCurrentPose();
@@ -432,7 +436,7 @@ cw1::t1_callback(
   ok = ok && move_arm_linear_to(lift);                      // straight up back to safe height
   ok = ok && move_arm_to_pose(pre_place);                   // global plan: transit to above basket
   ok = ok && set_gripper_width(0.07);                       // release cube
-  ok = ok && move_arm_linear_to(pre_grasp);                   // straight up out of basket
+  // ok = ok && move_arm_linear_to(pre_grasp);                   // straight up out of basket
 
   if (ok) {
     RCLCPP_INFO(node_->get_logger(), "Task 1 execution finished successfully");
@@ -525,6 +529,9 @@ cw1::t3_callback(
   (void)request;
   (void)response;
 
+  constexpr double kCubeHeight = 0.04;
+  constexpr double kCubeHalfHeight = kCubeHeight * 0.5;
+
   struct ClusterPoint
   {
     double x;
@@ -569,6 +576,8 @@ cw1::t3_callback(
     double size_x;
     double size_y;
     double size_z;
+
+    double top_z;
 
     double max_rim_gap;
     double min_centre_fill_ratio;
@@ -681,7 +690,6 @@ cw1::t3_callback(
       if (red_votes == 0 && blue_votes == 0 && purple_votes == 0) {
         return "none";
       }
-
       if (purple_votes >= red_votes && purple_votes >= blue_votes) {
         return "purple";
       }
@@ -972,6 +980,8 @@ cw1::t3_callback(
             existing.size_y = std::max(existing.size_y, obj.size_y);
             existing.size_z = std::max(existing.size_z, obj.size_z);
 
+            existing.top_z = std::max(existing.top_z, obj.top_z);
+
             existing.max_rim_gap = std::max(existing.max_rim_gap, obj.rim_gap);
             existing.min_centre_fill_ratio =
               std::min(existing.min_centre_fill_ratio, obj.centre_fill_ratio);
@@ -1000,6 +1010,8 @@ cw1::t3_callback(
           mo.size_y = obj.size_y;
           mo.size_z = obj.size_z;
 
+          mo.top_z = obj.top_z;
+
           mo.max_rim_gap = obj.rim_gap;
           mo.min_centre_fill_ratio = obj.centre_fill_ratio;
 
@@ -1021,24 +1033,58 @@ cw1::t3_callback(
   auto classify_final_type =
     [](const MergedObject &obj) -> std::string
     {
-      const double max_xy = std::max(obj.size_x, obj.size_y);
+      const double min_xy = std::min(obj.size_x, obj.size_y);
 
-      // Small objects are cubes.
-      if (max_xy < 0.070) {
-        return "cube";
-      }
-
-      // Large objects are very likely baskets. Use hollow evidence to confirm.
-      // if (max_xy > 0.085) {
-      //   return "basket";
+      // if (min_xy < 0.070) {
+      //   return "cube";
       // }
-
-      // Middle range: use structure.
-      if (obj.max_rim_gap > 0.012 && obj.min_centre_fill_ratio < 0.18) {
+      if (min_xy > 0.08 && obj.size_z > 0.08) {
         return "basket";
       }
-
+      if (obj.max_rim_gap > 0.05 && obj.min_centre_fill_ratio < 0.15) {
+        return "basket";
+      }
       return "cube";
+    };
+
+  auto execute_pick_and_place =
+    [this](const geometry_msgs::msg::Point &cube_pt,
+          const geometry_msgs::msg::Point &basket_pt) -> bool
+    {
+      const auto top_down_q = make_top_down_q();
+
+      // Reuse the Task 1 motion pattern:
+      // move above the cube, descend by a fixed calibrated amount,
+      // lift back to the approach height, then move above the basket.
+      geometry_msgs::msg::Pose pre_grasp;
+      pre_grasp.position.x = cube_pt.x;
+      pre_grasp.position.y = cube_pt.y;
+      pre_grasp.position.z = cube_pt.z + pick_offset_z_;
+      pre_grasp.orientation = top_down_q;
+
+      geometry_msgs::msg::Pose grasp = pre_grasp;
+      grasp.position.z = cube_pt.z + task3_pick_offset_z_;  // this is somehow not working as expected
+
+      geometry_msgs::msg::Pose pre_place;
+      pre_place.position.x = basket_pt.x;
+      pre_place.position.y = basket_pt.y;
+      pre_place.position.z = basket_pt.z + place_offset_z_;
+      pre_place.orientation = top_down_q;
+
+      // geometry_msgs::msg::Pose retreat = pre_place;
+      // retreat.position.z += 0.05;
+
+      bool ok = true;
+      ok = ok && set_gripper_width(0.07);                 // Open gripper.
+      ok = ok && move_arm_to_pose(pre_grasp);             // Move above cube.
+      ok = ok && move_arm_linear_to(grasp);               // Descend vertically.
+      ok = ok && set_gripper_width(gripper_grasp_width_); // Close gripper.
+      ok = ok && move_arm_linear_to(pre_grasp);                // Lift vertically.
+      ok = ok && move_arm_to_pose(pre_place);             // Move above basket.
+      ok = ok && set_gripper_width(0.07);                 // Release cube.
+      // ok = ok && move_arm_linear_to(retreat);             // Move away from basket.
+
+      return ok;
     };
 
   RCLCPP_INFO(node_->get_logger(), "Task 3: scan stage started");
@@ -1066,20 +1112,11 @@ cw1::t3_callback(
     for (int frame_idx = 0; frame_idx < 4; ++frame_idx) {
       auto cloud = get_latest_cloud_blocking(1.5);
       if (!cloud) {
-        RCLCPP_WARN(
-          node_->get_logger(),
-          "Task 3: no cloud at scan pose %zu frame %d",
-          i, frame_idx);
         continue;
       }
 
       const auto detections = detect_raw_objects_from_cloud(cloud);
       merge_raw_detections(all_objects, detections);
-
-      RCLCPP_INFO(
-        node_->get_logger(),
-        "Task 3: pose %zu frame %d found %zu object(s), total merged = %zu",
-        i, frame_idx, detections.size(), all_objects.size());
 
       rclcpp::sleep_for(std::chrono::milliseconds(150));
     }
@@ -1090,46 +1127,109 @@ cw1::t3_callback(
     return;
   }
 
-  size_t cube_count = 0;
-  size_t basket_count = 0;
+  struct FinalObject
+  {
+    std::string colour;
+    std::string type;
+    geometry_msgs::msg::Point position;
+    double top_z;
+  };
+
+  std::vector<FinalObject> cubes;
+  std::vector<FinalObject> baskets;
 
   RCLCPP_INFO(node_->get_logger(), "Task 3: final detections");
   for (const auto &obj : all_objects) {
     const std::string type = classify_final_type(obj);
 
-    if (type == "cube") {
-      cube_count++;
-    } else {
-      basket_count++;
-    }
-
     RCLCPP_INFO(
       node_->get_logger(),
-      "  %s %s at (%.3f, %.3f, %.3f), size=(%.3f, %.3f, %.3f), "
-      "max_rim_gap=%.3f, min_centre_fill=%.3f, meanRGB=(%.1f, %.1f, %.1f), "
-      "votes[R/B/P]=(%zu, %zu, %zu), points=%zu, obs=%zu",
+      "  %s %s at (%.3f, %.3f, %.3f), top_z=%.3f, size=(%.3f, %.3f, %.3f), "
+      "max_rim_gap=%.3f, min_centre_fill=%.3f, obs=%zu",
       obj.colour.c_str(),
       type.c_str(),
       obj.position.x,
       obj.position.y,
       obj.position.z,
+      obj.top_z,
       obj.size_x,
       obj.size_y,
       obj.size_z,
       obj.max_rim_gap,
       obj.min_centre_fill_ratio,
-      obj.mean_r,
-      obj.mean_g,
-      obj.mean_b,
-      obj.red_votes,
-      obj.blue_votes,
-      obj.purple_votes,
-      obj.point_count,
       obj.observations);
+
+    FinalObject fo;
+    fo.colour = obj.colour;
+    fo.type = type;
+    fo.position = obj.position;
+    fo.top_z = obj.top_z;
+
+    if (type == "cube") {
+      cubes.push_back(fo);
+    } else {
+      baskets.push_back(fo);
+    }
+  }
+
+  if (cubes.empty()) {
+    RCLCPP_WARN(node_->get_logger(), "Task 3: no cubes detected");
+    return;
+  }
+  if (baskets.empty()) {
+    RCLCPP_WARN(node_->get_logger(), "Task 3: no baskets detected");
+    return;
   }
 
   RCLCPP_INFO(
     node_->get_logger(),
-    "Task 3: scan complete, %zu cube(s), %zu basket(s)",
-    cube_count, basket_count);
+    "Task 3: starting pick-and-place for %zu cube(s) and %zu basket(s)",
+    cubes.size(), baskets.size());
+
+  for (const auto &cube : cubes) {
+    int matched_idx = -1;
+
+    for (size_t i = 0; i < baskets.size(); ++i) {
+      if (baskets[i].colour == cube.colour) {
+        matched_idx = static_cast<int>(i);
+        break;
+      }
+    }
+
+    if (matched_idx < 0) {
+      RCLCPP_WARN(
+        node_->get_logger(),
+        "Task 3: no basket found for %s cube at (%.3f, %.3f)",
+        cube.colour.c_str(),
+        cube.position.x,
+        cube.position.y);
+      continue;
+    }
+
+    geometry_msgs::msg::Point cube_pick_point = cube.position;
+    cube_pick_point.z = cube.top_z - kCubeHalfHeight;
+
+    geometry_msgs::msg::Point basket_place_point = baskets[matched_idx].position;
+
+    const bool ok = execute_pick_and_place(
+      cube_pick_point,
+      basket_place_point);
+
+    if (ok) {
+      RCLCPP_INFO(
+        node_->get_logger(),
+        "Task 3: placed %s cube into %s basket",
+        cube.colour.c_str(),
+        baskets[matched_idx].colour.c_str());
+    } else {
+      RCLCPP_WARN(
+        node_->get_logger(),
+        "Task 3: pick-and-place failed for %s cube at (%.3f, %.3f)",
+        cube.colour.c_str(),
+        cube.position.x,
+        cube.position.y);
+    }
+  }
+
+  RCLCPP_INFO(node_->get_logger(), "Task 3 complete");
 }

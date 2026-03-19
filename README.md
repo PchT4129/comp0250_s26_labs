@@ -69,7 +69,7 @@ ros2 launch cw1_team_36 run_solution.launch.py \
   control_mode:=effort
 ```
 
-## recommended command
+## recommended command (no Rviz + less INFO)
 
 ```bash
 cd ~/comp0250_S26_labs
@@ -77,11 +77,13 @@ source /opt/ros/humble/setup.bash
 source install/setup.bash
 export PATH=/usr/bin:$PATH
 export RMW_FASTRTPS_USE_SHM=0
+```
 
+```bash
 ros2 launch cw1_team_36 run_solution.launch.py \
   use_gazebo_gui:=true use_rviz:=false \
   enable_realsense:=true enable_camera_processing:=false \
-  control_mode:=effort | grep cw1_solution_node
+  control_mode:=effort | grep "\[cw1_solution_node\]" 
 ```
 
 ## ROS 2 command: Task 1
@@ -100,6 +102,12 @@ ros2 service call /task cw1_world_spawner/srv/TaskSetup "{task_index: 2}"
 
 ```bash
 ros2 service call /task cw1_world_spawner/srv/TaskSetup "{task_index: 3}"
+```
 
+## use Rviz seperately
+
+```bash
+rviz2
+```
 
 

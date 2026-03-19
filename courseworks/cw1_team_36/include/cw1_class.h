@@ -107,7 +107,7 @@ public:
   double cartesian_jump_threshold_ = 0.0;
   double cartesian_min_fraction_ = 0.98;
   double pick_offset_z_ = 0.36;
-  double task3_pick_offset_z_ = 0.13;
+  double task3_pick_offset_z_ = 0.08;  // this is somehow not working
   double place_offset_z_ = 0.30;
   double grasp_approach_offset_z_ = 0.015;
   double post_grasp_lift_z_ = 0.05;
