@@ -32,7 +32,8 @@ solution is contained within the cw1_team_<your_team_number> package */
 cw1::cw1(const rclcpp::Node::SharedPtr &node)
 {
   /* class constructor */
-  // Initialize MoveIt components
+  // Initialize ROS node and create mutually exclusive callback groups
+  // to prevent service and sensor callbacks from blocking each other.
   node_ = node;
   service_cb_group_ = node_->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
   sensor_cb_group_ = node_->create_callback_group(rclcpp::CallbackGroupType::MutuallyExclusive);
@@ -159,8 +160,6 @@ geometry_msgs::msg::Quaternion
 cw1::make_top_down_q() const
 {
   // A simple top-down grasp attitude:
-  // - rotate around X by pi so tool points down
-  // - small yaw to avoid singular-ish straight alignment in some scenes
   tf2::Quaternion q;
   q.setRPY(3.14159265358979323846, 0.0, -0.78539816339744830962);
   q.normalize();
@@ -194,11 +193,13 @@ cw1::identify_basket_colour(
     return "none";
   }
 
+  // Convert ROS PointCloud2 message to PCL point cloud for easier processing
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(
     new pcl::PointCloud<pcl::PointXYZRGB>);
   pcl::fromROSMsg(*cloud, *pcl_cloud);
 
   // Search in the x-y plane of the cloud frame within a circle 
+  // to find points belonging to the basket
   const float cx = static_cast<float>(basket_in_cloud.point.x);
   const float cy = static_cast<float>(basket_in_cloud.point.y);
   const float cz = static_cast<float>(basket_in_cloud.point.z);
@@ -214,7 +215,9 @@ cw1::identify_basket_colour(
   double sum_g = 0.0;
   double sum_b = 0.0;
 
+  // Iterate through all points in the point cloud to find colored points near the basket center
   for (const auto &pt : pcl_cloud->points) {
+    // Skip invalid points (NaN or Inf)
     if (!std::isfinite(pt.x) || !std::isfinite(pt.y) || !std::isfinite(pt.z)) {
       continue;
     }
@@ -250,12 +253,14 @@ cw1::identify_basket_colour(
     return "none";
   }
 
+  // Calculate the average RGB values for the nearby valid points
   const double mean_r = sum_r / static_cast<double>(nonzero_rgb_points);
   const double mean_g = sum_g / static_cast<double>(nonzero_rgb_points);
   const double mean_b = sum_b / static_cast<double>(nonzero_rgb_points);
 
   std::string result = "none";
 
+  // Classify the basket color based on the calculated mean RGB values using simple thresholds
   if (mean_r > 100.0 && mean_b > 100.0 && mean_g < 100.0) {
     result = "purple";
   } else if (mean_r > mean_b + 35.0 && mean_r > mean_g + 35.0 && mean_r > 100.0) {
@@ -276,7 +281,7 @@ cw1::identify_basket_colour(
 bool
 cw1::move_arm_to_pose(const geometry_msgs::msg::Pose &target_pose)
 {
-  // Always start planning from current measured state.
+  // Always start planning from current measured state to avoid unexpected trajectories.
   arm_group_->setStartStateToCurrentState();
   arm_group_->setPoseTarget(target_pose);
   arm_group_->setMaxVelocityScalingFactor(0.2);
@@ -307,6 +312,7 @@ bool
 cw1::set_gripper_width(double width_m)
 {
   // Panda hand limits are roughly [0.0, 0.08] total opening.
+  // Clamp the requested width to avoid exceeding physical limits.
   const double clamped_width = std::clamp(width_m, 0.0, 0.08);
   const double finger_joint_target = clamped_width * 0.5;
 
@@ -338,6 +344,7 @@ cw1::set_gripper_width(double width_m)
 bool
 cw1::move_arm_linear_to(const geometry_msgs::msg::Pose &target_pose, double eef_step)
 {
+  // Plan and execute a linear Cartesian path to the target pose.
   // eef_step: distance between consecutive IK waypoints along the path.
   // Smaller = smoother path but more IK queries and higher failure rate.
   const double safe_eef_step = std::clamp(eef_step, 0.005, 0.02);
@@ -382,14 +389,12 @@ cw1::move_arm_linear_to(const geometry_msgs::msg::Pose &target_pose, double eef_
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
+  /* Task 1*/
 void
 cw1::t1_callback(
   const std::shared_ptr<cw1_world_spawner::srv::Task1Service::Request> request,
   std::shared_ptr<cw1_world_spawner::srv::Task1Service::Response> response)
 {
-  /* Task 1: pick at known pose, place into known basket point. */
-
   (void)response;
 
   // The service request gives:
@@ -400,23 +405,16 @@ cw1::t1_callback(
   const auto top_down_q = make_top_down_q();
 
   // Build a deterministic sequence of waypoints:
-  // 1) pre-grasp above object
-  // 2) descend to grasp
-  // 3) lift
-  // 4) pre-place above basket
-  // 5) place and return
   geometry_msgs::msg::Pose pre_grasp;
   pre_grasp.position = object_pose.position;
   pre_grasp.position.z += pick_offset_z_;
   pre_grasp.orientation = top_down_q;
 
-  // grasp: descend vertically from pre_grasp (same x/y/orientation, lower z).
+  // grasp: descend vertically from pre_grasp.
   geometry_msgs::msg::Pose grasp = pre_grasp;
   grasp.position.z -= 0.24;
 
   // lift: return to pre_grasp height after grasping.
-  // Using the same height we safely approached from guarantees the arm clears
-  // any obstacles before any lateral movement begins.
   geometry_msgs::msg::Pose lift = pre_grasp;
 
   // pre_place: safe high point directly above the basket.
@@ -427,14 +425,13 @@ cw1::t1_callback(
   pre_place.orientation = top_down_q;
 
   // Execute pick-and-place sequence.
-  // Each step short-circuits on failure so we never execute in a bad state.
   bool ok = true;
   ok = ok && set_gripper_width(0.07);                       // open gripper
-  ok = ok && move_arm_to_pose(pre_grasp);                   // global plan: move above object
+  ok = ok && move_arm_linear_to(pre_grasp);                   // global plan: move above object
   ok = ok && move_arm_linear_to(grasp);                     // straight down to grasp height
   ok = ok && set_gripper_width(gripper_grasp_width_);       // close gripper
   ok = ok && move_arm_linear_to(lift);                      // straight up back to safe height
-  ok = ok && move_arm_to_pose(pre_place);                   // global plan: transit to above basket
+  ok = ok && move_arm_linear_to(pre_place);                   // global plan: transit to above basket
   ok = ok && set_gripper_width(0.07);                       // release cube
   // ok = ok && move_arm_linear_to(pre_grasp);                   // straight up out of basket
 
@@ -445,6 +442,8 @@ cw1::t1_callback(
   }
 }
 
+///////////////////////////////////////////////////////////////////////////////
+  /* Task 2*/
 void
 cw1::t2_callback(
   const std::shared_ptr<cw1_world_spawner::srv::Task2Service::Request> request,
@@ -466,7 +465,7 @@ cw1::t2_callback(
     obs_pose.position.z = kObsZ;
     obs_pose.orientation = make_top_down_q();
 
-    if (!move_arm_to_pose(obs_pose)) {
+    if (!move_arm_linear_to(obs_pose)) {
       RCLCPP_WARN(node_->get_logger(),
         "Could not reach observation pose for basket at (%.3f, %.3f) – marking none",
         basket_loc.point.x, basket_loc.point.y);
@@ -520,7 +519,7 @@ cw1::t2_callback(
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
+  /* Task 3*/
 void
 cw1::t3_callback(
   const std::shared_ptr<cw1_world_spawner::srv::Task3Service::Request> request,
@@ -529,9 +528,11 @@ cw1::t3_callback(
   (void)request;
   (void)response;
 
+  // Constants for cube dimensions
   constexpr double kCubeHeight = 0.04;
   constexpr double kCubeHalfHeight = kCubeHeight * 0.5;
 
+  // Data structure to hold a single point with its classified seed color
   struct ClusterPoint
   {
     double x;
@@ -543,6 +544,7 @@ cw1::t3_callback(
     std::string seed_colour;
   };
 
+  // Data structure to represent an object detected in a single point cloud frame
   struct RawDetection
   {
     std::string colour;
@@ -568,6 +570,7 @@ cw1::t3_callback(
     size_t purple_votes;
   };
 
+  // Data structure to represent an object merged from multiple viewpoint detections
   struct MergedObject
   {
     std::string colour;
@@ -594,6 +597,7 @@ cw1::t3_callback(
     size_t observations;
   };
 
+  // Helper lambda to generate a top-down scanning pose for the camera
   auto make_scan_pose =
     [this](double x, double y, double z) -> geometry_msgs::msg::Pose
     {
@@ -605,6 +609,7 @@ cw1::t3_callback(
       return pose;
     };
 
+  // Helper lambda to wait for and retrieve the latest point cloud message within a timeout
   auto get_latest_cloud_blocking =
     [this](double timeout_sec) -> sensor_msgs::msg::PointCloud2::ConstSharedPtr
     {
@@ -634,6 +639,7 @@ cw1::t3_callback(
       return nullptr;
     };
 
+  // Helper lambda to classify a single point's color into predefined categories
   auto classify_seed_colour = [](uint8_t r, uint8_t g, uint8_t b) -> std::string {
     if (r > 55 && b > 55 && g < 0.90 * std::min(r, b)) {
       return "purple";
@@ -647,6 +653,8 @@ cw1::t3_callback(
     return "none";
   };
 
+  // Helper lambda to determine the dominant color of an object by looking only at its highest points
+  // This helps avoid misclassification due to shadows or reflections on the lower parts
   auto dominant_colour_from_top_points =
     [](const std::vector<ClusterPoint> &cluster, double top_z,
        size_t &red_votes, size_t &blue_votes, size_t &purple_votes,
@@ -660,18 +668,22 @@ cw1::t3_callback(
       mean_b = 0.0;
 
       size_t used = 0;
+      // Define a vertical band (1.5 cm) from the highest point to sample colors from
       const double top_band = 0.015;
 
       for (const auto &p : cluster) {
+        // Skip points that are below the top band
         if (p.z < top_z - top_band) {
           continue;
         }
 
+        // Accumulate RGB values for averaging
         mean_r += static_cast<double>(p.r);
         mean_g += static_cast<double>(p.g);
         mean_b += static_cast<double>(p.b);
         used++;
 
+        // Vote for the color based on simple RGB heuristics
         if (p.r > 55 && p.b > 55 && p.g < 0.90 * std::min(p.r, p.b)) {
           purple_votes++;
         } else if (p.r > 60 && p.r > 1.20 * p.g && p.r > 1.10 * p.b) {
@@ -681,12 +693,14 @@ cw1::t3_callback(
         }
       }
 
+      // Calculate mean RGB values for the top points
       if (used > 0) {
         mean_r /= static_cast<double>(used);
         mean_g /= static_cast<double>(used);
         mean_b /= static_cast<double>(used);
       }
 
+      // Determine the final color based on the maximum number of votes
       if (red_votes == 0 && blue_votes == 0 && purple_votes == 0) {
         return "none";
       }
@@ -699,6 +713,7 @@ cw1::t3_callback(
       return "blue";
     };
 
+  // Core perception pipeline: extracts raw object detections from a single point cloud
   auto detect_raw_objects_from_cloud =
     [this, &classify_seed_colour, &dominant_colour_from_top_points](
       const sensor_msgs::msg::PointCloud2::ConstSharedPtr &cloud)
@@ -706,10 +721,12 @@ cw1::t3_callback(
     {
       std::vector<RawDetection> objects;
 
+      // Convert ROS PointCloud2 to PCL format
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcl_cloud(
         new pcl::PointCloud<pcl::PointXYZRGB>);
       pcl::fromROSMsg(*cloud, *pcl_cloud);
 
+      // Get the transform from the camera frame to the world frame
       geometry_msgs::msg::TransformStamped tf_cloud_to_world;
       try {
         tf_cloud_to_world = tf_buffer_->lookupTransform(
@@ -725,6 +742,7 @@ cw1::t3_callback(
         return objects;
       }
 
+      // Convert the ROS transform to a TF2 transform for efficient point-by-point application
       tf2::Quaternion q(
         tf_cloud_to_world.transform.rotation.x,
         tf_cloud_to_world.transform.rotation.y,
@@ -741,19 +759,24 @@ cw1::t3_callback(
       std::vector<ClusterPoint> pts;
       pts.reserve(pcl_cloud->points.size());
 
+      // Filter and transform points
       for (const auto &pt : pcl_cloud->points) {
+        // Skip invalid points
         if (!std::isfinite(pt.x) || !std::isfinite(pt.y) || !std::isfinite(pt.z)) {
           continue;
         }
 
+        // Only keep points that match one of our target colors
         const std::string seed_colour = classify_seed_colour(pt.r, pt.g, pt.b);
         if (seed_colour == "none") {
           continue;
         }
 
+        // Transform point to world coordinates
         tf2::Vector3 p_cloud(pt.x, pt.y, pt.z);
         tf2::Vector3 p_world = tf_c2w * p_cloud;
 
+        // Apply a workspace bounding box filter to ignore the robot and background
         if (p_world.x() < 0.20 || p_world.x() > 0.75) {
           continue;
         }
@@ -764,6 +787,7 @@ cw1::t3_callback(
           continue;
         }
 
+        // Store the valid, transformed point
         pts.push_back({
           p_world.x(), p_world.y(), p_world.z(),
           pt.r, pt.g, pt.b, seed_colour
@@ -774,12 +798,14 @@ cw1::t3_callback(
         return objects;
       }
 
+      // Perform Euclidean clustering using Breadth-First Search (BFS)
       std::vector<bool> visited(pts.size(), false);
 
-      constexpr double kClusterRadius = 0.055;
+      // Clustering parameters
+      constexpr double kClusterRadius = 0.055; // Max xy distance between points in a cluster
       constexpr double kClusterRadiusSq = kClusterRadius * kClusterRadius;
-      constexpr double kMaxDz = 0.06;
-      constexpr size_t kMinClusterSize = 18;
+      constexpr double kMaxDz = 0.06; // Max z distance between points in a cluster
+      constexpr size_t kMinClusterSize = 18; // Minimum points to form a valid object
 
       for (size_t i = 0; i < pts.size(); ++i) {
         if (visited[i]) {
@@ -793,6 +819,7 @@ cw1::t3_callback(
         std::vector<size_t> cluster_indices;
         cluster_indices.push_back(i);
 
+        // BFS to find all connected points of the same color
         while (!qidx.empty()) {
           const size_t cur = qidx.front();
           qidx.pop();
@@ -802,6 +829,7 @@ cw1::t3_callback(
               continue;
             }
 
+            // Only cluster points of the same color
             if (pts[j].seed_colour != pts[cur].seed_colour) {
               continue;
             }
@@ -810,6 +838,7 @@ cw1::t3_callback(
             const double dy = pts[j].y - pts[cur].y;
             const double dz = std::fabs(pts[j].z - pts[cur].z);
 
+            // Check if the point is within the clustering distance thresholds
             if ((dx * dx + dy * dy) < kClusterRadiusSq && dz < kMaxDz) {
               visited[j] = true;
               qidx.push(j);
@@ -818,13 +847,16 @@ cw1::t3_callback(
           }
         }
 
+        // Reject clusters that are too small (likely noise)
         if (cluster_indices.size() < kMinClusterSize) {
           continue;
         }
 
+        // Process the valid cluster to extract object features
         std::vector<ClusterPoint> cluster;
         cluster.reserve(cluster_indices.size());
 
+        // Bounding box variables
         double min_x = std::numeric_limits<double>::max();
         double min_y = std::numeric_limits<double>::max();
         double min_z = std::numeric_limits<double>::max();
@@ -832,6 +864,7 @@ cw1::t3_callback(
         double max_y = -std::numeric_limits<double>::max();
         double max_z = -std::numeric_limits<double>::max();
 
+        // Centroid accumulators
         double sum_x = 0.0;
         double sum_y = 0.0;
         double sum_z = 0.0;
@@ -852,15 +885,19 @@ cw1::t3_callback(
           sum_z += p.z;
         }
 
+        // Calculate cluster centroid
         const double cx = sum_x / static_cast<double>(cluster.size());
         const double cy = sum_y / static_cast<double>(cluster.size());
         const double cz = sum_z / static_cast<double>(cluster.size());
 
+        // Calculate cluster dimensions
         const double size_x = max_x - min_x;
         const double size_y = max_y - min_y;
         const double size_z = max_z - min_z;
         const double max_xy = std::max(size_x, size_y);
 
+        // Analyze the shape of the cluster to distinguish between cubes and baskets
+        // Baskets have a hollow center and a higher rim, while cubes are solid
         const double half_extent = 0.5 * max_xy;
         const double inner_radius = std::max(0.012, 0.30 * half_extent);
         const double outer_r_min = std::max(0.015, 0.45 * half_extent);
@@ -871,6 +908,7 @@ cw1::t3_callback(
         size_t centre_count = 0;
         size_t rim_count = 0;
 
+        // Iterate through cluster points to find the highest points in the center and rim areas
         for (const auto &p : cluster) {
           const double dx = p.x - cx;
           const double dy = p.y - cy;
@@ -887,6 +925,7 @@ cw1::t3_callback(
           }
         }
 
+        // If the center or rim heights were not updated, fallback to the maximum z of the cluster
         if (centre_top_z < -1e8) {
           centre_top_z = max_z;
         }
@@ -894,6 +933,7 @@ cw1::t3_callback(
           rim_top_z = max_z;
         }
 
+        // Calculate shape features used for classification
         const double rim_gap = rim_top_z - centre_top_z;
         const double centre_fill_ratio =
           static_cast<double>(centre_count) / static_cast<double>(cluster.size());
@@ -905,6 +945,7 @@ cw1::t3_callback(
         double mean_g = 0.0;
         double mean_b = 0.0;
 
+        // Determine the final color of the object using only its top points
         const std::string final_colour =
           dominant_colour_from_top_points(
             cluster, max_z,
@@ -915,6 +956,7 @@ cw1::t3_callback(
           continue;
         }
 
+        // Create a RawDetection object with all calculated features
         RawDetection obj;
         obj.colour = final_colour;
         obj.position.x = cx;
@@ -946,10 +988,13 @@ cw1::t3_callback(
       return objects;
     };
 
+  // Helper lambda to merge new raw detections into a persistent list of objects
+  // This helps track objects across multiple camera frames and viewpoints
   auto merge_raw_detections =
     [](std::vector<MergedObject> &all_objects,
        const std::vector<RawDetection> &new_objects)
     {
+      // Thresholds for considering two detections as the same object
       constexpr double kMergeXY = 0.09;
       constexpr double kMergeZ = 0.06;
 
@@ -957,6 +1002,7 @@ cw1::t3_callback(
         bool merged = false;
 
         for (auto &existing : all_objects) {
+          // Objects must have the same color to be merged
           if (existing.colour != obj.colour) {
             continue;
           }
@@ -966,9 +1012,11 @@ cw1::t3_callback(
           const double dz = std::fabs(existing.position.z - obj.position.z);
           const double dxy = std::sqrt(dx * dx + dy * dy);
 
+          // If the new detection is close enough to an existing object, merge them
           if (dxy < kMergeXY && dz < kMergeZ) {
             const double n = static_cast<double>(existing.observations);
 
+            // Update position using a running average
             existing.position.x =
               (existing.position.x * n + obj.position.x) / (n + 1.0);
             existing.position.y =
@@ -976,20 +1024,25 @@ cw1::t3_callback(
             existing.position.z =
               (existing.position.z * n + obj.position.z) / (n + 1.0);
 
+            // Update bounding box sizes to the maximum observed
             existing.size_x = std::max(existing.size_x, obj.size_x);
             existing.size_y = std::max(existing.size_y, obj.size_y);
             existing.size_z = std::max(existing.size_z, obj.size_z);
 
+            // Update the highest observed point
             existing.top_z = std::max(existing.top_z, obj.top_z);
 
+            // Keep the most extreme shape features to help distinguish baskets
             existing.max_rim_gap = std::max(existing.max_rim_gap, obj.rim_gap);
             existing.min_centre_fill_ratio =
               std::min(existing.min_centre_fill_ratio, obj.centre_fill_ratio);
 
+            // Update mean RGB using a running average
             existing.mean_r = (existing.mean_r * n + obj.mean_r) / (n + 1.0);
             existing.mean_g = (existing.mean_g * n + obj.mean_g) / (n + 1.0);
             existing.mean_b = (existing.mean_b * n + obj.mean_b) / (n + 1.0);
 
+            // Accumulate point counts and color votes
             existing.point_count = std::max(existing.point_count, obj.point_count);
             existing.red_votes += obj.red_votes;
             existing.blue_votes += obj.blue_votes;
@@ -1001,6 +1054,7 @@ cw1::t3_callback(
           }
         }
 
+        // If no matching object was found, create a new one
         if (!merged) {
           MergedObject mo;
           mo.colour = obj.colour;
@@ -1063,7 +1117,7 @@ cw1::t3_callback(
       pre_grasp.orientation = top_down_q;
 
       geometry_msgs::msg::Pose grasp = pre_grasp;
-      grasp.position.z = cube_pt.z + task3_pick_offset_z_;  // this is somehow not working as expected
+      grasp.position.z = cube_pt.z + task3_pick_offset_z_;
 
       geometry_msgs::msg::Pose pre_place;
       pre_place.position.x = basket_pt.x;
@@ -1082,13 +1136,13 @@ cw1::t3_callback(
       ok = ok && move_arm_linear_to(pre_grasp);                // Lift vertically.
       ok = ok && move_arm_linear_to(pre_place);             // Move above basket.
       ok = ok && set_gripper_width(0.07);                 // Release cube.
-      // ok = ok && move_arm_linear_to(retreat);             // Move away from basket.
-
       return ok;
     };
 
   RCLCPP_INFO(node_->get_logger(), "Task 3: scan stage started");
 
+  // Define a set of predefined poses to scan the entire workspace.
+  // These poses provide overlapping views to ensure all objects are detected.
   std::vector<geometry_msgs::msg::Pose> scan_poses;
   scan_poses.push_back(make_scan_pose(0.30, -0.30, 0.65));
   scan_poses.push_back(make_scan_pose(0.50, -0.30, 0.65));
@@ -1097,40 +1151,51 @@ cw1::t3_callback(
   scan_poses.push_back(make_scan_pose(0.30,  0.30, 0.65));
   scan_poses.push_back(make_scan_pose(0.50,  0.30, 0.65));
 
+  // Container to hold all unique objects found across all scan poses
   std::vector<MergedObject> all_objects;
 
+  // Execute the scanning routine
   for (size_t i = 0; i < scan_poses.size(); ++i) {
     RCLCPP_INFO(node_->get_logger(), "Task 3: moving to scan pose %zu", i);
 
+    // Move the arm to the next scanning viewpoint
     if (!move_arm_linear_to(scan_poses[i])) {
       RCLCPP_WARN(node_->get_logger(), "Task 3: failed to reach scan pose %zu", i);
       continue;
     }
 
+    // Wait for the arm to settle and the camera image to stabilize
     rclcpp::sleep_for(std::chrono::milliseconds(700));
 
+    // Capture multiple frames at each pose to improve detection robustness
     for (int frame_idx = 0; frame_idx < 4; ++frame_idx) {
+      // Get the latest point cloud, blocking until one is available or timeout
       auto cloud = get_latest_cloud_blocking(1.5);
       if (!cloud) {
         continue;
       }
 
+      // Process the point cloud to find objects
       const auto detections = detect_raw_objects_from_cloud(cloud);
+      // Merge the new detections with the persistent list of objects
       merge_raw_detections(all_objects, detections);
 
+      // Small delay between frames
       rclcpp::sleep_for(std::chrono::milliseconds(150));
     }
   }
 
+  // Ensure we actually found something before proceeding
   if (all_objects.empty()) {
     RCLCPP_WARN(node_->get_logger(), "Task 3: no objects detected");
     return;
   }
 
+  // Data structure to hold the final, classified objects ready for manipulation
   struct FinalObject
   {
     std::string colour;
-    std::string type;
+    std::string type; // "cube" or "basket"
     geometry_msgs::msg::Point position;
     double top_z;
   };
@@ -1139,9 +1204,11 @@ cw1::t3_callback(
   std::vector<FinalObject> baskets;
 
   RCLCPP_INFO(node_->get_logger(), "Task 3: final detections");
+  // Classify each merged object as either a cube or a basket based on its shape features
   for (const auto &obj : all_objects) {
     const std::string type = classify_final_type(obj);
 
+    // Log the properties of the detected object for debugging
     RCLCPP_INFO(
       node_->get_logger(),
       "  %s %s at (%.3f, %.3f, %.3f), top_z=%.3f, size=(%.3f, %.3f, %.3f), "
@@ -1165,6 +1232,7 @@ cw1::t3_callback(
     fo.position = obj.position;
     fo.top_z = obj.top_z;
 
+    // Separate cubes and baskets into different lists
     if (type == "cube") {
       cubes.push_back(fo);
     } else {
@@ -1172,6 +1240,7 @@ cw1::t3_callback(
     }
   }
 
+  // Validate that we have both cubes to pick and baskets to place them in
   if (cubes.empty()) {
     RCLCPP_WARN(node_->get_logger(), "Task 3: no cubes detected");
     return;
@@ -1186,9 +1255,11 @@ cw1::t3_callback(
     "Task 3: starting pick-and-place for %zu cube(s) and %zu basket(s)",
     cubes.size(), baskets.size());
 
+  // Iterate through all detected cubes and attempt to place them in the matching basket
   for (const auto &cube : cubes) {
     int matched_idx = -1;
 
+    // Find the basket that matches the color of the current cube
     for (size_t i = 0; i < baskets.size(); ++i) {
       if (baskets[i].colour == cube.colour) {
         matched_idx = static_cast<int>(i);
@@ -1196,6 +1267,7 @@ cw1::t3_callback(
       }
     }
 
+    // If no matching basket is found, skip this cube
     if (matched_idx < 0) {
       RCLCPP_WARN(
         node_->get_logger(),
@@ -1206,11 +1278,16 @@ cw1::t3_callback(
       continue;
     }
 
+    // Calculate the precise pick point. 
+    // The centroid is usually at the center of the visible points, 
+    // but we want to grasp the cube slightly below its top surface.
     geometry_msgs::msg::Point cube_pick_point = cube.position;
     cube_pick_point.z = cube.top_z - kCubeHalfHeight;
 
+    // The place point is the centroid of the basket
     geometry_msgs::msg::Point basket_place_point = baskets[matched_idx].position;
 
+    // Execute the pick and place sequence
     const bool ok = execute_pick_and_place(
       cube_pick_point,
       basket_place_point);
