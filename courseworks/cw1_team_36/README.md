@@ -42,20 +42,25 @@ colcon build --packages-select cw1_team_36
 3. Source the newly built workspace:
 
 ```bash
+cd ~/comp0250_S26_labs
+source /opt/ros/humble/setup.bash
 source install/setup.bash
+export PATH=/usr/bin:$PATH
+export RMW_FASTRTPS_USE_SHM=0
 ```
-
 
 ## How to Run
 
 1. **Launch the Simulation Environment**:
-   First, start the Gazebo world, the robot, and the MoveIt planning environment using the provided spawner package.
+   The recommended command to avoid possible Rviz errors and additional information in terminal is:
 
 ```bash
-ros2 launch cw1_team_x run_solution.launch.py \
-use_gazebo_gui:=true use_rviz:=true \
-enable_realsense:=true enable_camera_processing:=false \
-control_mode:=effort
+stdbuf -oL ros2 launch cw1_team_36 run_solution.launch.py \
+  use_gazebo_gui:=true use_rviz:=false \
+  enable_realsense:=true enable_camera_processing:=false \
+  control_mode:=effort \
+| grep --line-buffered '\[cw1_solution_node\]:' \
+| sed -u 's/^.*\[cw1_solution_node\]: //'
 ```
 
 2. **Trigger the Tasks**:
@@ -70,4 +75,22 @@ ros2 service call /task cw1_world_spawner/srv/TaskSetup "{task_index: 2}"
 
 # For Task 3
 ros2 service call /task cw1_world_spawner/srv/TaskSetup "{task_index: 3}"
+```
+
+3. **Additional information**:
+
+   Use Rviz seperately:
+
+```bash
+# Replace the file default.rviz in ~/.rviz2 with the provided version to check camera point cloud
+rviz2
+```
+
+   If gazebo is stuck:
+
+```bash
+pkill -f rviz
+pkill -f gazebo
+pkill -f gzserver
+pkill -f gzclient
 ```
