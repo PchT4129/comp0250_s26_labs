@@ -5,7 +5,9 @@
 | Student Name | Task 1 | Task 2 | Task 3 | Total Hours | Percentage |
 
 | [YIXIAO TAO] | 3 hrs  | 4 hrs | X hrs | 7 hrs | 33.3% |
+
 | [YIFAN SHAO] | 1 hrs  | 0 hrs | 6 hrs | 7 hrs | 33.3% |
+
 | [ QI CHENG ] | 3 hrs  | 1 hrs | 3 hrs | 7 hrs | 33.3% |
 
 
