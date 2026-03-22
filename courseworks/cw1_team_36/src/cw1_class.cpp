@@ -284,8 +284,8 @@ cw1::move_arm_to_pose(const geometry_msgs::msg::Pose &target_pose)
   // Always start planning from current measured state to avoid unexpected trajectories.
   arm_group_->setStartStateToCurrentState();
   arm_group_->setPoseTarget(target_pose);
-  arm_group_->setMaxVelocityScalingFactor(0.2);
-  arm_group_->setMaxAccelerationScalingFactor(0.2);
+  arm_group_->setMaxVelocityScalingFactor(0.18);
+  arm_group_->setMaxAccelerationScalingFactor(0.18);
   moveit::planning_interface::MoveGroupInterface::Plan plan;
   const bool planning_ok =
     (arm_group_->plan(plan) == moveit::core::MoveItErrorCode::SUCCESS);
@@ -356,8 +356,8 @@ cw1::move_arm_linear_to(const geometry_msgs::msg::Pose &target_pose, double eef_
   arm_group_->setStartStateToCurrentState();
 
   // Reduce execution aggressiveness; this helps avoid overshoot-like behavior in Gazebo.
-  arm_group_->setMaxVelocityScalingFactor(0.2);
-  arm_group_->setMaxAccelerationScalingFactor(0.2);
+  arm_group_->setMaxVelocityScalingFactor(0.18);
+  arm_group_->setMaxAccelerationScalingFactor(0.18);
 
   // Build an explicit short segment from current pose to target pose.
   const auto current_pose_stamped = arm_group_->getCurrentPose();
@@ -639,24 +639,64 @@ cw1::t3_callback(
       return nullptr;
     };
 
-  // Helper lambda to classify a single point's color into predefined categories
-  auto classify_seed_colour = [](uint8_t r, uint8_t g, uint8_t b) -> std::string {
-    if (r > 55 && b > 55 && g < 0.90 * std::min(r, b)) {
+  // Helper lambda to convert RGB to HSV and classify color based on Hue
+  auto classify_color_hsv = [](uint8_t r, uint8_t g, uint8_t b) -> std::string {
+    // Convert RGB [0, 255] to [0, 1]
+    double r_norm = r / 255.0;
+    double g_norm = g / 255.0;
+    double b_norm = b / 255.0;
+
+    double cmax = std::max({r_norm, g_norm, b_norm});
+    double cmin = std::min({r_norm, g_norm, b_norm});
+    double delta = cmax - cmin;
+
+    double h = 0.0; // Hue [0, 360)
+    double s = 0.0; // Saturation [0, 1]
+    double v = cmax; // Value [0, 1]
+
+    if (delta > 0.0) {
+      if (cmax == r_norm) {
+        h = 60.0 * std::fmod(((g_norm - b_norm) / delta), 6.0);
+      } else if (cmax == g_norm) {
+        h = 60.0 * (((b_norm - r_norm) / delta) + 2.0);
+      } else if (cmax == b_norm) {
+        h = 60.0 * (((r_norm - g_norm) / delta) + 4.0);
+      }
+      if (h < 0.0) {
+        h += 360.0;
+      }
+      s = delta / cmax;
+    }
+
+    // Filter out very dark or very colorless (gray/white) points
+    if (v < 0.15 || s < 0.20) {
+      return "none";
+    }
+
+    // Classify based on Hue angle
+    // Red: ~0-20 or ~340-360
+    // Blue: ~200-260
+    // Purple: ~260-320
+    if (h < 20.0 || h > 330.0) {
+      return "red";
+    } else if (h > 200.0 && h < 260.0) {
+      return "blue";
+    } else if (h >= 260.0 && h <= 330.0) {
       return "purple";
     }
-    if (r > 60 && r > 1.20 * g && r > 1.10 * b) {
-      return "red";
-    }
-    if (b > 60 && b > 1.20 * g && b > 1.10 * r) {
-      return "blue";
-    }
+
     return "none";
+  };
+
+  // Helper lambda to classify a single point's color into predefined categories
+  auto classify_seed_colour = [&classify_color_hsv](uint8_t r, uint8_t g, uint8_t b) -> std::string {
+    return classify_color_hsv(r, g, b);
   };
 
   // Helper lambda to determine the dominant color of an object by looking only at its highest points
   // This helps avoid misclassification due to shadows or reflections on the lower parts
   auto dominant_colour_from_top_points =
-    [](const std::vector<ClusterPoint> &cluster, double top_z,
+    [&classify_color_hsv](const std::vector<ClusterPoint> &cluster, double top_z,
        size_t &red_votes, size_t &blue_votes, size_t &purple_votes,
        double &mean_r, double &mean_g, double &mean_b) -> std::string
     {
@@ -683,12 +723,13 @@ cw1::t3_callback(
         mean_b += static_cast<double>(p.b);
         used++;
 
-        // Vote for the color based on simple RGB heuristics
-        if (p.r > 55 && p.b > 55 && p.g < 0.90 * std::min(p.r, p.b)) {
+        // Vote for the color based on HSV classification
+        std::string color = classify_color_hsv(p.r, p.g, p.b);
+        if (color == "purple") {
           purple_votes++;
-        } else if (p.r > 60 && p.r > 1.20 * p.g && p.r > 1.10 * p.b) {
+        } else if (color == "red") {
           red_votes++;
-        } else if (p.b > 60 && p.b > 1.20 * p.g && p.b > 1.10 * p.r) {
+        } else if (color == "blue") {
           blue_votes++;
         }
       }
@@ -1007,6 +1048,7 @@ cw1::t3_callback(
             continue;
           }
 
+          // Calculate spatial distance
           const double dx = existing.position.x - obj.position.x;
           const double dy = existing.position.y - obj.position.y;
           const double dz = std::fabs(existing.position.z - obj.position.z);
@@ -1042,7 +1084,7 @@ cw1::t3_callback(
             existing.mean_g = (existing.mean_g * n + obj.mean_g) / (n + 1.0);
             existing.mean_b = (existing.mean_b * n + obj.mean_b) / (n + 1.0);
 
-            // Accumulate point counts and color votes
+            // Accumulate point counts and color votes for majority voting
             existing.point_count = std::max(existing.point_count, obj.point_count);
             existing.red_votes += obj.red_votes;
             existing.blue_votes += obj.blue_votes;
@@ -1122,7 +1164,8 @@ cw1::t3_callback(
       geometry_msgs::msg::Pose pre_place;
       pre_place.position.x = basket_pt.x;
       pre_place.position.y = basket_pt.y;
-      pre_place.position.z = basket_pt.z + place_offset_z_;
+      // Lower the placement height slightly (by 6cm) to reduce the drop distance and prevent bouncing
+      pre_place.position.z = basket_pt.z + place_offset_z_ - 0.06;
       pre_place.orientation = top_down_q;
 
       // geometry_msgs::msg::Pose retreat = pre_place;
@@ -1135,6 +1178,12 @@ cw1::t3_callback(
       ok = ok && set_gripper_width(gripper_grasp_width_); // Close gripper.
       ok = ok && move_arm_linear_to(pre_grasp);                // Lift vertically.
       ok = ok && move_arm_linear_to(pre_place);             // Move above basket.
+      
+      // Wait for 0.5s to let the arm settle before releasing the cube
+      if (ok) {
+        rclcpp::sleep_for(std::chrono::milliseconds(500));
+      }
+      
       ok = ok && set_gripper_width(0.07);                 // Release cube.
       return ok;
     };
@@ -1282,17 +1331,18 @@ cw1::t3_callback(
     // The centroid is usually at the center of the visible points, 
     // but we want to grasp the cube slightly below its top surface.
     geometry_msgs::msg::Point cube_pick_point = cube.position;
-    cube_pick_point.z = cube.top_z - kCubeHalfHeight;
+    // Lower the grasp point slightly more to ensure a firmer grip on the cube
+    cube_pick_point.z = cube.top_z - kCubeHalfHeight - 0.01;
 
-    // The place point is the centroid of the basket
-    geometry_msgs::msg::Point basket_place_point = baskets[matched_idx].position;
+      // The place point is the centroid of the basket
+      geometry_msgs::msg::Point basket_place_point = baskets[matched_idx].position;
 
-    // Execute the pick and place sequence
-    const bool ok = execute_pick_and_place(
-      cube_pick_point,
-      basket_place_point);
+      // Execute the pick and place sequence
+      const bool ok = execute_pick_and_place(
+        cube_pick_point,
+        basket_place_point);
 
-    if (ok) {
+      if (ok) {
       RCLCPP_INFO(
         node_->get_logger(),
         "Task 3: placed %s cube into %s basket",
